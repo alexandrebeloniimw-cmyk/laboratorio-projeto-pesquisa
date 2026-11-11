@@ -32,7 +32,7 @@ function doPost(e) {
     const nome = dataNome + ' – ' + aluno + ' – ' + tema.slice(0, 80);
 
     const doc = DocumentApp.create(nome);
-    montarDocumento(doc, d.blocos || []);
+    montarDocumento(doc, d.blocos || [], d.cabecalho, d.rodape);
     doc.saveAndClose();
     const arqDoc = DriveApp.getFileById(doc.getId());
     arqDoc.moveTo(pastaTurma);
@@ -89,27 +89,56 @@ function registrar(pasta, linha) {
 /**
  * Monta o documento a partir dos blocos enviados pelo laboratório.
  * Tipos: cab (cabeçalho centralizado), titulo, autor (à direita), h1 (seção), h2 (subseção),
- *        p (parágrafo com recuo), item (sem recuo), ref (referência, espaçamento simples).
+ *        p (parágrafo com recuo), item (sem recuo), ref (referência, espaçamento simples),
+ *        falta (aviso de seção a ser desenvolvida com o professor).
+ * O cabeçalho e o rodapé se repetem em todas as páginas.
  */
-function montarDocumento(doc, blocos) {
+function montarDocumento(doc, blocos, cabecalho, rodape) {
+  const AT = DocumentApp.Attribute, A = DocumentApp.HorizontalAlignment;
   const corpo = doc.getBody();
   corpo.setPageWidth(21 * CM).setPageHeight(29.7 * CM)
        .setMarginTop(3 * CM).setMarginLeft(3 * CM).setMarginBottom(2 * CM).setMarginRight(2 * CM);
 
-  const A = DocumentApp.HorizontalAlignment;
+  function estilo(p, extra) {
+    const at = {};
+    at[AT.FONT_FAMILY] = 'Times New Roman';
+    at[AT.FONT_SIZE] = 12;
+    at[AT.BOLD] = false;
+    at[AT.ITALIC] = false;
+    at[AT.FOREGROUND_COLOR] = '#000000';
+    at[AT.LINE_SPACING] = 1.5;
+    at[AT.SPACING_BEFORE] = 0;
+    at[AT.SPACING_AFTER] = 0;
+    at[AT.INDENT_FIRST_LINE] = 0;
+    at[AT.HORIZONTAL_ALIGNMENT] = A.JUSTIFY;
+    Object.keys(extra || {}).forEach(function (k) { at[k] = extra[k]; });
+    p.setAttributes(at);
+  }
+  function E(pares) { const o = {}; pares.forEach(function (x) { o[x[0]] = x[1]; }); return o; }
+
+  if (cabecalho) {
+    const c = doc.addHeader().getParagraphs()[0];
+    c.setText(String(cabecalho));
+    estilo(c, E([[AT.FONT_SIZE, 9], [AT.FOREGROUND_COLOR, '#555555'], [AT.LINE_SPACING, 1], [AT.HORIZONTAL_ALIGNMENT, A.CENTER]]));
+  }
+  if (rodape) {
+    const r = doc.addFooter().getParagraphs()[0];
+    r.setText(String(rodape));
+    estilo(r, E([[AT.FONT_SIZE, 8], [AT.FOREGROUND_COLOR, '#777777'], [AT.LINE_SPACING, 1], [AT.HORIZONTAL_ALIGNMENT, A.CENTER]]));
+  }
+
   blocos.forEach(function (b) {
     const tipo = b[0], texto = String(b[1] || '');
     const p = corpo.appendParagraph(texto);
-    p.setFontFamily('Times New Roman').setFontSize(12).setLineSpacing(1.5)
-     .setSpacingBefore(0).setSpacingAfter(0).setIndentFirstLine(0).setBold(false)
-     .setAlignment(A.JUSTIFY);
-    if (tipo === 'cab') { p.setAlignment(A.CENTER).setBold(true); }
-    else if (tipo === 'titulo') { p.setAlignment(A.CENTER).setBold(true).setSpacingBefore(36).setSpacingAfter(24); }
-    else if (tipo === 'autor') { p.setAlignment(A.RIGHT); }
-    else if (tipo === 'h1') { p.setAlignment(A.LEFT).setBold(true).setSpacingBefore(18).setSpacingAfter(6); }
-    else if (tipo === 'h2') { p.setAlignment(A.LEFT).setBold(true).setSpacingBefore(12).setSpacingAfter(6); }
-    else if (tipo === 'p') { p.setIndentFirstLine(1.25 * CM); }
-    else if (tipo === 'ref') { p.setAlignment(A.LEFT).setLineSpacing(1).setSpacingAfter(12); }
+    if (tipo === 'cab') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.CENTER], [AT.BOLD, true]]));
+    else if (tipo === 'titulo') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.CENTER], [AT.BOLD, true], [AT.SPACING_BEFORE, 36], [AT.SPACING_AFTER, 24]]));
+    else if (tipo === 'autor') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.RIGHT]]));
+    else if (tipo === 'h1') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.LEFT], [AT.BOLD, true], [AT.SPACING_BEFORE, 18], [AT.SPACING_AFTER, 6]]));
+    else if (tipo === 'h2') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.LEFT], [AT.BOLD, true], [AT.SPACING_BEFORE, 12], [AT.SPACING_AFTER, 6]]));
+    else if (tipo === 'p') estilo(p, E([[AT.INDENT_FIRST_LINE, 1.25 * CM]]));
+    else if (tipo === 'ref') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.LEFT], [AT.LINE_SPACING, 1], [AT.SPACING_AFTER, 12]]));
+    else if (tipo === 'falta') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.LEFT], [AT.ITALIC, true], [AT.FONT_SIZE, 11], [AT.FOREGROUND_COLOR, '#666666'], [AT.LINE_SPACING, 1.15], [AT.SPACING_BEFORE, 4], [AT.SPACING_AFTER, 8]]));
+    else estilo(p);
   });
 
   // Remove o parágrafo vazio que todo documento novo traz no início.

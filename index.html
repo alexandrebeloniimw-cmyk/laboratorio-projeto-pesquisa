@@ -136,6 +136,15 @@ details.exemplo[open] summary::before{content:"▾ "}
 .folha p.sem{text-indent:0}
 .folha .refs p{text-indent:0;text-align:left;line-height:1;margin-bottom:12pt}
 .folha .vazio{color:#999;font-style:italic}
+.folha .doc-cab{margin:-2.2cm 0 1.6cm;padding-bottom:6pt;border-bottom:.5pt solid #bbb;text-align:center;font-size:9pt;letter-spacing:.04em;color:#555}
+.folha .doc-rod{margin:30pt 0 -1.2cm;padding-top:6pt;border-top:.5pt solid #bbb;text-align:center;font-size:8pt;color:#777}
+.folha .falta{border:1px dashed #9a9a9a;background:#f6f6f6;padding:8pt 12pt;margin:4pt 0 6pt;font-style:italic;color:#555;text-indent:0;line-height:1.4;font-size:11pt}
+.folha .falta b{font-style:normal;color:#333}
+.faltam{background:#fff;border:1px solid var(--line);border-left:5px solid var(--navy-2);border-radius:var(--radius);padding:16px 20px;margin-top:6px}
+.faltam ul{margin:8px 0 6px;padding-left:20px;columns:2;column-gap:28px}
+.faltam li{margin-bottom:4px}
+.faltam p{margin:0;font-size:15px;color:var(--muted)}
+@media (max-width:700px){.faltam ul{columns:1}}
 
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:.25s;max-width:92vw;z-index:50;font-size:15.5px}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -181,7 +190,11 @@ details.exemplo[open] summary::before{content:"▾ "}
 }
 
 @media print{
-  @page{size:A4;margin:3cm 2cm 2cm 3cm}
+  @page{size:A4;margin:3cm 2cm 2cm 3cm;
+    @top-center{content:"LABORATÓRIO PROJETO DE PESQUISA – DO TEMA AOS OBJETIVOS";font-family:"Times New Roman",Times,serif;font-size:9pt;color:#555;letter-spacing:.04em;vertical-align:middle}
+    @bottom-center{content:"Elaborado no Laboratório de Projeto de Pesquisa – Prof. Alexandre Fonseca do Prado Beloni";font-family:"Times New Roman",Times,serif;font-size:8pt;color:#777;vertical-align:middle}}
+  .folha .doc-cab,.folha .doc-rod{display:none!important}
+  .folha .falta{break-inside:avoid}
   body{background:#fff}
   .topo,.lateral,.no-print,.toast,.modal{display:none!important}
   .app{display:block;padding:0;max-width:none}
@@ -892,13 +905,24 @@ function paragrafos(t){
 }
 function linha(t){ return t.trim() ? esc(t.trim()) : '<span class="vazio">[não preenchido]</span>'; }
 
+const CAB_DOC = 'LABORATÓRIO PROJETO DE PESQUISA – DO TEMA AOS OBJETIVOS';
+const ROD_DOC = 'Elaborado no Laboratório de Projeto de Pesquisa – Prof. Alexandre Fonseca do Prado Beloni';
+const SECOES_FALTAM = [
+  ['7 Fundamentação teórica', 'A fundamentação teórica (ou revisão teórica) será construída com o professor orientador, a partir das leituras indicadas.'],
+  ['8 Metodologia', 'A metodologia (tipo de pesquisa, abordagem, procedimentos e instrumentos) será definida com o professor orientador.'],
+  ['9 Cronograma', 'O cronograma das atividades da pesquisa será organizado com o professor orientador.'],
+  ['10 Considerações finais', 'As considerações finais do projeto serão redigidas com o professor orientador.']
+];
 function documentoHTML(){
   const refs = D.justRef.split('\n').map(x => x.trim()).filter(Boolean).sort((a,b) => a.localeCompare(b,'pt-BR'));
   const objs = [D.obj1, D.obj2, D.obj3];
+  const falta = (t) => '<div class="falta"><b>Seção a ser desenvolvida.</b> ' + t + '</div>';
   return '<div class="folha" id="documento">' +
+    '<div class="doc-cab">' + CAB_DOC + '</div>' +
     ((D.instituicao.trim() || D.curso.trim()) ? '<div class="cab">' + [D.instituicao.trim(), D.curso.trim()].filter(Boolean).map(esc).join('<br>') + '</div>' : '') +
     '<div class="tit-proj">' + (D.tema.trim() ? esc(D.tema.trim().replace(/\.$/,'')) : 'PROJETO DE PESQUISA') + '</div>' +
     '<div class="autor">' + linha(D.aluno) + (D.orientador.trim() ? '<br>Orientador(a): ' + esc(D.orientador.trim()) : '') + '</div>' +
+    '<h4>Sumário</h4>' + falta('O sumário será elaborado ao final, com a paginação definitiva do projeto.') +
     '<h4>1 Tema</h4><p>' + linha(D.tema) + '</p>' +
       '<h5>1.1 Relevância para a atualidade</h5>' + paragrafos(D.relevAtual) +
     '<h4>2 Contextualização</h4>' + paragrafos(D.contexto) +
@@ -915,7 +939,10 @@ function documentoHTML(){
       '<h5>6.1 Objetivo geral</h5><p>' + linha(D.objGeral) + '</p>' +
       '<h5>6.2 Objetivos específicos</h5>' +
       objs.map((o, i) => '<p class="sem">' + 'abc'[i] + ') ' + linha(o.replace(/[.;]\s*$/,'')) + (i < 2 ? ';' : '.') + '</p>').join('') +
+    SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + falta(x[1])).join('') +
     '<h4 style="margin-top:24pt">Referências</h4><div class="refs">' + (refs.length ? refs.map(r => '<p>' + esc(r) + '</p>').join('') : '<p class="vazio">[nenhuma referência informada]</p>') + '</div>' +
+    falta('A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.') +
+    '<div class="doc-rod">' + ROD_DOC + '</div>' +
   '</div>';
 }
 
@@ -930,6 +957,10 @@ function renderProjeto(m){
     '<div class="resumo">' + res.map(x => '<button data-v="etapa-' + x.e.n + '"><span class="selo ' + x.r.st + '">' + rot[x.r.st] + '</span><span>' + x.e.n + '. ' + x.e.curto + '</span></button>').join('') + '</div>' +
     '<h3 class="sec-tit">Coerência entre as etapas</h3>' +
     coerencia().map(i => '<div class="msg ' + i.t + '">' + i.m + '</div>').join('') +
+    '<h3 class="sec-tit">O que ainda falta no projeto</h3>' +
+    '<div class="faltam"><p>Neste laboratório você constrói o projeto <b>do tema aos objetivos</b>. As seções abaixo completam o projeto de pesquisa e serão desenvolvidas com o seu professor orientador:</p>' +
+    '<ul><li>Sumário</li><li>Fundamentação teórica (ou revisão teórica)</li><li>Metodologia</li><li>Cronograma</li><li>Considerações finais</li><li>Bibliografia</li></ul>' +
+    '<p>Elas já aparecem no documento abaixo, marcadas como <i>“Seção a ser desenvolvida”</i>.</p></div>' +
     '<h3 class="sec-tit">Visualizar projeto</h3>' +
     '<div class="botoes">' +
       '<button class="btn btn-pri" id="btEnviar">📨 Enviar ao professor</button>' +
@@ -988,6 +1019,7 @@ function blocosProjeto(){
   add('titulo', (D.tema.trim() || 'Projeto de pesquisa').replace(/\.$/,'').toUpperCase());
   add('autor', D.aluno.trim());
   if(D.orientador.trim()) add('autor', 'Orientador(a): ' + D.orientador.trim());
+  add('h1', 'SUMÁRIO'); add('falta', 'Seção a ser desenvolvida. O sumário será elaborado ao final, com a paginação definitiva do projeto.');
   add('h1', '1 TEMA'); add('p', D.tema.trim());
   add('h2', '1.1 Relevância para a atualidade'); paras(D.relevAtual).forEach(x => add('p', x));
   add('h1', '2 CONTEXTUALIZAÇÃO'); paras(D.contexto).forEach(x => add('p', x));
@@ -1002,8 +1034,10 @@ function blocosProjeto(){
   add('h2', '6.1 Objetivo geral'); add('p', D.objGeral.trim());
   add('h2', '6.2 Objetivos específicos');
   [D.obj1, D.obj2, D.obj3].forEach((o, i) => add('item', 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')));
+  SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
   add('h1', 'REFERÊNCIAS');
   D.justRef.split('\n').map(x => x.trim()).filter(Boolean).sort((a,b) => a.localeCompare(b,'pt-BR')).forEach(r => add('ref', r));
+  add('falta', 'Seção a ser desenvolvida. A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.');
   return B;
 }
 
@@ -1039,7 +1073,7 @@ function enviarProfessor(){
 
 async function despachar(situacao){
   abrirModal('Enviando…', '<p>Aguarde alguns segundos enquanto o projeto é enviado.</p>', []);
-  const payload = {aluno:D.aluno, curso:D.curso, instituicao:D.instituicao, orientador:D.orientador, tema:D.tema, situacao, blocos:blocosProjeto(), dados:Object.assign({}, D, {_app:'iwe-lab-projeto'})};
+  const payload = {cabecalho:CAB_DOC, rodape:ROD_DOC, aluno:D.aluno, curso:D.curso, instituicao:D.instituicao, orientador:D.orientador, tema:D.tema, situacao, blocos:blocosProjeto(), dados:Object.assign({}, D, {_app:'iwe-lab-projeto'})};
   try{
     const r = await fetch(URL_ENVIO, {method:'POST', body:JSON.stringify(payload)});
     const j = await r.json();
@@ -1056,6 +1090,7 @@ function textoPlano(){
   const objs = [D.obj1, D.obj2, D.obj3];
   const refs = D.justRef.split('\n').map(x => x.trim()).filter(Boolean).sort((a,b) => a.localeCompare(b,'pt-BR'));
   return [
+    CAB_DOC, '',
     D.instituicao.trim() ? D.instituicao.trim().toUpperCase() : null, D.curso.trim() ? D.curso.trim().toUpperCase() : null, '',
     (D.tema.trim() || 'PROJETO DE PESQUISA').toUpperCase(), '',
     D.aluno.trim(), D.orientador.trim() ? 'Orientador(a): ' + D.orientador.trim() : null, '',
@@ -1066,7 +1101,9 @@ function textoPlano(){
     '5 PROBLEMATIZAÇÃO', D.problema.trim(), '',
     '6 OBJETIVOS', '6.1 Objetivo geral', D.objGeral.trim(), '', '6.2 Objetivos específicos',
     ...objs.map((o, i) => 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')), '',
-    'REFERÊNCIAS', ...refs
+    ...SECOES_FALTAM.flatMap(x => [x[0].toUpperCase(), '[Seção a ser desenvolvida] ' + x[1], '']),
+    'REFERÊNCIAS', ...refs, '[A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.]', '',
+    '—', ROD_DOC
   ].filter(x => x !== null).join('\n');
 }
 async function copiarTexto(){
