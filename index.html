@@ -374,7 +374,7 @@ const ETAPAS = [
   {k:'justRef', label:'Obra(s) consultada(s)', sub:'Referência completa no padrão ABNT, uma por linha.', rows:3, ph:'SOBRENOME, Nome. Título da obra. Cidade: Editora, ano.'},
   {k:'justSoc', bloco:'B) Relevância social e ministerial', blocoDesc:'Explique qual problema ou necessidade existe, quem será beneficiado, qual contribuição a pesquisa poderá oferecer e qual a sua importância ministerial.', label:'Relevância social e ministerial', rows:8, ph:'Qual problema ou necessidade existe? Quem será beneficiado?…',
    perguntas:['Qual problema ou necessidade existe?','Quem será beneficiado pela pesquisa?','Qual contribuição poderá oferecer à igreja ou à sociedade?','Qual a importância ministerial desse estudo?']}],
- orient:['A justificativa responde: por que vale a pena pesquisar isso?','Cite o texto bíblico com a referência (livro, capítulo e versículo).','Ao citar um autor, indique sobrenome e ano: (BONHOEFFER, 2004) ou Bonhoeffer (2004).','Inclua a referência completa da obra no campo próprio.'],
+ orient:['A justificativa responde: por que vale a pena pesquisar isso?','Cite o texto bíblico com a referência (livro, capítulo e versículo).','Ao citar um autor no texto, indique sobrenome e ano, só com a inicial maiúscula (ABNT NBR 10520:2023): (Bonhoeffer, 2004) ou Bonhoeffer (2004).','Inclua a referência completa da obra no campo próprio.'],
  exemplo:'A) O discipulado não é um programa opcional da igreja, mas expressão da própria Grande Comissão (Mt 28.19-20), na qual Jesus une o fazer discípulos ao ensinar a guardar tudo o que ordenou. Nesse sentido, Bonhoeffer (2004) lembra que a graça que chama ao seguimento é também a graça que forma o discípulo.\n\nB) Muitos novos convertidos deixam a igreja nos primeiros meses. A pesquisa poderá oferecer subsídios aos líderes do ministério de novos convertidos para fortalecer o acompanhamento desses irmãos.\n\nReferência: BONHOEFFER, Dietrich. Discipulado. São Leopoldo: Sinodal, 2004.'},
 
 {n:5, id:'problema', titulo:'Problematização', curto:'Problematização',
@@ -495,7 +495,8 @@ justificativa(){
     if(n < 80) it.push(I('warn','<b>Relevância teológica:</b> texto breve (' + n + ' palavras). Desenvolva a argumentação.'));
     if(!RE_BIBLIA.test(a)) it.push(I('err','<b>Relevância teológica:</b> inclua ao menos um texto bíblico com a referência completa (ex.: Mt 28.19-20; Ef 4.11-12).'));
     else it.push(I('ok','<b>Relevância teológica:</b> há fundamentação bíblica com referência.'));
-    if(!(RE_CIT1.test(a) || RE_CIT2.test(a))) it.push(I('warn','<b>Relevância teológica:</b> não identifiquei citação de autor no texto. Indique o autor e o ano: (SOBRENOME, ano) ou Sobrenome (ano).'));
+    if(!(RE_CIT1.test(a) || RE_CIT2.test(a))) it.push(I('warn','<b>Relevância teológica:</b> não identifiquei citação de autor no texto. Indique o autor e o ano, só com a inicial maiúscula: (Sobrenome, ano) ou Sobrenome (ano).'));
+    if(/\((?:[A-ZÀ-Ú]{2,}[\s.&;]*)+(?:et al\.)?,\s*\d{4}/.test(a)) it.push(I('warn','<b>Citação no texto:</b> pela norma atualizada (ABNT NBR 10520:2023), o sobrenome do autor nas citações é escrito só com a inicial maiúscula: (Bonhoeffer, 2004), e não (BONHOEFFER, 2004). As letras maiúsculas continuam apenas na lista de referências.'));
     if(!tem(a,/portanto|assim|dessa forma|desse modo|nesse sentido|logo|pois|porque|uma vez que|por isso|consequentemente|evidencia|revela|demonstra/))
       it.push(I('dica','<b>Relevância teológica:</b> articule a argumentação com conectivos (portanto, nesse sentido, dessa forma), mostrando como o texto bíblico se relaciona com o tema.'));
     if(D.tema.trim() && sobreposicao(a, D.tema) === 0) it.push(I('warn','<b>Relevância teológica:</b> o texto não retoma os termos do tema. Mostre explicitamente a relação.'));
@@ -506,7 +507,7 @@ justificativa(){
     const semAutor = linhas.filter(l => !/^[A-ZÀ-Ú][A-ZÀ-Ú\s'-]{1,},\s/.test(l.trim()));
     const semAno = linhas.filter(l => !/\b(1[89]|20)\d{2}\b/.test(l));
     const semLocal = linhas.filter(l => !/:/.test(l));
-    if(semAutor.length) it.push(I('warn','<b>Referência:</b> inicie com o SOBRENOME do autor em maiúsculas, seguido de vírgula e do prenome.'));
+    if(semAutor.length) it.push(I('warn','<b>Referência:</b> inicie com o SOBRENOME do autor em maiúsculas, seguido de vírgula e do prenome. Na lista de referências (ABNT NBR 6023) o sobrenome continua em maiúsculas; só nas citações dentro do texto ele leva apenas a inicial maiúscula.'));
     if(semAno.length) it.push(I('warn','<b>Referência:</b> não identifiquei o ano de publicação.'));
     if(semLocal.length) it.push(I('warn','<b>Referência:</b> informe Cidade: Editora (ex.: São Paulo: Vida Nova, 2010).'));
     if(!semAutor.length && !semAno.length && !semLocal.length) it.push(I('ok','<b>Referência:</b> estrutura básica ABNT identificada. Confirme se a obra está em português.'));
