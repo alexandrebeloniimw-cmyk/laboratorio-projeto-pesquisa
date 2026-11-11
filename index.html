@@ -928,14 +928,17 @@ function renderProjeto(m){
     coerencia().map(i => '<div class="msg ' + i.t + '">' + i.m + '</div>').join('') +
     '<h3 class="sec-tit">Visualizar projeto</h3>' +
     '<div class="botoes">' +
+      '<button class="btn btn-pri" id="btEnviar">📨 Enviar ao professor</button>' +
       '<button class="btn btn-ouro" id="btPDF">📄 Exportar em PDF</button>' +
       '<button class="btn btn-sec" id="btCopiar">📋 Copiar texto do projeto</button>' +
     '</div>' +
+    '<p style="font-size:14.5px;color:var(--muted);margin:0 0 6px" id="ultimoEnvio">' + textoUltimoEnvio() + '</p>' +
     '<p style="font-size:14.5px;color:var(--muted);margin-top:0">Ao exportar, escolha <b>“Salvar como PDF”</b> na janela de impressão. O documento sai em A4, Times New Roman 12, espaçamento 1,5 e margens ABNT.</p>' +
     '</div>' +
     documentoHTML();
   m.querySelectorAll('.resumo button').forEach(b => b.onclick = () => ir(b.dataset.v));
   $('btPDF').onclick = exportarPDF;
+  $('btEnviar').onclick = enviarProfessor;
   $('btCopiar').onclick = copiarTexto;
 }
 
@@ -967,6 +970,82 @@ function exportarPDF(){
       [{t:'Voltar e revisar', c:'btn-sec', f:() => { fecharModal(); ir('etapa-' + pendentes[0].n); }},
        {t:'Exportar assim mesmo', c:'btn-pri', f:imprimir}]);
   } else imprimir();
+}
+
+/* ---------- Envio ao professor (Google Drive) ---------- */
+// Endereço do aplicativo do Google Apps Script que salva os envios no Google Drive do professor.
+const URL_ENVIO = '';
+
+function blocosProjeto(){
+  const B = [], add = (t, x) => B.push([t, x]);
+  const paras = t => (t||'').split(/\n+/).map(x => x.trim()).filter(Boolean);
+  if(D.instituicao.trim()) add('cab', D.instituicao.trim().toUpperCase());
+  if(D.curso.trim()) add('cab', D.curso.trim().toUpperCase());
+  add('titulo', (D.tema.trim() || 'Projeto de pesquisa').replace(/\.$/,'').toUpperCase());
+  add('autor', D.aluno.trim());
+  if(D.orientador.trim()) add('autor', 'Orientador(a): ' + D.orientador.trim());
+  add('h1', '1 TEMA'); add('p', D.tema.trim());
+  add('h2', '1.1 Relevância para a atualidade'); paras(D.relevAtual).forEach(x => add('p', x));
+  add('h1', '2 CONTEXTUALIZAÇÃO'); paras(D.contexto).forEach(x => add('p', x));
+  add('h1', '3 DELIMITAÇÃO DO TEMA');
+  add('item', 'Campo geral: ' + D.campoGeral.trim()); add('item', 'Campo específico: ' + D.campoEsp.trim());
+  add('item', 'Espaço geográfico: ' + D.espaco.trim()); add('item', 'Tempo: ' + D.tempo.trim());
+  add('h1', '4 JUSTIFICATIVA');
+  add('h2', '4.1 Relevância teológica'); paras(D.justTeo).forEach(x => add('p', x));
+  add('h2', '4.2 Relevância social e ministerial'); paras(D.justSoc).forEach(x => add('p', x));
+  add('h1', '5 PROBLEMATIZAÇÃO'); add('p', D.problema.trim());
+  add('h1', '6 OBJETIVOS');
+  add('h2', '6.1 Objetivo geral'); add('p', D.objGeral.trim());
+  add('h2', '6.2 Objetivos específicos');
+  [D.obj1, D.obj2, D.obj3].forEach((o, i) => add('item', 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')));
+  add('h1', 'REFERÊNCIAS');
+  D.justRef.split('\n').map(x => x.trim()).filter(Boolean).sort((a,b) => a.localeCompare(b,'pt-BR')).forEach(r => add('ref', r));
+  return B;
+}
+
+function textoUltimoEnvio(){
+  try{ const u = localStorage.getItem(CHAVE + '-envio'); if(u) return '✅ Último envio ao professor: ' + u + '.'; }catch(e){}
+  return '';
+}
+
+function enviarProfessor(){
+  if(!URL_ENVIO){
+    abrirModal('Envio ainda não disponível', '<p>O envio direto ao professor ainda não foi ativado nesta página. Por enquanto, use “Exportar em PDF” e encaminhe o arquivo conforme a orientação do seu professor.</p>', [{t:'Entendi', c:'btn-pri', f:fecharModal}]);
+    return;
+  }
+  if(!D.aluno.trim()){
+    abrirModal('Informe seu nome', '<p>Antes de enviar, preencha o seu nome na página inicial (Identificação), para que o professor saiba de quem é o projeto.</p>', [{t:'Ir para a identificação', c:'btn-pri', f:() => { fecharModal(); ir('inicio'); }}]);
+    return;
+  }
+  if(!D.tema.trim()){
+    abrirModal('Informe o tema', '<p>Preencha pelo menos o tema da pesquisa (Etapa 1) antes de enviar.</p>', [{t:'Ir para a Etapa 1', c:'btn-pri', f:() => { fecharModal(); ir('etapa-1'); }}]);
+    return;
+  }
+  if(analisarAcervo().some(x => x.t === 'err')){
+    abrirModal('Tema já pesquisado', '<p>Seu tema é igual ou muito semelhante a um trabalho já aprovado no acervo. Para enviar o projeto, construa um novo recorte na Etapa 1.</p>', [{t:'Ir para a Etapa 1', c:'btn-pri', f:() => { fecharModal(); ir('etapa-1'); }}]);
+    return;
+  }
+  const pendentes = ETAPAS.filter(e => ANALISE[e.id]().st === 'err');
+  const situacao = pendentes.length ? 'Com pendências: ' + pendentes.map(e => e.n + '. ' + e.curto).join(', ') : 'Todas as etapas concluídas';
+  const confirmar = () => abrirModal('Enviar ao professor?',
+    '<p>Seu projeto será enviado ao professor orientador.' + (pendentes.length ? ' <b>Ainda há etapas pendentes</b> (' + pendentes.map(e => e.n + '. ' + e.curto).join(', ') + '). Você pode enviar assim mesmo, para receber orientação, ou voltar e completá-las.' : '') + '</p><p style="font-size:14.5px;color:var(--muted)">Cada envio fica registrado. Se você corrigir o projeto depois, pode enviá-lo novamente.</p>',
+    [{t:'Cancelar', c:'btn-leve', f:fecharModal}, {t:'Enviar agora', c:'btn-pri', f:() => despachar(situacao)}]);
+  confirmar();
+}
+
+async function despachar(situacao){
+  abrirModal('Enviando…', '<p>Aguarde alguns segundos enquanto o projeto é enviado.</p>', []);
+  const payload = {aluno:D.aluno, curso:D.curso, instituicao:D.instituicao, orientador:D.orientador, tema:D.tema, situacao, blocos:blocosProjeto(), dados:Object.assign({}, D, {_app:'iwe-lab-projeto'})};
+  try{
+    const r = await fetch(URL_ENVIO, {method:'POST', body:JSON.stringify(payload)});
+    const j = await r.json();
+    if(!j.ok) throw new Error(j.erro || 'erro');
+    try{ localStorage.setItem(CHAVE + '-envio', j.protocolo); }catch(e){}
+    const u = $('ultimoEnvio'); if(u) u.textContent = textoUltimoEnvio();
+    abrirModal('Projeto enviado! ✅', '<p>Seu projeto chegou ao professor em <b>' + esc(j.protocolo) + '</b>.</p><p>Guarde também uma cópia: use “Exportar em PDF” ou “Baixar rascunho”. A orientação do seu professor é a que vale: aguarde o retorno dele.</p>', [{t:'Fechar', c:'btn-pri', f:fecharModal}]);
+  }catch(e){
+    abrirModal('Não foi possível enviar', '<p>O envio não foi concluído. Verifique sua conexão com a internet e tente novamente.</p><p>Se o problema continuar, use “Exportar em PDF” e encaminhe o arquivo ao professor por outro meio.</p><p style="font-size:13px;color:var(--muted)">Detalhe: ' + esc(String(e.message || e)) + '</p>', [{t:'Fechar', c:'btn-pri', f:fecharModal}]);
+  }
 }
 
 function textoPlano(){
