@@ -138,6 +138,14 @@ details.exemplo[open] summary::before{content:"▾ "}
 .folha .vazio{color:#999;font-style:italic}
 .folha .doc-cab{margin:-2.2cm 0 1.6cm;padding-bottom:6pt;border-bottom:.5pt solid #bbb;text-align:center;font-size:9pt;letter-spacing:.04em;color:#555}
 .folha .doc-rod{margin:30pt 0 -1.2cm;padding-top:6pt;border-top:.5pt solid #bbb;text-align:center;font-size:8pt;color:#777}
+.folha .pre{min-height:20cm;display:flex;flex-direction:column;border-bottom:1px dashed #ccc;margin-bottom:28pt;padding-bottom:20pt}
+.folha .rosto{text-align:center;justify-content:space-between}
+.folha .r-autor{text-transform:uppercase;font-weight:bold}
+.folha .rosto .tit-proj{margin:0}
+.folha .r-nat{margin-left:50%;text-align:justify;line-height:1.15;font-size:11.5pt}
+.folha .r-local{line-height:1.5}
+.folha .sumario{min-height:8cm}
+.folha h4.centro{text-align:center}
 .folha .falta{border:1px dashed #9a9a9a;background:#f6f6f6;padding:8pt 12pt;margin:4pt 0 6pt;font-style:italic;color:#555;text-indent:0;line-height:1.4;font-size:11pt}
 .folha .falta b{font-style:normal;color:#333}
 .faltam{background:#fff;border:1px solid var(--line);border-left:5px solid var(--navy-2);border-radius:var(--radius);padding:16px 20px;margin-top:6px}
@@ -210,7 +218,12 @@ details.exemplo[open] summary::before{content:"▾ "}
   @page{size:A4;margin:3cm 2cm 2cm 3cm;
     @top-center{content:"LABORATÓRIO PROJETO DE PESQUISA – DO TEMA AOS OBJETIVOS";font-family:"Times New Roman",Times,serif;font-size:9pt;color:#555;letter-spacing:.04em;vertical-align:middle}
     @bottom-center{content:"Elaborado no Laboratório de Projeto de Pesquisa – Prof. Alexandre Fonseca do Prado Beloni";font-family:"Times New Roman",Times,serif;font-size:8pt;color:#777;vertical-align:middle}}
+  @page{@top-right{content:counter(page);font-family:"Times New Roman",Times,serif;font-size:10pt}}
+  @page pre{@top-right{content:none}}
   .folha .doc-cab,.folha .doc-rod{display:none!important}
+  .folha .pre{page:pre;break-after:page;min-height:auto;border:0;margin:0;padding:0}
+  .folha .rosto{height:24.5cm}
+  .folha .sumario{min-height:0}
   .folha .falta{break-inside:avoid}
   body{background:#fff}
   .topo,.lateral,.no-print,.toast,.modal{display:none!important}
@@ -265,7 +278,7 @@ details.exemplo[open] summary::before{content:"▾ "}
    DADOS E PERSISTÊNCIA
    ========================================================= */
 const CHAVE = 'iwe-lab-projeto-v1';
-const CAMPOS = ['aluno','instituicao','curso','orientador','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3'];
+const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3'];
 let D = {}; CAMPOS.forEach(k => D[k] = '');
 let salvoEm = null;
 
@@ -573,6 +586,8 @@ justificativa(){
     if(!RE_BIBLIA.test(a)) it.push(I('err','<b>Relevância teológica:</b> inclua ao menos um texto bíblico com a referência completa (ex.: Mt 28.19-20; Ef 4.11-12).'));
     else it.push(I('ok','<b>Relevância teológica:</b> há fundamentação bíblica com referência.'));
     if(!(RE_CIT1.test(a) || RE_CIT2.test(a))) it.push(I('warn','<b>Relevância teológica:</b> não identifiquei citação de autor no texto. Indique o autor e o ano, só com a inicial maiúscula: (Sobrenome, ano) ou Sobrenome (ano).'));
+    const diretas = (a.match(/[“"][^”"]{20,}[”"]/g) || []);
+    if(diretas.length && !/p\.\s*\d/.test(a)) it.push(I('warn','<b>Citação direta:</b> você usou um trecho entre aspas, mas não indicou a página. Pela ABNT NBR 10520:2023, a citação direta deve trazer a página: (Sobrenome, ano, p. 45) ou Sobrenome (ano, p. 45).'));
     if(/\((?:[A-ZÀ-Ú]{2,}[\s.&;]*)+(?:et al\.)?,\s*\d{4}/.test(a)) it.push(I('warn','<b>Citação no texto:</b> pela norma atualizada (ABNT NBR 10520:2023), o sobrenome do autor nas citações é escrito só com a inicial maiúscula: (Bonhoeffer, 2004), e não (BONHOEFFER, 2004). As letras maiúsculas continuam apenas na lista de referências.'));
     if(!tem(a,/portanto|assim|dessa forma|desse modo|nesse sentido|logo|pois|porque|uma vez que|por isso|consequentemente|evidencia|revela|demonstra/))
       it.push(I('dica','<b>Relevância teológica:</b> articule a argumentação com conectivos (portanto, nesse sentido, dessa forma), mostrando como o texto bíblico se relaciona com o tema.'));
@@ -1011,6 +1026,7 @@ function renderInicio(m){
     '<div class="card"><h3 style="color:var(--navy);font-size:20px;margin-bottom:12px">Identificação</h3><div class="ident">' +
       campoHTML({k:'aluno', label:'Nome do(a) aluno(a)', input:true, ph:'Seu nome completo'}) +
       campoHTML({k:'orientador', label:'Professor(a) orientador(a)', input:true, ph:'Nome do(a) professor(a)'}) +
+      campoHTML({k:'cidade', label:'Cidade', sub:'Aparece na folha de rosto do projeto, com o ano (ABNT NBR 15287:2025).', input:true, ph:'Ex.: Rio de Janeiro'}) +
       campoHTML({k:'instituicao', label:'Instituição de ensino', sub:'Usado apenas para identificar o envio ao professor; não aparece no PDF.', input:true, ph:'Nome da sua instituição'}) +
       campoHTML({k:'curso', label:'Curso / turma', sub:'Usado apenas para identificar o envio ao professor; não aparece no PDF.', input:true, ph:'Ex.: Curso de Teologia – Turma 2026'}) +
     '</div>' +
@@ -1026,7 +1042,7 @@ function renderInicio(m){
       '<a class="btn btn-amazon" href="' + URL_AMAZON + '" target="_blank" rel="noopener">Comprar na Amazon ↗</a></div>' +
     '</div></div>' +
     '<div class="navpe"><span></span><button class="btn btn-pri" id="btComecar">Começar pela Etapa 1 →</button></div>';
-  ['aluno','orientador','instituicao','curso'].forEach(k => {
+  ['aluno','orientador','cidade','instituicao','curso'].forEach(k => {
     const el = $('f_' + k); $('c_' + k).textContent = '';
     el.addEventListener('input', () => { D[k] = el.value; salvarDepois(); });
   });
@@ -1061,12 +1077,14 @@ function paragrafos(t){
 function linha(t){ return t.trim() ? esc(t.trim()) : '<span class="vazio">[não preenchido]</span>'; }
 
 const CAB_DOC = 'LABORATÓRIO PROJETO DE PESQUISA – DO TEMA AOS OBJETIVOS';
+const NATUREZA = 'Projeto de pesquisa apresentado como etapa de elaboração do trabalho de conclusão de curso, sob orientação do professor orientador.';
 const ROD_DOC = 'Elaborado no Laboratório de Projeto de Pesquisa – Prof. Alexandre Fonseca do Prado Beloni';
 const SECOES_FALTAM = [
   ['7 Fundamentação teórica', 'A fundamentação teórica (ou revisão teórica) será construída com o professor orientador, a partir das leituras indicadas.'],
   ['8 Metodologia', 'A metodologia (tipo de pesquisa, abordagem, procedimentos e instrumentos) será definida com o professor orientador.'],
-  ['9 Cronograma', 'O cronograma das atividades da pesquisa será organizado com o professor orientador.'],
-  ['10 Considerações finais', 'As considerações finais do projeto serão redigidas com o professor orientador.']
+  ['9 Recursos', 'Os recursos necessários à pesquisa (materiais, humanos e financeiros) serão definidos com o professor orientador.'],
+  ['10 Cronograma', 'O cronograma das atividades da pesquisa será organizado com o professor orientador.'],
+  ['11 Considerações finais', 'As considerações finais do projeto serão redigidas com o professor orientador.']
 ];
 function tituloCompleto(){
   const t = D.titulo.trim().replace(/[.:]\s*$/,''), st = D.subtitulo.trim().replace(/\.$/,'');
@@ -1079,9 +1097,13 @@ function documentoHTML(){
   const falta = (t) => '<div class="falta"><b>Seção a ser desenvolvida.</b> ' + t + '</div>';
   return '<div class="folha" id="documento">' +
     '<div class="doc-cab">' + CAB_DOC + '</div>' +
-    '<div class="tit-proj">' + esc(tituloCompleto()) + '</div>' +
-    '<div class="autor">' + linha(D.aluno) + (D.orientador.trim() ? '<br>Orientador(a): ' + esc(D.orientador.trim()) : '') + '</div>' +
-    '<h4>Sumário</h4>' + falta('O sumário será elaborado ao final, com a paginação definitiva do projeto.') +
+    '<section class="pre rosto">' +
+      '<div class="r-autor">' + linha(D.aluno) + '</div>' +
+      '<div class="tit-proj">' + esc(tituloCompleto()) + '</div>' +
+      '<div class="r-nat">' + NATUREZA + (D.orientador.trim() ? '<br><br>Orientador(a): ' + esc(D.orientador.trim()) : '') + '</div>' +
+      '<div class="r-local">' + (D.cidade.trim() ? esc(D.cidade.trim()) + '<br>' : '') + new Date().getFullYear() + '</div>' +
+    '</section>' +
+    '<section class="pre sumario"><h4 class="centro">Sumário</h4>' + falta('O sumário será elaborado ao final, com a paginação definitiva do projeto (ABNT NBR 6027).') + '</section>' +
     '<h4>1 Tema</h4><p>' + linha(D.tema) + '</p>' +
       '<h5>1.1 Relevância para a atualidade</h5>' + paragrafos(D.relevAtual) +
     '<h4>2 Contextualização</h4>' + paragrafos(D.contexto) +
@@ -1099,7 +1121,7 @@ function documentoHTML(){
       '<h5>6.2 Objetivos específicos</h5>' +
       objs.map((o, i) => '<p class="sem">' + 'abc'[i] + ') ' + linha(o.replace(/[.;]\s*$/,'')) + (i < 2 ? ';' : '.') + '</p>').join('') +
     SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + falta(x[1])).join('') +
-    '<h4 style="margin-top:24pt">Referências</h4><div class="refs">' + (refs.length ? refs.map(r => '<p>' + esc(r) + '</p>').join('') : '<p class="vazio">[nenhuma referência informada]</p>') + '</div>' +
+    '<h4 class="centro" style="margin-top:24pt">Referências</h4><div class="refs">' + (refs.length ? refs.map(r => '<p>' + esc(r) + '</p>').join('') : '<p class="vazio">[nenhuma referência informada]</p>') + '</div>' +
     falta('A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.') +
     '<div class="doc-rod">' + ROD_DOC + '</div>' +
   '</div>';
@@ -1118,7 +1140,7 @@ function renderProjeto(m){
     coerencia().map(i => '<div class="msg ' + i.t + '">' + i.m + '</div>').join('') +
     '<h3 class="sec-tit">O que ainda falta no projeto</h3>' +
     '<div class="faltam"><p>Neste laboratório você constrói o projeto <b>do tema aos objetivos</b>. As seções abaixo completam o projeto de pesquisa e serão desenvolvidas com o seu professor orientador:</p>' +
-    '<ul><li>Sumário</li><li>Fundamentação teórica (ou revisão teórica)</li><li>Metodologia</li><li>Cronograma</li><li>Considerações finais</li><li>Bibliografia</li></ul>' +
+    '<ul><li>Sumário</li><li>Fundamentação teórica (ou revisão teórica)</li><li>Metodologia</li><li>Recursos</li><li>Cronograma</li><li>Considerações finais</li><li>Bibliografia</li></ul>' +
     '<p>Elas já aparecem no documento abaixo, marcadas como <i>“Seção a ser desenvolvida”</i>.</p></div>' +
     '<h3 class="sec-tit">Visualizar projeto</h3>' +
     '<div class="botoes">' +
@@ -1173,10 +1195,14 @@ const URL_ENVIO = 'https://script.google.com/macros/s/AKfycbxIoKt6ruAz1aZFxNNmbf
 function blocosProjeto(){
   const B = [], add = (t, x) => B.push([t, x]);
   const paras = t => (t||'').split(/\n+/).map(x => x.trim()).filter(Boolean);
+  // Folha de rosto (ABNT NBR 15287:2025, 4.2.1.1)
+  add('rautor', D.aluno.trim().toUpperCase());
   add('titulo', tituloCompleto().toUpperCase());
-  add('autor', D.aluno.trim());
-  if(D.orientador.trim()) add('autor', 'Orientador(a): ' + D.orientador.trim());
-  add('h1', 'SUMÁRIO'); add('falta', 'Seção a ser desenvolvida. O sumário será elaborado ao final, com a paginação definitiva do projeto.');
+  add('natureza', NATUREZA + (D.orientador.trim() ? ' Orientador(a): ' + D.orientador.trim() + '.' : ''));
+  add('local', (D.cidade.trim() ? D.cidade.trim() + '\n' : '') + new Date().getFullYear());
+  add('quebra', '');
+  add('h1c', 'SUMÁRIO'); add('falta', 'Seção a ser desenvolvida. O sumário será elaborado ao final, com a paginação definitiva do projeto (ABNT NBR 6027).');
+  add('quebra', '');
   add('h1', '1 TEMA'); add('p', D.tema.trim());
   add('h2', '1.1 Relevância para a atualidade'); paras(D.relevAtual).forEach(x => add('p', x));
   add('h1', '2 CONTEXTUALIZAÇÃO'); paras(D.contexto).forEach(x => add('p', x));
@@ -1192,7 +1218,7 @@ function blocosProjeto(){
   add('h2', '6.2 Objetivos específicos');
   [D.obj1, D.obj2, D.obj3].forEach((o, i) => add('item', 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')));
   SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
-  add('h1', 'REFERÊNCIAS');
+  add('h1c', 'REFERÊNCIAS');
   listaReferencias().forEach(r => add('ref', r));
   add('falta', 'Seção a ser desenvolvida. A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.');
   return B;
@@ -1248,8 +1274,8 @@ function textoPlano(){
   const refs = listaReferencias();
   return [
     CAB_DOC, '',
-    tituloCompleto().toUpperCase(), '',
-    D.aluno.trim(), D.orientador.trim() ? 'Orientador(a): ' + D.orientador.trim() : null, '',
+    D.aluno.trim().toUpperCase(), '', tituloCompleto().toUpperCase(), '', NATUREZA, D.orientador.trim() ? 'Orientador(a): ' + D.orientador.trim() : null, '', (D.cidade.trim() ? D.cidade.trim() + ' – ' : '') + new Date().getFullYear(), '',
+    'SUMÁRIO', '[Seção a ser desenvolvida]', '',
     '1 TEMA', D.tema.trim(), '', '1.1 Relevância para a atualidade', D.relevAtual.trim(), '',
     '2 CONTEXTUALIZAÇÃO', D.contexto.trim(), '',
     '3 DELIMITAÇÃO DO TEMA', 'Campo geral: ' + D.campoGeral.trim(), 'Campo específico: ' + D.campoEsp.trim(), 'Espaço geográfico: ' + D.espaco.trim(), 'Tempo: ' + D.tempo.trim(), '',

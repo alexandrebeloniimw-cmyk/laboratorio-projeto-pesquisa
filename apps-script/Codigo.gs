@@ -90,7 +90,8 @@ function registrar(pasta, linha) {
  * Monta o documento a partir dos blocos enviados pelo laboratório.
  * Tipos: cab (cabeçalho centralizado), titulo, autor (à direita), h1 (seção), h2 (subseção),
  *        p (parágrafo com recuo), item (sem recuo), ref (referência, espaçamento simples),
- *        falta (aviso de seção a ser desenvolvida com o professor).
+ *        falta (aviso de seção a ser desenvolvida com o professor), h1c (título centralizado sem número),
+ *        rautor, natureza e local (folha de rosto, ABNT NBR 15287:2025), quebra (quebra de página).
  * O cabeçalho e o rodapé se repetem em todas as páginas.
  */
 function montarDocumento(doc, blocos, cabecalho, rodape) {
@@ -129,11 +130,16 @@ function montarDocumento(doc, blocos, cabecalho, rodape) {
 
   blocos.forEach(function (b) {
     const tipo = b[0], texto = String(b[1] || '');
+    if (tipo === 'quebra') { corpo.appendPageBreak(); return; }
     const p = corpo.appendParagraph(texto);
     if (tipo === 'cab') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.CENTER], [AT.BOLD, true]]));
     else if (tipo === 'titulo') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.CENTER], [AT.BOLD, true], [AT.SPACING_BEFORE, 36], [AT.SPACING_AFTER, 24]]));
     else if (tipo === 'autor') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.RIGHT]]));
     else if (tipo === 'h1') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.LEFT], [AT.BOLD, true], [AT.SPACING_BEFORE, 18], [AT.SPACING_AFTER, 6]]));
+    else if (tipo === 'h1c') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.CENTER], [AT.BOLD, true], [AT.SPACING_BEFORE, 18], [AT.SPACING_AFTER, 12]]));
+    else if (tipo === 'rautor') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.CENTER], [AT.BOLD, true], [AT.SPACING_AFTER, 180]]));
+    else if (tipo === 'natureza') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.JUSTIFY], [AT.LINE_SPACING, 1], [AT.INDENT_START, 8 * CM], [AT.INDENT_FIRST_LINE, 8 * CM], [AT.SPACING_BEFORE, 36], [AT.SPACING_AFTER, 200]]));
+    else if (tipo === 'local') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.CENTER]]));
     else if (tipo === 'h2') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.LEFT], [AT.BOLD, true], [AT.SPACING_BEFORE, 12], [AT.SPACING_AFTER, 6]]));
     else if (tipo === 'p') estilo(p, E([[AT.INDENT_FIRST_LINE, 1.25 * CM]]));
     else if (tipo === 'ref') estilo(p, E([[AT.HORIZONTAL_ALIGNMENT, A.LEFT], [AT.LINE_SPACING, 1], [AT.SPACING_AFTER, 12]]));
