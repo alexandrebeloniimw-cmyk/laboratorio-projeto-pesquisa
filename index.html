@@ -153,6 +153,8 @@ details.exemplo[open] summary::before{content:"▾ "}
 .modal .card{max-width:520px}
 .modal h3{color:var(--navy);margin-bottom:8px}
 .oculto-arq{display:none}
+.btn-apagar{color:var(--err);border-color:#e9c4c4}
+.btn-apagar:hover{background:var(--err-bg)}
 .autoria{margin:6px 0 12px;color:var(--muted);font-size:15.5px}
 .importante{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1.5px solid var(--gold);border-left:6px solid var(--gold);border-radius:var(--radius);padding:20px 22px;margin-top:20px}
 .importante .ic{font-size:26px;line-height:1}
@@ -230,6 +232,7 @@ details.exemplo[open] summary::before{content:"▾ "}
       <button class="btn btn-sec" id="btVer">📄 Visualizar projeto</button>
       <button class="btn btn-leve" id="btBaixarRasc" title="Guarda um arquivo do rascunho para continuar em outro aparelho">⬇ Baixar rascunho</button>
       <button class="btn btn-leve" id="btAbrirRasc">⬆ Abrir rascunho</button>
+      <button class="btn btn-leve btn-apagar" id="btApagar">🗑 Apagar rascunho</button>
       <input type="file" id="arqRasc" class="oculto-arq" accept=".json,application/json">
     </div>
     <div class="salvo" id="salvoTxt"></div>
@@ -1301,6 +1304,16 @@ $('btSalvar').onclick = () => salvar(true);
 $('btVer').onclick = () => ir('projeto');
 $('btBaixarRasc').onclick = baixarRascunho;
 $('btAbrirRasc').onclick = () => $('arqRasc').click();
+$('btApagar').onclick = () => abrirModal('Apagar o rascunho?',
+  '<p>Todo o texto do seu projeto será apagado <b>deste aparelho</b>, em todas as etapas. Essa ação não pode ser desfeita.</p><p>Se quiser guardar uma cópia antes, use <b>“Baixar rascunho”</b>. Projetos já enviados ao professor não são afetados.</p>',
+  [{t:'Cancelar', c:'btn-leve', f:fecharModal},
+   {t:'Baixar uma cópia antes', c:'btn-sec', f:() => { baixarRascunho(); }},
+   {t:'Apagar tudo', c:'btn-pri', f:() => {
+     CAMPOS.forEach(k => D[k] = '');
+     try{ localStorage.removeItem(CHAVE); localStorage.removeItem(CHAVE + '-envio'); }catch(e){}
+     salvoEm = null; mostrarSalvo(); fecharModal(); ir('inicio');
+     toast('Rascunho apagado. Você pode começar um novo projeto.');
+   }}]);
 $('arqRasc').addEventListener('change', abrirRascunho);
 window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if(h && h !== vista) { vista = h; montarMenu(); render(); } });
 const h0 = (location.hash || '').slice(1);
