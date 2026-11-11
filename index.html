@@ -164,6 +164,12 @@ details.exemplo[open] summary::before{content:"▾ "}
 .btn-apagar{color:var(--err);border-color:#e9c4c4}
 .btn-apagar:hover{background:var(--err-bg)}
 .autoria{margin:6px 0 12px;color:var(--muted);font-size:15.5px}
+.normas{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-left:6px solid var(--navy-2);border-radius:var(--radius);padding:20px 22px;margin-top:20px}
+.normas .ic{font-size:26px;line-height:1}
+.normas h3{color:var(--navy);font-size:20px;margin-bottom:8px}
+.normas p{margin:0 0 8px}
+.normas ul{margin:0;padding-left:20px}
+.normas li{margin-bottom:5px}
 .importante{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1.5px solid var(--gold);border-left:6px solid var(--gold);border-radius:var(--radius);padding:20px 22px;margin-top:20px}
 .importante .ic{font-size:26px;line-height:1}
 .importante h3{color:var(--navy);font-size:20px;margin-bottom:8px}
@@ -266,6 +272,7 @@ details.exemplo[open] summary::before{content:"▾ "}
 <footer class="rodape no-print">
   <b>Laboratório de Projeto de Pesquisa</b> · Prof. Alexandre Fonseca do Prado Beloni<br>
   Este laboratório não substitui a sala de aula, física ou virtual. A orientação do professor orientador é a que prevalece.<br>
+  Segue as normas ABNT NBR 15287:2025 (projeto de pesquisa), NBR 10520:2023 (citações) e NBR 6023:2018 (referências).<br>
   📚 Leitura recomendada: <i>Sobrevivendo ao Projeto de Pesquisa</i>, de Alexandre Prado. Disponível na <a href="https://loja.uiclap.com/titulo/ua207553" target="_blank" rel="noopener">UICLAP</a> e na <a href="https://www.amazon.com.br/dp/B0HLD75W74" target="_blank" rel="noopener">Amazon</a>
 </footer>
 
@@ -380,6 +387,16 @@ const SUGESTOES_AMPLAS = [
 
 const URL_LIVRO = 'https://loja.uiclap.com/titulo/ua207553';
 const URL_AMAZON = 'https://www.amazon.com.br/dp/B0HLD75W74';
+const NORMAS_HTML =
+  '<div class="normas"><div class="ic">📐</div><div>' +
+  '<h3>Normas utilizadas neste laboratório</h3>' +
+  '<p>As orientações, as análises e o documento gerado seguem as normas da Associação Brasileira de Normas Técnicas (ABNT):</p>' +
+  '<ul>' +
+    '<li><b>ABNT NBR 15287:2025</b> – Projeto de pesquisa: estrutura, folha de rosto, sumário, formatação e paginação.</li>' +
+    '<li><b>ABNT NBR 10520:2023</b> – Citações em documentos: (Sobrenome, ano, p.), só com a inicial maiúscula.</li>' +
+    '<li><b>ABNT NBR 6023:2018</b> – Referências: elaboração da lista de referências.</li>' +
+    '<li><b>ABNT NBR 6024</b> (numeração progressiva das seções) e <b>ABNT NBR 6027</b> (sumário), indicadas pela NBR 15287.</li>' +
+  '</ul></div></div>';
 const AVISO_HTML =
   '<div class="importante"><div class="ic">⚖️</div><div>' +
   '<h3>Um apoio ao seu estudo, não um substituto</h3>' +
@@ -1032,6 +1049,7 @@ function renderInicio(m){
     '</div>' +
     '<p class="aviso">Seu texto fica salvo automaticamente <b>neste aparelho</b>. Para continuar em outro computador ou celular, use “Baixar rascunho” e depois “Abrir rascunho”.</p>' +
     '<p class="aviso">A ferramenta orienta, mas não escreve o projeto por você. O protagonismo da construção é seu.</p></div>' +
+    NORMAS_HTML +
     AVISO_HTML +
     '<div class="livro"><a class="capa" href="' + URL_LIVRO + '" target="_blank" rel="noopener"><img src="img/capa-livro.jpg" alt="Capa do livro Sobrevivendo ao Projeto de Pesquisa, de Alexandre Prado" width="150" height="214"></a><div>' +
       '<span class="etiqueta">📚 Leitura recomendada</span>' +
@@ -1148,7 +1166,7 @@ function renderProjeto(m){
       '<button class="btn btn-sec" id="btCopiar">📋 Copiar texto do projeto</button>' +
     '</div>' +
     '<p style="font-size:14.5px;color:var(--muted);margin:0 0 6px" id="ultimoEnvio">' + textoUltimoEnvio() + '</p>' +
-    '<p style="font-size:14.5px;color:var(--muted);margin-top:0">Ao exportar, escolha <b>“Salvar como PDF”</b> na janela de impressão. O documento sai em A4, Times New Roman 12, espaçamento 1,5 e margens ABNT.</p>' +
+    '<p style="font-size:14.5px;color:var(--muted);margin-top:0">Ao exportar, escolha <b>“Salvar como PDF”</b> na janela de impressão. O documento segue a ABNT NBR 15287:2025: A4, Times New Roman 12, espaçamento 1,5, margens 3 e 2 cm, folha de rosto, sumário e numeração a partir do texto.</p>' +
     '</div>' +
     documentoHTML();
   m.querySelectorAll('.resumo button').forEach(b => b.onclick = () => ir(b.dataset.v));
