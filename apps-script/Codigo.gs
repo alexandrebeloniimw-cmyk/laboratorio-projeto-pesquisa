@@ -117,3 +117,15 @@ function montarDocumento(doc, blocos) {
     corpo.getChild(0).removeFromParent();
   }
 }
+
+/**
+ * Rode esta função uma vez pelo editor (Executar → autorizar) para conceder todas as
+ * permissões necessárias (Drive, Documentos e Planilhas). Os arquivos de teste vão para a lixeira.
+ */
+function autorizar() {
+  const doc = DocumentApp.create('Teste de autorização – pode apagar');
+  DriveApp.getFileById(doc.getId()).setTrashed(true);
+  const plan = SpreadsheetApp.create('Teste de autorização – pode apagar');
+  DriveApp.getFileById(plan.getId()).setTrashed(true);
+  Logger.log('Autorização concluída.');
+}
