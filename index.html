@@ -148,8 +148,11 @@ details.exemplo[open] summary::before{content:"▾ "}
 .importante p{margin:0 0 8px}
 .importante p:last-child{margin:0}
 .livro{display:flex;gap:20px;align-items:center;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;border-radius:var(--radius);padding:22px 24px;margin-top:20px}
-.livro .capa{flex:0 0 86px;height:122px;border-radius:4px 8px 8px 4px;background:linear-gradient(160deg,var(--gold) 0%,#a37c1c 100%);box-shadow:6px 6px 0 rgba(0,0,0,.18);display:flex;flex-direction:column;justify-content:center;padding:8px;color:var(--navy);font-family:"Fraunces",serif;font-weight:700;font-size:12.5px;line-height:1.15;border-left:6px solid rgba(0,0,0,.18)}
-.livro .capa small{display:block;font-family:"Source Sans 3",sans-serif;font-weight:600;font-size:10px;margin-top:6px;opacity:.8}
+.livro .capa{flex:0 0 150px;display:block;line-height:0}
+.livro .capa img{width:150px;height:auto;border-radius:3px 6px 6px 3px;box-shadow:8px 10px 22px rgba(0,0,0,.35);transition:transform .2s}
+.livro .capa:hover img{transform:translateY(-3px) rotate(-1deg)}
+.livro-lat{text-align:center}
+.livro-lat img{display:block;width:120px;height:auto;margin:4px auto 10px;border-radius:2px 5px 5px 2px;box-shadow:4px 6px 14px rgba(0,0,0,.22)}
 .livro .etiqueta{color:var(--gold)}
 .livro h3{font-size:22px;margin-bottom:6px}
 .livro p{margin:0 0 12px;opacity:.92}
@@ -206,7 +209,7 @@ details.exemplo[open] summary::before{content:"▾ "}
       <input type="file" id="arqRasc" class="oculto-arq" accept=".json,application/json">
     </div>
     <div class="salvo" id="salvoTxt"></div>
-    <a class="livro-lat" href="https://loja.uiclap.com/titulo/ua207553" target="_blank" rel="noopener"><span>📚 Leitura recomendada</span><b>Sobrevivendo ao Projeto de Pesquisa</b>Alexandre Prado · Conheça o livro ↗</a>
+    <a class="livro-lat" href="https://loja.uiclap.com/titulo/ua207553" target="_blank" rel="noopener"><img src="img/capa-livro.jpg" alt="Capa do livro" width="120" height="171"><span>📚 Leitura recomendada</span><b>Sobrevivendo ao Projeto de Pesquisa</b>Alexandre Prado · Conheça o livro ↗</a>
   </aside>
 
   <main id="principal"></main>
@@ -843,9 +846,10 @@ function renderInicio(m){
     '<p class="aviso">Seu texto fica salvo automaticamente <b>neste aparelho</b>. Para continuar em outro computador ou celular, use “Baixar rascunho” e depois “Abrir rascunho”.</p>' +
     '<p class="aviso">A ferramenta orienta, mas não escreve o projeto por você. O protagonismo da construção é seu.</p></div>' +
     AVISO_HTML +
-    '<div class="livro"><div class="capa">Sobrevivendo ao Projeto de Pesquisa<small>Alexandre Prado</small></div><div>' +
+    '<div class="livro"><a class="capa" href="' + URL_LIVRO + '" target="_blank" rel="noopener"><img src="img/capa-livro.jpg" alt="Capa do livro Sobrevivendo ao Projeto de Pesquisa, de Alexandre Prado" width="150" height="214"></a><div>' +
       '<span class="etiqueta">📚 Leitura recomendada</span>' +
       '<h3>Sobrevivendo ao Projeto de Pesquisa</h3>' +
+      '<p style="font-style:italic;margin-bottom:8px">Um guia para não se perder entre temas, problemas, objetivos, citações e normas</p>' +
       '<p>Para quem está construindo o primeiro projeto de pesquisa. De forma didática, objetiva e bem-humorada, o livro percorre cada etapa trabalhada neste laboratório, do tema aos objetivos, com exemplos práticos e as normas da ABNT.</p>' +
       '<a class="btn btn-ouro" href="' + URL_LIVRO + '" target="_blank" rel="noopener">Conhecer o livro ↗</a>' +
     '</div></div>' +
