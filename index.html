@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratório de Projeto de Pesquisa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1d2b4a; --navy-2:#2c3e66; --gold:#c49a2c; --gold-soft:#f3e7c4;
+  --bg:#f6f3ec; --card:#ffffff; --ink:#1f2430; --muted:#5d6475; --line:#e3ddd0;
+  --ok:#2f7d4f; --ok-bg:#e6f3ea; --warn:#a86a00; --warn-bg:#fdf1d8; --err:#b23a3a; --err-bg:#fbe5e5;
+  --tip:#2c5aa0; --tip-bg:#e7eef9; --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Source Sans 3",system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:17px;line-height:1.55}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif;line-height:1.2;margin:0}
+button{font:inherit;cursor:pointer}
+a{color:var(--navy-2)}
+
+/* Cabeçalho */
+.topo{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:22px 28px 26px;position:relative;overflow:hidden}
+.topo::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;border:38px solid rgba(196,154,44,.18)}
+.topo .inst{font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.topo .inst b{color:var(--gold)}
+.topo h1{font-size:clamp(24px,3.4vw,36px);margin-top:8px}
+.topo p{margin:6px 0 0;opacity:.9;max-width:720px}
+.progresso{margin-top:18px;max-width:560px;position:relative;z-index:1}
+.progresso .rot{display:flex;justify-content:space-between;font-size:14px;opacity:.9;margin-bottom:6px}
+.barra{height:10px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+.barra span{display:block;height:100%;width:0;background:var(--gold);border-radius:99px;transition:width .4s}
+
+/* Layout */
+.app{display:grid;grid-template-columns:270px 1fr;gap:26px;max-width:1240px;margin:0 auto;padding:26px 22px 60px}
+.app>*{min-width:0}
+.lateral{position:sticky;top:16px;align-self:start}
+.lateral nav{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:10px}
+.navitem{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;text-align:left;padding:9px 10px;border-radius:10px;color:var(--ink);font-size:15.5px}
+.navitem:hover{background:var(--bg)}
+.navitem.ativo{background:var(--navy);color:#fff}
+.navitem .num{flex:0 0 28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;background:var(--bg);color:var(--navy);border:2px solid var(--line)}
+.navitem.ativo .num{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.navitem.feito .num{background:var(--ok);border-color:var(--ok);color:#fff}
+.navitem.atencao .num{background:var(--warn-bg);border-color:var(--warn);color:var(--warn)}
+.navsep{height:1px;background:var(--line);margin:8px 6px}
+.acoes-lat{margin-top:14px;display:grid;gap:8px}
+.salvo{font-size:13px;color:var(--muted);text-align:center;min-height:18px}
+
+.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn-pri{background:var(--navy);color:#fff}
+.btn-pri:hover{background:var(--navy-2)}
+.btn-ouro{background:var(--gold);color:var(--navy)}
+.btn-ouro:hover{filter:brightness(1.06)}
+.btn-sec{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+.btn-sec:hover{background:var(--bg)}
+.btn-leve{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.btn-leve:hover{background:#fff}
+
+/* Conteúdo */
+.etiqueta{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.titulo-etapa{font-size:clamp(26px,3vw,34px);color:var(--navy)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.oque{margin:16px 0 20px;display:flex;gap:14px;align-items:flex-start;background:var(--gold-soft);border-radius:var(--radius);padding:14px 18px}
+.oque .ic{font-size:22px;line-height:1}
+.oque b{display:block;color:var(--navy)}
+.grade{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:20px;align-items:start}
+.campo{margin-bottom:18px}
+.campo label{display:block;font-weight:700;color:var(--navy);margin-bottom:4px}
+.campo .sub{display:block;font-size:14.5px;color:var(--muted);margin:-2px 0 6px}
+.campo textarea,.campo input{width:100%;font:inherit;font-size:16.5px;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;background:#fffefb;color:var(--ink);resize:vertical}
+.campo textarea:focus,.campo input:focus{outline:none;border-color:var(--navy-2);box-shadow:0 0 0 3px rgba(44,62,102,.12)}
+.contador{font-size:12.5px;color:var(--muted);text-align:right;margin-top:3px}
+.bloco-tit{font-family:"Fraunces",serif;font-size:20px;color:var(--navy);margin:6px 0 4px}
+.bloco-desc{font-size:15px;color:var(--muted);margin:0 0 12px}
+.bloco{border-left:4px solid var(--gold);padding-left:16px;margin-bottom:22px}
+
+.lado h3{font-size:17px;color:var(--navy);margin:0 0 8px}
+.lado ul,.lado ol{margin:0;padding-left:20px}
+.lado li{margin-bottom:6px}
+.lado .card+.card{margin-top:14px}
+details.exemplo summary{cursor:pointer;font-weight:700;color:var(--navy);list-style:none}
+details.exemplo summary::before{content:"▸ ";color:var(--gold)}
+details.exemplo[open] summary::before{content:"▾ "}
+.exemplo-txt{margin-top:10px;background:var(--bg);border-radius:10px;padding:12px 14px;font-style:italic;white-space:pre-line}
+
+.botoes{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 16px}
+.retorno{margin-top:4px}
+.retorno:empty{display:none}
+.msg{border-radius:10px;padding:11px 14px 11px 44px;margin-bottom:9px;position:relative;font-size:16px}
+.msg::before{position:absolute;left:14px;top:10px;font-weight:700;font-size:17px}
+.msg.ok{background:var(--ok-bg);color:#1f5435}.msg.ok::before{content:"✓";color:var(--ok)}
+.msg.warn{background:var(--warn-bg);color:#6d4500}.msg.warn::before{content:"!";color:var(--warn);left:18px}
+.msg.err{background:var(--err-bg);color:#7e2525}.msg.err::before{content:"✕";color:var(--err)}
+.msg.dica{background:var(--tip-bg);color:#1f3f72}.msg.dica::before{content:"➜";color:var(--tip)}
+.msg b{display:inline}
+.msg > b:first-child{display:block}
+.msg ul{margin:6px 0 0;padding-left:18px}
+.retorno-tit{font-weight:700;color:var(--navy);margin:4px 0 8px;font-size:15px;letter-spacing:.04em;text-transform:uppercase}
+
+.previa{background:var(--navy);color:#fff;border-radius:var(--radius);padding:16px 18px;margin-top:6px}
+.previa .etiqueta{color:var(--gold)}
+.previa p{margin:0}
+
+.navpe{display:flex;justify-content:space-between;gap:10px;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+
+/* Início */
+.pilares{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0}
+.pilar{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;border-top:5px solid var(--gold)}
+.pilar h3{color:var(--navy);font-size:20px;margin-bottom:6px}
+.pilar p{margin:0;color:var(--muted);font-size:15.5px}
+.ident{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+.aviso{font-size:15px;color:var(--muted);border-left:3px solid var(--gold);padding:4px 0 4px 12px;margin:16px 0 0}
+
+/* Aperfeiçoar */
+.resumo{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:14px 0 20px}
+.resumo button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px;text-align:left;display:flex;gap:10px;align-items:center}
+.resumo button:hover{border-color:var(--navy-2)}
+.selo{flex:0 0 auto;font-size:12px;font-weight:700;padding:3px 8px;border-radius:99px}
+.selo.ok{background:var(--ok-bg);color:var(--ok)}.selo.warn{background:var(--warn-bg);color:var(--warn)}.selo.err{background:var(--err-bg);color:var(--err)}
+.sec-tit{font-size:22px;color:var(--navy);margin:26px 0 10px}
+
+/* Documento (estilo ABNT) */
+.folha{background:#fff;box-shadow:0 6px 24px rgba(29,43,74,.12);border:1px solid var(--line);margin:16px auto 0;max-width:800px;padding:3cm 2cm 2cm 3cm;font-family:"Times New Roman",Times,serif;font-size:12pt;line-height:1.5;color:#000}
+.folha .cab{text-align:center;font-weight:bold;text-transform:uppercase;line-height:1.5}
+.folha .tit-proj{text-align:center;font-weight:bold;text-transform:uppercase;margin:36pt 0 24pt}
+.folha .autor{text-align:right}
+.folha h4{font-size:12pt;font-weight:bold;margin:18pt 0 6pt;text-transform:uppercase}
+.folha h5{font-size:12pt;font-weight:bold;margin:12pt 0 6pt}
+.folha p{text-align:justify;text-indent:1.25cm;margin:0}
+.folha p.sem{text-indent:0}
+.folha .refs p{text-indent:0;text-align:left;line-height:1;margin-bottom:12pt}
+.folha .vazio{color:#999;font-style:italic}
+
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;pointer-events:none;transition:.25s;max-width:92vw;z-index:50;font-size:15.5px}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.modal{position:fixed;inset:0;background:rgba(20,26,40,.5);display:none;place-items:center;z-index:60;padding:16px}
+.modal.on{display:grid}
+.modal .card{max-width:520px}
+.modal h3{color:var(--navy);margin-bottom:8px}
+.oculto-arq{display:none}
+.autoria{margin:6px 0 12px;color:var(--muted);font-size:15.5px}
+.importante{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1.5px solid var(--gold);border-left:6px solid var(--gold);border-radius:var(--radius);padding:20px 22px;margin-top:20px}
+.importante .ic{font-size:26px;line-height:1}
+.importante h3{color:var(--navy);font-size:20px;margin-bottom:8px}
+.importante p{margin:0 0 8px}
+.importante p:last-child{margin:0}
+.rodape{text-align:center;font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding:18px 16px 28px;max-width:1240px;margin:0 auto}
+
+@media (max-width:960px){
+  .app{grid-template-columns:1fr;padding-top:14px}
+  .lateral{position:static}
+  .lateral nav{display:flex;overflow-x:auto;gap:4px;padding:8px}
+  .navitem{flex:0 0 auto;width:auto;white-space:nowrap}
+  .navitem .txt{display:none}
+  .navitem.ativo .txt{display:inline}
+  .navsep{display:none}
+  .acoes-lat{grid-template-columns:1fr 1fr}
+  .grade,.pilares,.ident{grid-template-columns:1fr}
+  .folha{padding:28px 20px}
+}
+
+@media print{
+  @page{size:A4;margin:3cm 2cm 2cm 3cm}
+  body{background:#fff}
+  .topo,.lateral,.no-print,.toast,.modal{display:none!important}
+  .app{display:block;padding:0;max-width:none}
+  .folha{box-shadow:none;border:0;margin:0;padding:0;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<header class="topo no-print">
+  <div class="inst">Material de apoio didático · <b>Prof. Alexandre Fonseca do Prado Beloni</b></div>
+  <h1>Laboratório de Projeto de Pesquisa</h1>
+  <p>Construindo meu Projeto de Pesquisa Teológico-Ministerial: uma ferramenta interativa para orientar, construir e aperfeiçoar o seu projeto.</p>
+  <div class="progresso">
+    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 7 etapas</span></div>
+    <div class="barra"><span id="progBar"></span></div>
+  </div>
+</header>
+
+<div class="app">
+  <aside class="lateral no-print">
+    <nav id="menu"></nav>
+    <div class="acoes-lat">
+      <button class="btn btn-ouro" id="btSalvar">💾 Salvar rascunho</button>
+      <button class="btn btn-sec" id="btVer">📄 Visualizar projeto</button>
+      <button class="btn btn-leve" id="btBaixarRasc" title="Guarda um arquivo do rascunho para continuar em outro aparelho">⬇ Baixar rascunho</button>
+      <button class="btn btn-leve" id="btAbrirRasc">⬆ Abrir rascunho</button>
+      <input type="file" id="arqRasc" class="oculto-arq" accept=".json,application/json">
+    </div>
+    <div class="salvo" id="salvoTxt"></div>
+  </aside>
+
+  <main id="principal"></main>
+</div>
+
+<footer class="rodape no-print">
+  <b>Laboratório de Projeto de Pesquisa</b> · Prof. Alexandre Fonseca do Prado Beloni<br>
+  Este laboratório não substitui a sala de aula, física ou virtual. A orientação do professor orientador é a que prevalece.
+</footer>
+
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal"><div class="card"><h3 id="modalTit"></h3><div id="modalTxt"></div><div class="botoes" style="margin-top:16px" id="modalBts"></div></div></div>
+
+<script>
+/* =========================================================
+   DADOS E PERSISTÊNCIA
+   ========================================================= */
+const CHAVE = 'iwe-lab-projeto-v1';
+const CAMPOS = ['aluno','instituicao','curso','orientador','tema','relevAtual','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3'];
+let D = {}; CAMPOS.forEach(k => D[k] = '');
+let salvoEm = null;
+
+function carregar(){
+  try{
+    const s = localStorage.getItem(CHAVE);
+    if(s){ const o = JSON.parse(s); CAMPOS.forEach(k => { if(typeof o[k] === 'string') D[k] = o[k]; }); salvoEm = o._salvoEm || null; }
+  }catch(e){}
+}
+function salvar(manual){
+  try{
+    salvoEm = new Date().toISOString();
+    localStorage.setItem(CHAVE, JSON.stringify(Object.assign({}, D, {_salvoEm: salvoEm})));
+    mostrarSalvo();
+    if(manual) toast('Rascunho salvo neste dispositivo. Você pode fechar a página e continuar depois.');
+  }catch(e){
+    if(manual) toast('Não foi possível salvar neste navegador. Use "Baixar rascunho" para guardar uma cópia.');
+  }
+}
+function mostrarSalvo(){
+  const el = document.getElementById('salvoTxt');
+  if(!salvoEm){ el.textContent = ''; return; }
+  const d = new Date(salvoEm);
+  el.textContent = 'Rascunho salvo em ' + d.toLocaleDateString('pt-BR') + ' às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+let tSalvar;
+function salvarDepois(){ clearTimeout(tSalvar); tSalvar = setTimeout(() => salvar(false), 700); }
+
+/* =========================================================
+   UTILITÁRIOS DE TEXTO
+   ========================================================= */
+const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const palavras = s => norm(s).match(/[a-z0-9]+/g) || [];
+const nPal = s => ((s||'').trim().match(/\S+/g) || []).length;
+const STOP = new Set('a o as os um uma uns umas de do da dos das em no na nos nas por pelo pela pelos pelas para pra com sem sob sobre entre ate e ou que se ao aos como mais menos muito muita muitos muitas seu sua seus suas meu minha meus minhas este esta estes estas esse essa esses essas isso isto aquele aquela qual quais quando onde ja nao sim ser estar ter sao foi era sera pode podem deve devem sua forma modo maneira medida partir atraves cada todo toda todos todas outro outra outros outras tambem assim ainda apenas pesquisa estudo tema objetivo trabalho contexto contribui contribuir'.split(' '));
+function chaves(s){
+  const set = new Set();
+  palavras(s).forEach(w => { if(w.length >= 4 && !STOP.has(w)) set.add(w.slice(0,5)); });
+  return set;
+}
+function sobreposicao(a,b){
+  const A = chaves(a), B = chaves(b);
+  if(!A.size || !B.size) return 0;
+  let i = 0; A.forEach(x => { if(B.has(x)) i++; });
+  return i / Math.min(A.size, B.size);
+}
+function similaridade(a,b){
+  const A = chaves(a), B = chaves(b);
+  if(!A.size || !B.size) return 0;
+  let i = 0; A.forEach(x => { if(B.has(x)) i++; });
+  return i / (A.size + B.size - i);
+}
+const esc = s => (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tem = (s, re) => re.test(norm(s));
+const primeira = s => palavras(s)[0] || '';
+const ehInfinitivo = w => /^[a-z]{3,}(ar|er|ir|or)$/.test(w) && !['para','por','sobre','maior','menor','melhor','pior','qualquer','lugar','olhar'].includes(w);
+
+const RE_BIBLIA = /\b(?:[1-3]\s?)?[A-ZÁÉÍÓÚÂÊÔ][a-záéíóúâêôãõç]{1,14}\.?\s?\d{1,3}\s?[.:,]\s?\d{1,3}/;
+const RE_CIT1 = /\([A-ZÀ-Ú][^()]{1,70}?,\s*\d{4}/;
+const RE_CIT2 = /[A-ZÀ-Ú][A-Za-zà-ú]+(?:\s(?:et al\.|e)\s[A-ZÀ-Ú]?[a-zà-ú]*)?\s?\(\d{4}/;
+const RE_TEOL = /(deus|cristo|jesus|biblia|biblic|escritur|igreja|eclesi|crista|cristao|cristia|teolog|minister|pastor|espirit|evangel|discipul|\bfe\b|culto|louvor|adorac|oracao|missao|missoes|missio|santi|graca|salvac|pregac|homilet|lideranc|lider|liturg|wesley|metodis|crente|fieis|congregac|batism|ceia|reino|profet|apostol|aconselh|diacon|celula)/;
+const VERBOS_BONS = ['analisar','compreender','investigar','identificar','examinar','discutir','avaliar','descrever','apresentar','conceituar','caracterizar','verificar','relacionar','comparar','refletir','propor','interpretar','explicar','discorrer','contextualizar','fundamentar','levantar','mapear','demonstrar','expor','definir','delinear','situar','evidenciar','problematizar','sistematizar','elaborar'];
+const VERBOS_FRACOS = {
+  provar:'pressupõe que você já sabe a resposta. A pesquisa investiga; não parte da conclusão.',
+  comprovar:'pressupõe que você já sabe a resposta. A pesquisa investiga; não parte da conclusão.',
+  conscientizar:'descreve uma ação de intervenção, não uma ação de pesquisa.',
+  ensinar:'descreve uma ação de intervenção, não uma ação de pesquisa.',
+  ajudar:'descreve uma ação de intervenção, não uma ação de pesquisa.',
+  levar:'descreve uma ação de intervenção, não uma ação de pesquisa.',
+  transformar:'descreve uma ação de intervenção, não uma ação de pesquisa.',
+  resolver:'promete mais do que uma pesquisa pode entregar.',
+  melhorar:'descreve uma ação de intervenção, não uma ação de pesquisa.',
+  mudar:'descreve uma ação de intervenção, não uma ação de pesquisa.',
+  estudar:'é vago: toda pesquisa estuda algo. Diga que tipo de estudo fará.',
+  conhecer:'é vago e difícil de verificar ao final da pesquisa.',
+  saber:'é vago e difícil de verificar ao final da pesquisa.',
+  ver:'é vago e difícil de verificar ao final da pesquisa.',
+  falar:'é vago e pouco acadêmico.',
+  mostrar:'é vago; prefira "demonstrar", "evidenciar" ou "apresentar".',
+  fazer:'é vago; diga exatamente qual ação será realizada.'
+};
+
+const SUGESTOES_AMPLAS = [
+  {re:/igreja/, s:['Igreja e discipulado','Igreja e evangelização','Igreja e formação espiritual','Igreja e ação social']},
+  {re:/famili/, s:['Família e educação cristã dos filhos','Família e aconselhamento pastoral','Família e culto doméstico','Família e conflitos conjugais à luz da fé cristã']},
+  {re:/oracao|orar/, s:['Oração e liderança cristã','Oração na vida devocional do novo convertido','Oração intercessória na igreja local','Oração e cuidado emocional']},
+  {re:/jove|juvent|adolesc/, s:['Juventude e discipulado','Juventude e permanência na igreja','Juventude, redes sociais e espiritualidade','Juventude e vocação ministerial']},
+  {re:/lider/, s:['Liderança servidora na igreja local','Formação de novos líderes','Saúde emocional do líder cristão','Liderança e trabalho em equipe no ministério']},
+  {re:/louvor|adorac|musica/, s:['Adoração comunitária e liturgia','Ministério de louvor e espiritualidade','Música cristã e formação teológica']},
+  {re:/miss/, s:['Missões e a igreja local','Missão integral da igreja','Missões urbanas','Plantação de igrejas']},
+  {re:/pregac|sermao|homilet/, s:['Pregação expositiva na igreja local','Pregação e formação doutrinária','Pregação para a juventude','Pregação no contexto urbano']},
+  {re:/espirito santo|pneuma|dons/, s:['Pneumatologia e vida cristã','Dons espirituais na igreja local','O Espírito Santo e a santificação na tradição wesleyana']},
+  {re:/biblia|escritur/, s:['Leitura bíblica e formação espiritual','A Bíblia na educação cristã','Hermenêutica bíblica e pregação']},
+  {re:/santi/, s:['Santificação na tradição wesleyana','Santidade e ética cristã','Santidade e vida comunitária']},
+  {re:/graca|salvac/, s:['Graça preveniente na teologia wesleyana','Graça e evangelização','Salvação e discipulado']},
+  {re:/pastor|pastoral/, s:['Cuidado pastoral na igreja local','Visitação pastoral','Saúde emocional do pastor','Aconselhamento pastoral']},
+  {re:/deus|\bfe\b|teolog|cristian|evangelho/, s:['Fé e sofrimento na vida cristã','Providência divina e cuidado pastoral','Evangelho e transformação social']}
+];
+
+const AVISO_HTML =
+  '<div class="importante"><div class="ic">⚖️</div><div>' +
+  '<h3>Um apoio ao seu estudo, não um substituto</h3>' +
+  '<p>Este laboratório é um recurso complementar. Ele <b>não substitui a sala de aula</b>, seja ela física ou virtual, nem as explicações, os debates e as atividades conduzidos pelo professor.</p>' +
+  '<p>As análises apresentadas aqui são indicações automáticas, baseadas em critérios pedagógicos gerais, e podem não perceber as particularidades da sua pesquisa. Use-as como ponto de partida para revisar o texto, não como avaliação final.</p>' +
+  '<p><b>A orientação que vale é a do seu professor orientador.</b> Sempre que houver diferença entre o que a ferramenta sugere e o que o orientador indica, siga a orientação do professor.</p>' +
+  '</div></div>';
+
+/* =========================================================
+   ETAPAS
+   ========================================================= */
+const ETAPAS = [
+{n:1, id:'tema', titulo:'Tema da pesquisa', curto:'Tema',
+ oque:'Apresentar o assunto que pretende pesquisar e mostrar a sua relevância para os dias atuais.',
+ campos:[{k:'tema', label:'Meu tema de pesquisa', rows:2, ph:'Escreva aqui o seu tema…'},
+  {k:'relevAtual', label:'Por que esse tema é relevante para os dias atuais?', sub:'Mostre como o assunto dialoga com a realidade de hoje: na igreja, no ministério ou na sociedade.', rows:5, ph:'Ex.: Nos últimos anos, … Nesse cenário, este tema se torna importante porque…'}],
+ orient:['O tema precisa ser compreensível.','Deve apresentar uma questão relacionada à Teologia ou ao exercício ministerial.','Evite temas excessivamente abrangentes.','Não repita temas já pesquisados: ao analisar, a página compara o seu tema com o acervo de trabalhos aprovados.','Mostre a relevância do tema para os dias atuais: um artigo acadêmico precisa dialogar com o presente, e não apenas tratar de um assunto importante em si mesmo.'],
+ exemplo:'Tema: O discipulado cristão na formação espiritual dos novos convertidos.\n\nRelevância para a atualidade: Nos últimos anos, muitas igrejas passaram a funcionar de forma híbrida, com cultos presenciais e transmitidos pela internet. Nesse cenário, novos convertidos chegam à fé por caminhos diferentes e nem sempre são acompanhados de perto, o que torna urgente repensar o discipulado na igreja local.'},
+
+{n:2, id:'contexto', titulo:'Contextualização', curto:'Contextualização',
+ oque:'Apresentar o contexto no qual o assunto está inserido.',
+ campos:[{k:'contexto', label:'Escreva sua contextualização', rows:12, ph:'Apresente o cenário do assunto e conduza o leitor até a questão que será pesquisada…'}],
+ orient:['Apresente o cenário do assunto.','Explique como o tema aparece na realidade bíblica, eclesiástica ou ministerial.','Apresente informações que ajudem o leitor a compreender o assunto.','Conduza o leitor até a questão que será pesquisada.'],
+ perguntas:['Sobre o que estou falando?','Em qual contexto esse assunto aparece?','Qual situação despertou meu interesse?','Por que esse assunto merece ser investigado?'],
+ exemplo:'O discipulado ocupa lugar central na missão confiada por Jesus à igreja (Mt 28.19-20). Nas comunidades locais, porém, muitas pessoas se convertem e não recebem acompanhamento sistemático nos primeiros meses de caminhada cristã.\n\nNo ministério de novos convertidos, observa-se que alguns permanecem e amadurecem, enquanto outros se afastam rapidamente. Essa realidade desperta a necessidade de compreender de que modo o discipulado tem participado da formação espiritual desses novos irmãos.'},
+
+{n:3, id:'delimitacao', titulo:'Delimitação do tema', curto:'Delimitação',
+ oque:'Mostrar com precisão o recorte da pesquisa: em qual disciplina, sobre qual assunto, em qual lugar e em qual período.',
+ campos:[
+  {k:'campoGeral', label:'Campo geral', sub:'Qual disciplina será estudada?', input:true, ph:'Ex.: Teologia Pastoral'},
+  {k:'campoEsp', label:'Campo específico', sub:'Qual assunto será investigado dentro dessa disciplina?', input:true, ph:'Ex.: Discipulado cristão'},
+  {k:'espaco', label:'Espaço geográfico', sub:'Em qual local, área, ministério ou setor?', input:true, ph:'Ex.: Ministério de novos convertidos de uma igreja local'},
+  {k:'tempo', label:'Tempo', sub:'Qual período será considerado?', input:true, ph:'Ex.: Contexto contemporâneo (2020–2026)'}],
+ orient:['Esta é uma das etapas mais importantes do projeto.','O campo geral é a disciplina; o campo específico é o assunto dentro dela.','O espaço deve ser concreto: um ministério, uma igreja, uma região.','O tempo deve indicar um período identificável.'],
+ exemplo:'Campo geral: Teologia Pastoral.\nCampo específico: Discipulado cristão.\nEspaço: Ministério de novos convertidos de uma igreja local.\nTempo: Contexto contemporâneo (2020–2026).'},
+
+{n:4, id:'justificativa', titulo:'Justificativa', curto:'Justificativa',
+ oque:'Mostrar por que a pesquisa é importante, em dois blocos obrigatórios: a relevância teológica e a relevância social e ministerial.',
+ campos:[
+  {k:'justTeo', bloco:'A) Relevância teológica', blocoDesc:'Apresente a importância teológica do assunto, uma fundamentação bíblica contextualizada, uma argumentação teológica e pelo menos uma fonte bibliográfica em português.', label:'Relevância teológica', rows:10, ph:'Qual a importância desse assunto para a Teologia? Qual texto bíblico fundamenta sua reflexão?…',
+   perguntas:['Qual a importância desse assunto para a Teologia?','Qual texto bíblico fundamenta sua reflexão?','Como esse texto se relaciona com o tema?','Qual autor ou obra contribui para essa discussão?']},
+  {k:'justRef', label:'Obra(s) consultada(s)', sub:'Referência completa no padrão ABNT, uma por linha.', rows:3, ph:'SOBRENOME, Nome. Título da obra. Cidade: Editora, ano.'},
+  {k:'justSoc', bloco:'B) Relevância social e ministerial', blocoDesc:'Explique qual problema ou necessidade existe, quem será beneficiado, qual contribuição a pesquisa poderá oferecer e qual a sua importância ministerial.', label:'Relevância social e ministerial', rows:8, ph:'Qual problema ou necessidade existe? Quem será beneficiado?…',
+   perguntas:['Qual problema ou necessidade existe?','Quem será beneficiado pela pesquisa?','Qual contribuição poderá oferecer à igreja ou à sociedade?','Qual a importância ministerial desse estudo?']}],
+ orient:['A justificativa responde: por que vale a pena pesquisar isso?','Cite o texto bíblico com a referência (livro, capítulo e versículo).','Ao citar um autor, indique sobrenome e ano: (BONHOEFFER, 2004) ou Bonhoeffer (2004).','Inclua a referência completa da obra no campo próprio.'],
+ exemplo:'A) O discipulado não é um programa opcional da igreja, mas expressão da própria Grande Comissão (Mt 28.19-20), na qual Jesus une o fazer discípulos ao ensinar a guardar tudo o que ordenou. Nesse sentido, Bonhoeffer (2004) lembra que a graça que chama ao seguimento é também a graça que forma o discípulo.\n\nB) Muitos novos convertidos deixam a igreja nos primeiros meses. A pesquisa poderá oferecer subsídios aos líderes do ministério de novos convertidos para fortalecer o acompanhamento desses irmãos.\n\nReferência: BONHOEFFER, Dietrich. Discipulado. São Leopoldo: Sinodal, 2004.'},
+
+{n:5, id:'problema', titulo:'Problematização', curto:'Problematização',
+ oque:'Construir a pergunta de pesquisa: a questão que o seu trabalho pretende responder.',
+ campos:[{k:'problema', label:'Qual pergunta você pretende responder com sua pesquisa?', rows:3, ph:'Escreva uma única pergunta, terminada com ponto de interrogação…'}],
+ orient:['A pergunta precisa estar relacionada ao tema.','Deve apresentar clareza.','Precisa ser delimitada.','Deve permitir investigação e discussão (evite perguntas de sim ou não).'],
+ exemplo:'Como o discipulado cristão contribui para a formação espiritual dos novos convertidos no contexto da igreja local?'},
+
+{n:6, id:'objgeral', titulo:'Objetivo geral', curto:'Objetivo geral',
+ oque:'Dizer o que você pretende alcançar com sua pesquisa.',
+ campos:[{k:'objGeral', label:'O que você pretende alcançar com sua pesquisa?', rows:3, ph:'Comece com um verbo no infinitivo…'}],
+ orient:['Comece com um verbo no infinitivo.','O objetivo precisa responder à problematização.','Deve apresentar uma finalidade clara.','Verbos sugeridos: analisar, compreender, investigar, identificar, examinar, discutir e avaliar.'],
+ exemplo:'Analisar como o discipulado cristão contribui para a formação espiritual dos novos convertidos no contexto da igreja local.'},
+
+{n:7, id:'objesp', titulo:'Objetivos específicos', curto:'Objetivos específicos',
+ oque:'Apresentar três objetivos específicos: os passos que, juntos, levam ao objetivo geral.',
+ campos:[
+  {k:'obj1', label:'a)', input:true, ph:'Primeiro passo (geralmente: fundamentar / apresentar)…'},
+  {k:'obj2', label:'b)', input:true, ph:'Segundo passo (geralmente: identificar / descrever)…'},
+  {k:'obj3', label:'c)', input:true, ph:'Terceiro passo (geralmente: analisar / avaliar)…'}],
+ orient:['Cada objetivo precisa representar uma ação.','Os objetivos devem contribuir para alcançar o objetivo geral.','Devem apresentar uma sequência lógica.','Evite repetir o mesmo objetivo com palavras diferentes.'],
+ exemplo:'a) Apresentar os fundamentos bíblico-teológicos do discipulado cristão;\nb) Identificar as práticas de discipulado adotadas no ministério de novos convertidos da igreja local;\nc) Analisar as contribuições dessas práticas para a formação espiritual dos novos convertidos.'}
+];
+
+/* =========================================================
+   ANÁLISES (critérios pedagógicos)
+   ========================================================= */
+function resultado(itens){
+  const st = itens.some(i => i.t === 'err') ? 'err' : itens.some(i => i.t === 'warn') ? 'warn' : 'ok';
+  return {st, itens};
+}
+const I = (t, m, extra) => Object.assign({t, m}, extra||{});
+
+function sugestoesPara(texto){
+  const n = norm(texto);
+  for(const g of SUGESTOES_AMPLAS){ if(g.re.test(n)) return g.s; }
+  return null;
+}
+
+const ANALISE = {
+tema(){
+  const t = D.tema.trim(), it = [];
+  if(!t) return resultado([I('err','Você ainda não apresentou um tema.')]);
+  const n = nPal(t), nt = norm(t);
+  if(/^(quero|pretendo|vou|gostaria|desejo|meu tema)/.test(nt))
+    it.push(I('warn','Escreva o tema diretamente, sem expressões como "quero pesquisar sobre". O tema é o nome do assunto, não uma intenção.'));
+  if(/\?\s*$/.test(t))
+    it.push(I('warn','O tema não deve ser uma pergunta. A pergunta de pesquisa será construída na Etapa 5 (Problematização).'));
+  const tl = t.replace(/^(eu\s+)?(quero|pretendo|vou|gostaria de|desejo|meu tema [eé])\s*(pesquisar|estudar|falar|investigar|trabalhar|escrever)?\s*(sobre|a respeito de|acerca de)?\s*/i, '');
+  const sug = sugestoesPara(tl);
+  const nl = nPal(tl), kl = chaves(tl).size;
+  if(nl < 4 || (nl <= 6 && kl <= 1)){
+    it.push(I('err','<b>Atenção! Seu tema está muito abrangente.</b>Você precisa identificar qual aspecto do assunto pretende estudar.' + (sug ? ' Algumas possibilidades:' : ' Acrescente o aspecto que será estudado e, se possível, o público ou o contexto.'), {lista: sug}));
+  } else if(nl <= 7 && kl <= 2){
+    it.push(I('warn','Seu tema ainda pode ser mais específico. Tente acrescentar o público, o aspecto ou o contexto que será estudado.', {lista: sug}));
+  }
+  if(n > 25) it.push(I('warn','Seu tema está longo (' + n + ' palavras). O tema deve ser um título enxuto; os detalhes ficam na delimitação e na contextualização.'));
+  if(!RE_TEOL.test(nt)) it.push(I('warn','Não identifiquei relação clara com a Teologia ou com o exercício ministerial. Deixe explícito o aspecto teológico, bíblico, eclesial ou ministerial do tema.'));
+  if(!it.length) it.push(I('ok','Seu tema apresenta um assunto identificável e relacionado à Teologia ou ao ministério.'));
+  analisarAcervo().forEach(x => it.push(x));
+  analisarAtualidade().forEach(x => it.push(x));
+  return resultado(it);
+},
+contexto(){
+  const t = D.contexto.trim(), it = [];
+  if(!t) return resultado([I('err','Você ainda não escreveu a contextualização.')]);
+  const n = nPal(t);
+  if(n < 60) it.push(I('err','Sua contextualização está muito curta (' + n + ' palavras). Desenvolva o cenário do assunto em pelo menos dois parágrafos.'));
+  else if(n < 120) it.push(I('warn','Sua contextualização ainda está breve (' + n + ' palavras). Procure apresentar mais informações que ajudem o leitor a compreender o assunto.'));
+  else if(n > 700) it.push(I('warn','Sua contextualização está extensa (' + n + ' palavras). Mantenha o foco no cenário e na condução até a questão pesquisada.'));
+  else it.push(I('ok','A extensão da contextualização está adequada (' + n + ' palavras).'));
+  if(!(RE_BIBLIA.test(t) || tem(t,/biblic|escritur|evangelh|apostol|jesus|cristo|antigo testamento|novo testamento|profet/)))
+    it.push(I('warn','Explique como o tema aparece na realidade bíblica. Não identifiquei menção às Escrituras.'));
+  if(!tem(t,/igreja|minister|pastor|congregac|comunidade|lider|eclesi|membros|fieis|crentes/))
+    it.push(I('warn','Mostre como o tema aparece na realidade eclesiástica ou ministerial (igreja, ministério, liderança, comunidade).'));
+  if(D.tema.trim() && sobreposicao(D.tema, t) < 0.3)
+    it.push(I('warn','A contextualização retoma poucos termos do seu tema. Verifique se o texto realmente apresenta o cenário do assunto escolhido.'));
+  const pars = t.split(/\n\s*\n|\n/).filter(p => p.trim());
+  const ult = pars[pars.length-1] || '';
+  if(!tem(ult,/pesquis|investig|question|problem|necessid|compreend|reflex|desafi|precisa|merece|interess/))
+    it.push(I('dica','Use o último parágrafo para conduzir o leitor até a questão que será pesquisada (por exemplo, apresentando a necessidade ou o desafio observado).'));
+  if(!RE_ATUAL.test(norm(t))) it.push(I('warn','<b>Falta o presente na contextualização.</b>Mostre como o assunto aparece <b>hoje</b> na igreja, no ministério ou na sociedade. Um bom caminho é dedicar um parágrafo ao cenário atual, com um fenômeno ou um dado recente.', {lista: caminhosAtualidade(D.tema).slice(0,3)}));
+  if(pars.length === 1 && n > 150) it.push(I('dica','Divida o texto em parágrafos: isso facilita a leitura e organiza a progressão das ideias.'));
+  return resultado(it);
+},
+delimitacao(){
+  const it = [];
+  const g = D.campoGeral.trim(), e = D.campoEsp.trim(), s = D.espaco.trim(), tp = D.tempo.trim();
+  if(!g) it.push(I('err','Informe o <b>campo geral</b> (a disciplina).'));
+  if(!e) it.push(I('err','Informe o <b>campo específico</b> (o assunto investigado).'));
+  if(!s) it.push(I('err','Informe o <b>espaço geográfico</b> (local, área, ministério ou setor).'));
+  if(!tp) it.push(I('err','Informe o <b>tempo</b> (período considerado).'));
+  if(g && nPal(g) > 5) it.push(I('warn','O campo geral deve ser o nome de uma disciplina (ex.: Teologia Pastoral, Teologia Bíblica, Missiologia, Educação Cristã), e não o assunto da pesquisa.'));
+  if(g && e && norm(g) === norm(e)) it.push(I('warn','O campo específico repete o campo geral. Indique o assunto dentro da disciplina.'));
+  if(e && D.tema.trim() && sobreposicao(e, D.tema) === 0) it.push(I('warn','O campo específico não aparece no seu tema. Verifique se os dois tratam do mesmo assunto.'));
+  if(s){
+    const ns = norm(s).replace(/[.]/g,'').trim();
+    if(['brasil','mundo','igreja','igrejas','a igreja','sociedade','igreja evangelica','igrejas evangelicas','cristianismo','igreja brasileira','o mundo','em geral'].includes(ns) || nPal(s) <= 1)
+      it.push(I('warn','O espaço está amplo demais. Indique um local, ministério ou setor concreto (ex.: "ministério de jovens de uma igreja local em Duque de Caxias").'));
+  }
+  if(tp){
+    const nt = norm(tp);
+    if(['atual','hoje','atualidade','sempre','todos os tempos','dias atuais'].includes(nt.replace(/[.]/g,'').trim()))
+      it.push(I('warn','Indique um período identificável, de preferência com anos (ex.: "Contexto contemporâneo (2020–2026)").'));
+    else if(!(/\b(1[5-9]|20)\d{2}\b/.test(tp) || /secul|contempor|period|decada|primeiro|antigo|reforma|patrist|apostol|era |pos-|pos /.test(nt)))
+      it.push(I('warn','Não identifiquei um período. Informe anos ou uma época reconhecível.'));
+  }
+  if(!it.length) it.push(I('ok','Sua delimitação apresenta os quatro elementos com clareza.'));
+  return resultado(it);
+},
+justificativa(){
+  const it = [];
+  const a = D.justTeo.trim(), r = D.justRef.trim(), b = D.justSoc.trim();
+  // A
+  if(!a) it.push(I('err','<b>Relevância teológica:</b> ainda não preenchida.'));
+  else{
+    const n = nPal(a);
+    if(n < 80) it.push(I('warn','<b>Relevância teológica:</b> texto breve (' + n + ' palavras). Desenvolva a argumentação.'));
+    if(!RE_BIBLIA.test(a)) it.push(I('err','<b>Relevância teológica:</b> inclua ao menos um texto bíblico com a referência completa (ex.: Mt 28.19-20; Ef 4.11-12).'));
+    else it.push(I('ok','<b>Relevância teológica:</b> há fundamentação bíblica com referência.'));
+    if(!(RE_CIT1.test(a) || RE_CIT2.test(a))) it.push(I('warn','<b>Relevância teológica:</b> não identifiquei citação de autor no texto. Indique o autor e o ano: (SOBRENOME, ano) ou Sobrenome (ano).'));
+    if(!tem(a,/portanto|assim|dessa forma|desse modo|nesse sentido|logo|pois|porque|uma vez que|por isso|consequentemente|evidencia|revela|demonstra/))
+      it.push(I('dica','<b>Relevância teológica:</b> articule a argumentação com conectivos (portanto, nesse sentido, dessa forma), mostrando como o texto bíblico se relaciona com o tema.'));
+    if(D.tema.trim() && sobreposicao(a, D.tema) === 0) it.push(I('warn','<b>Relevância teológica:</b> o texto não retoma os termos do tema. Mostre explicitamente a relação.'));
+  }
+  if(!r) it.push(I('err','<b>Referência:</b> informe pelo menos uma obra em português consultada.'));
+  else{
+    const linhas = r.split('\n').filter(l => l.trim());
+    const semAutor = linhas.filter(l => !/^[A-ZÀ-Ú][A-ZÀ-Ú\s'-]{1,},\s/.test(l.trim()));
+    const semAno = linhas.filter(l => !/\b(1[89]|20)\d{2}\b/.test(l));
+    const semLocal = linhas.filter(l => !/:/.test(l));
+    if(semAutor.length) it.push(I('warn','<b>Referência:</b> inicie com o SOBRENOME do autor em maiúsculas, seguido de vírgula e do prenome.'));
+    if(semAno.length) it.push(I('warn','<b>Referência:</b> não identifiquei o ano de publicação.'));
+    if(semLocal.length) it.push(I('warn','<b>Referência:</b> informe Cidade: Editora (ex.: São Paulo: Vida Nova, 2010).'));
+    if(!semAutor.length && !semAno.length && !semLocal.length) it.push(I('ok','<b>Referência:</b> estrutura básica ABNT identificada. Confirme se a obra está em português.'));
+  }
+  // B
+  if(!b) it.push(I('err','<b>Relevância social e ministerial:</b> ainda não preenchida.'));
+  else{
+    const n = nPal(b);
+    if(n < 60) it.push(I('warn','<b>Relevância social e ministerial:</b> texto breve (' + n + ' palavras).'));
+    if(!tem(b,/problem|necessid|desafi|dificuld|carenc|lacuna|realidade|crise|afast|evas|fragil/)) it.push(I('warn','<b>Relevância social e ministerial:</b> qual problema ou necessidade existe? Não identifiquei essa resposta.'));
+    if(!tem(b,/benefici|igreja|comunidad|lider|pastor|membros|famili|jovens|sociedad|novos convertidos|fieis|ministerio|alunos|seminaris/)) it.push(I('warn','<b>Relevância social e ministerial:</b> diga quem será beneficiado pela pesquisa.'));
+    if(!tem(b,/contribu|subsidi|auxili|fortalec|oferec|aprimor|benefici|orient|apoi|ajud|qualific|colabor/)) it.push(I('warn','<b>Relevância social e ministerial:</b> explique qual contribuição a pesquisa poderá oferecer à igreja ou à sociedade.'));
+    if(!tem(b,/minister|pastor|lider|igreja|eclesi/)) it.push(I('warn','<b>Relevância social e ministerial:</b> destaque a importância ministerial do estudo.'));
+    if(n >= 60 && !it.some(x => /Relevância social/.test(x.m) && x.t !== 'ok')) it.push(I('ok','<b>Relevância social e ministerial:</b> problema, beneficiários e contribuição foram apresentados.'));
+  }
+  return resultado(it);
+},
+problema(){
+  const t = D.problema.trim(), it = [];
+  if(!t) return resultado([I('err','Você ainda não escreveu sua pergunta de pesquisa.')]);
+  const nt = norm(t), n = nPal(t);
+  if(!/\?\s*$/.test(t)) it.push(I('err','A problematização deve ser uma pergunta e terminar com ponto de interrogação.'));
+  if((t.match(/\?/g)||[]).length > 1) it.push(I('warn','Você apresentou mais de uma pergunta. Escolha uma única pergunta central para orientar a pesquisa.'));
+  const inicioAberto = /^(como|de que (forma|maneira|modo)|quais?|em que (medida|sentido|aspectos?)|por que|porque|de que|que |quem|quando|onde|em que|a partir de que|qual)/.test(nt);
+  const inicioFechado = /^(e |existe|sera|pode|podem|deve|devem|ha |houve|e possivel|seria|sao |esta |estao |tem |havera)/.test(nt);
+  if(inicioFechado && !inicioAberto) it.push(I('warn','Sua pergunta parece ser de "sim ou não". Perguntas fechadas limitam a investigação. Experimente iniciar com "Como", "De que maneira" ou "Em que medida".'));
+  if(n < 8) it.push(I('warn','<b>Atenção! Sua pergunta parece muito abrangente.</b>Ela é curta (' + n + ' palavras) e talvez não indique o recorte da pesquisa.'));
+  if(n > 45) it.push(I('warn','Sua pergunta está longa (' + n + ' palavras). Uma boa pergunta de pesquisa é clara e direta.'));
+  if(D.tema.trim() && sobreposicao(t, D.tema) < 0.25) it.push(I('err','A pergunta não parece relacionada ao tema. Retome os termos centrais do tema na pergunta.'));
+  const recorte = (D.espaco.trim() && sobreposicao(t, D.espaco) > 0) || /\b(1[5-9]|20)\d{2}\b/.test(t) || /igreja local|ministerio de|comunidade|contexto|congregac|regiao|bairro|cidade/.test(nt);
+  if(!recorte) it.push(I('warn','<b>Atenção! Sua pergunta pode estar muito abrangente.</b>Não identifiquei nela o recorte definido na delimitação (o espaço ou o contexto da pesquisa).'));
+  if(/todas as igrejas|o mundo|a humanidade|em geral|de todos|sempre/.test(nt)) it.push(I('warn','Evite generalizações como "todas as igrejas", "o mundo" ou "sempre". Elas tornam a pergunta impossível de responder em uma pesquisa.'));
+  if(!it.length) it.push(I('ok','Sua pergunta está clara, aberta, relacionada ao tema e delimitada.'));
+  return resultado(it);
+},
+objgeral(){
+  const t = D.objGeral.trim(), it = [];
+  if(!t) return resultado([I('err','Você ainda não escreveu o objetivo geral.')]);
+  const v = primeira(t);
+  if(/^(o objetivo|objetivo|esta pesquisa|este trabalho|a pesquisa|pretendo|pretende|busca|buscar)/.test(norm(t)))
+    it.push(I('err','Comece diretamente pelo verbo no infinitivo (ex.: "Analisar…"), sem "O objetivo desta pesquisa é…".'));
+  else if(!ehInfinitivo(v)) it.push(I('err','O objetivo deve começar com um verbo no infinitivo (ex.: analisar, compreender, investigar).'));
+  if(VERBOS_FRACOS[v]) it.push(I('warn','O verbo "' + v + '" ' + VERBOS_FRACOS[v]));
+  else if(ehInfinitivo(v)) it.push(I('ok','O objetivo começa com o verbo "' + v + '".'));
+  if(/\?/.test(t)) it.push(I('err','O objetivo não é uma pergunta. Ele é uma afirmação iniciada por verbo.'));
+  const nVerb = palavras(t).filter(w => VERBOS_BONS.includes(w)).length;
+  if(nVerb > 1) it.push(I('warn','Você usou mais de um verbo de ação. O objetivo geral deve ter uma única finalidade; as demais ações são objetivos específicos.'));
+  if(D.problema.trim() && sobreposicao(t, D.problema) < 0.35)
+    it.push(I('err','<b>Existe uma possível incompatibilidade entre sua pergunta e seu objetivo geral.</b>Revise os dois elementos para que estejam relacionados: o objetivo geral deve responder à problematização.'));
+  else if(D.problema.trim()) it.push(I('ok','O objetivo geral está relacionado à sua pergunta de pesquisa.'));
+  if(nPal(t) > 45) it.push(I('warn','O objetivo geral está longo. Procure uma formulação mais direta.'));
+  return resultado(it);
+},
+objesp(){
+  const it = [], obs = [D.obj1, D.obj2, D.obj3].map(x => x.trim()), letras = ['a','b','c'];
+  const preenchidos = obs.filter(Boolean).length;
+  if(preenchidos < 3) it.push(I('err','Preencha os três objetivos específicos (' + preenchidos + ' de 3 preenchidos).'));
+  const verbos = [];
+  obs.forEach((o, i) => {
+    if(!o) return;
+    const v = primeira(o); verbos.push(v);
+    if(!ehInfinitivo(v)) it.push(I('err','Objetivo ' + letras[i] + ') deve começar com verbo no infinitivo.'));
+    else if(VERBOS_FRACOS[v]) it.push(I('warn','Objetivo ' + letras[i] + '): o verbo "' + v + '" ' + VERBOS_FRACOS[v]));
+    if(D.objGeral.trim() && similaridade(o, D.objGeral) > 0.75) it.push(I('warn','Objetivo ' + letras[i] + ') repete o objetivo geral. Cada específico deve ser um passo, e não o objetivo inteiro.'));
+    if(D.objGeral.trim() && sobreposicao(o, D.objGeral + ' ' + D.tema + ' ' + D.campoEsp) === 0) it.push(I('warn','Objetivo ' + letras[i] + ') não parece contribuir para o objetivo geral. Retome o assunto central da pesquisa.'));
+  });
+  const rep = verbos.filter((v, i) => v && verbos.indexOf(v) !== i);
+  if(rep.length) it.push(I('warn','O verbo "' + rep[0] + '" se repete. Use verbos diferentes, indicando ações distintas.'));
+  for(let i = 0; i < 3; i++) for(let j = i+1; j < 3; j++){
+    if(obs[i] && obs[j] && similaridade(obs[i], obs[j]) > 0.6) it.push(I('warn','Os objetivos ' + letras[i] + ') e ' + letras[j] + ') estão muito parecidos. Evite repetir o mesmo objetivo com palavras diferentes.'));
+  }
+  const vg = primeira(D.objGeral);
+  if(vg && verbos.includes(vg)) it.push(I('dica','Você usou nos específicos o mesmo verbo do objetivo geral ("' + vg + '"). Prefira verbos que indiquem etapas menores.'));
+  const ordem = {apresentar:1,conceituar:1,fundamentar:1,discorrer:1,definir:1,contextualizar:1,expor:1,situar:1,descrever:2,identificar:2,caracterizar:2,levantar:2,mapear:2,verificar:2,relacionar:2,comparar:3,analisar:3,avaliar:3,discutir:3,propor:4,refletir:3};
+  const seq = verbos.map(v => ordem[v] || 0);
+  if(seq.length === 3 && seq.every(Boolean) && (seq[0] > seq[1] || seq[1] > seq[2]))
+    it.push(I('dica','Verifique a sequência lógica: normalmente começa-se por fundamentar (apresentar, conceituar), passa-se a identificar ou descrever a realidade e conclui-se analisando ou avaliando.'));
+  if(preenchidos === 3 && !it.some(x => x.t === 'err' || x.t === 'warn')) it.push(I('ok','Seus objetivos específicos são ações distintas, em sequência, que contribuem para o objetivo geral.'));
+  return resultado(it);
+}
+};
+
+/* ---------- Relevância para a atualidade ---------- */
+const RE_ATUAL = /(hoje|atualment|atual|contempor|nos dias|ultimos anos|ultimas decadas|recente|cada vez mais|crescente|tendencia|cenario|seculo xxi|pandemi|digital|redes sociais|internet|online|virtual|tecnolog|inteligencia artificial|aplicativ|plataforma|transmiti|transmiss|hibrid|seculariz|pos-modern|ansiedade|saude mental|saude emocional|burnout|esgotamento|polariz|migra|urbaniz|\b20[12]\d\b|censo|ibge|nova geracao|geracao z)/;
+const RE_CONCRETO = /(\b20[12]\d\b|censo|ibge|pesquisa|dados|levantamento|estatistic|indice|percent|%|segundo|conforme|de acordo com|\([A-Za-z][^()]*,\s*\d{4})/;
+const ATUAL_POR_TEMA = [
+  {re:/discipul|convert|igreja|eclesi/, s:['Discipulado na igreja híbrida (presencial e on-line)','Acolhimento e permanência de novos convertidos depois da pandemia','Formação espiritual em uma cultura de pertencimento frágil e consumo religioso']},
+  {re:/famili|casa|filho|conjug|casal/, s:['A família cristã diante do uso excessivo de telas','Pressões econômicas e emocionais sobre os casais cristãos hoje','Educação cristã dos filhos em uma cultura digital']},
+  {re:/oracao|orar|devoc/, s:['A vida de oração em uma sociedade acelerada e conectada','Oração e cuidado com a saúde emocional (ansiedade, cansaço)','Disciplinas espirituais diante da distração digital']},
+  {re:/jove|juvent|adolesc/, s:['Jovens, redes sociais e identidade cristã','Saúde emocional da juventude e cuidado pastoral','Evasão e permanência dos jovens na igreja','Juventude diante da inteligência artificial e de novas formas de trabalho']},
+  {re:/lider|pastor|pastoral|minister/, s:['Esgotamento (burnout) e saúde emocional de pastores e líderes','Liderança cristã em comunidades on-line e híbridas','Formação de novos líderes em tempos de mudança acelerada']},
+  {re:/louvor|adorac|musica|culto|liturg/, s:['Culto transmitido e participação comunitária','Música cristã nas plataformas digitais e formação teológica','Adoração comunitária em uma cultura de entretenimento']},
+  {re:/miss|evangel/, s:['Evangelização nas redes sociais','Missões urbanas e periferias das grandes cidades','Igreja e acolhimento de migrantes e refugiados']},
+  {re:/pregac|sermao|homilet/, s:['Pregação na era das redes e da atenção curta','Sermões on-line e formação doutrinária','Pregação em contexto de polarização social']},
+  {re:/espirit|pneuma|santi|graca/, s:['Vida no Espírito em uma sociedade acelerada e cansada','Santidade e ética cristã nas redes sociais','Espiritualidade wesleyana diante do individualismo atual']},
+  {re:/biblia|escritur|hermen/, s:['Leitura bíblica em aplicativos e redes sociais','Analfabetismo bíblico nas igrejas atuais','Interpretação bíblica diante de conteúdos gerados por inteligência artificial']},
+  {re:/social|pobre|justic|comunidad/, s:['Ação social da igreja em contextos de vulnerabilidade atual','Igreja, desigualdade e cuidado com a comunidade local']}
+];
+function caminhosAtualidade(tema){
+  const n = norm(tema);
+  for(const g of ATUAL_POR_TEMA) if(g.re.test(n)) return g.s;
+  return ['Relacione o tema com um desafio que sua igreja ou seu ministério enfrenta hoje','Conecte o tema a um fenômeno atual: cultura digital, pós-pandemia, saúde emocional, aceleração do tempo ou secularização','Mostre o que se perde se esse assunto não for estudado agora'];
+}
+const ESTRATEGIAS_ATUAL = [
+  'Apresente um <b>fenômeno atual</b> ligado ao tema (cultura digital, pós-pandemia, saúde emocional, secularização, mudanças na família, aceleração da vida).',
+  'Use um <b>dado recente</b>: pesquisas de institutos reconhecidos, dados do IBGE (como o Censo 2022) ou levantamentos denominacionais, sempre com a fonte.',
+  'Cite uma <b>publicação recente</b> (de preferência dos últimos 5 a 10 anos) que trate do assunto.',
+  'Descreva um <b>desafio concreto</b> observado hoje na sua igreja, no seu ministério ou na sua comunidade.',
+  'Responda à pergunta: <b>por que estudar esse tema agora, e não daqui a dez anos ou há dez anos?</b>'
+];
+function analisarAtualidade(){
+  const t = D.relevAtual.trim(), it = [];
+  const sug = caminhosAtualidade(D.tema);
+  const ajuda = '<br><br><b>Caminhos para mostrar a atualidade do seu tema:</b>';
+  if(!t){
+    it.push(I('err','<b>Mostre a relevância do seu tema para os dias atuais.</b>Um artigo acadêmico precisa dialogar com o presente: não basta que o assunto seja importante, é preciso mostrar por que ele importa <b>hoje</b> para a igreja, o ministério ou a sociedade.' + ajuda, {lista: ESTRATEGIAS_ATUAL}));
+    it.push(I('dica','<b>Alternativas para aproximar o seu tema do presente:</b>', {lista: sug}));
+    return it;
+  }
+  const n = nPal(t), nt = norm(t);
+  if(n < 25) it.push(I('warn','<b>Relevância para a atualidade:</b> o texto está breve (' + n + ' palavras). Desenvolva um pouco mais: qual é a situação atual e por que ela torna o tema importante agora?'));
+  if(!RE_ATUAL.test(nt)){
+    it.push(I('warn','<b>Ainda não ficou clara a relação do tema com os dias atuais.</b>Seu texto explica a importância do assunto, mas não o situa no presente.' + ajuda, {lista: ESTRATEGIAS_ATUAL}));
+    it.push(I('dica','<b>Alternativas para aproximar o seu tema do presente:</b>', {lista: sug}));
+  } else if(!RE_CONCRETO.test(t)){
+    it.push(I('ok','<b>Relevância para a atualidade:</b> você situou o tema no presente.'));
+    it.push(I('dica','<b>Para fortalecer:</b> sustente a atualidade com um dado, uma pesquisa ou um autor recente, indicando a fonte. Isso transforma uma impressão em argumento acadêmico.'));
+  } else it.push(I('ok','<b>Relevância para a atualidade:</b> você situou o tema no presente e apoiou essa afirmação em dados ou fontes.'));
+  if(D.tema.trim() && sobreposicao(t, D.tema) === 0) it.push(I('warn','<b>Relevância para a atualidade:</b> o texto não retoma os termos do tema. Mostre explicitamente como o cenário atual se relaciona com o assunto escolhido.'));
+  return it;
+}
+
+/* ---------- Acervo de trabalhos já aprovados (verificação de temas repetidos) ---------- */
+const URL_ACERVO = 'https://alexandrebeloniimw-cmyk.github.io/revistateologicoministerialiwecascadura2026/acervo.html';
+let ACERVO = [{"t":"Ministério feminino: funcionalidade e influência na atualidade","a":"Adileia Alves da Silva","y":"2019"},{"t":"Discipulado: resgatando o propósito da igreja primitiva e a importância para a igreja atual","a":"Carlos André de Andrade Soares","y":"2019"},{"t":"Conhecendo o verdadeiro sentido da música como louvor e adoração na liturgia do culto nos dias atuais","a":"Cristiane José Damasceno Santos","y":"2019"},{"t":"Exegese bíblica como ferramenta de pregação do evangelho nos púlpitos","a":"Diogo Pires da Silva","y":"2019"},{"t":"Rute: uma estrangeira étnica na comunidade de Israel","a":"Elí Galvão","y":"2019"},{"t":"Escola Bíblica Dominical e os desafios de inovar, discipular e ensinar sob a ótica cristã","a":"Israel Lima Santos Souza","y":"2019"},{"t":"A pregação da Palavra: princípio bíblico para um crescimento saudável do corpo de Cristo em nosso tempo","a":"Jair Baptista de Oliveira","y":"2019"},{"t":"O cristão e o meio ambiente: um panorama da responsabilidade teológica","a":"Joevaldo Luiz da Silva","y":"2019"},{"t":"Teologia da prosperidade: a corrupção do sagrado","a":"Josafá Siqueira","y":"2019"},{"t":"O pequeno grupo e seu papel no processo de evangelismo pessoal","a":"José Alves dos Santos Júnior","y":"2019"},{"t":"Vocação pastoral e os desafios contemporâneos","a":"Marcelo Ferreira dos Santos","y":"2019"},{"t":"A relevância dos pequenos grupos nos dias atuais: a visão dos pequenos grupos na ótica bíblica","a":"Misael Souza de Almeida","y":"2019"},{"t":"Liderança e vocação ministerial: o pastor como líder do rebanho de Deus","a":"Rafael Fernandes Sadik","y":"2019"},{"t":"Evangelismo e missões: plantação de igreja e o desafio de sua expansão na sociedade","a":"Robson de Azeredo Coutinho","y":"2019"},{"t":"Aconselhamento pastoral: o aconselhamento psicológico pastoral e sua relevância na igreja e na sociedade atual","a":"Robson Rego da Silva","y":"2019"},{"t":"Missão ensinadora: uma jornada para toda a vida","a":"Vanêssa Regina de Oliveira dos Santos","y":"2019"},{"t":"Educação cristã na atualidade","a":"Vanessa Oliveira Bezerra","y":"2019"},{"t":"Educação cristã: relevância e boas práticas na atualidade","a":"Ed Lobato Melo","y":"2019"},{"t":"A soteriologia na perspectiva do livro de Jonas","a":"Anderson Soares da Silva","y":"2020"},{"t":"A salvação na perspectiva paulina: uma abordagem sobre a Epístola aos Romanos com prerrogativas atuais","a":"André Luiz da Conceição","y":"2020"},{"t":"O pensamento de John Wesley sobre a santificação e sua importância para o metodismo contemporâneo","a":"Carlos Magno Soares Veras","y":"2020"},{"t":"Fundamentos para a plantação de uma igreja e as características do plantador","a":"Fabio Sobreira","y":"2020"},{"t":"Gestão eclesiástica: o desafio de gerir conflitos em igrejas na contemporaneidade","a":"Igor Pereira da Silva Junior","y":"2020"},{"t":"Casamento e união estável: desafio pastoral à sociedade pós-moderna","a":"Jorge Luiz Ferreira de Oliveira","y":"2020"},{"t":"Uma breve investigação acerca da possibilidade de diálogo entre a teologia e a psicologia","a":"Ketelenroze Souza de Azeredo da Silva","y":"2020"},{"t":"A EBD wesleyana e a utilização do marketing, da psicologia e da linguagem como ferramentas eficazes para os dias atuais","a":"Louzil Batista de Souza","y":"2020"},{"t":"A importância do ensino bíblico para as crianças e suas atribuições","a":"Luzemar Carneiro Rodrigues","y":"2020"},{"t":"A soteriologia cristã protestante e a pós-modernidade: teoria, análise e implicações como objeto de estudo","a":"Vagner Artur Geraldo Pimentel","y":"2020"},{"t":"Depressão espiritual: a realidade e o desconhecimento acerca de um mal que precisa ser cuidado","a":"Arnaldo Alves Mota Filho","y":"2021"},{"t":"A Escola Bíblica Dominical wesleyana e a utilização do marketing, da psicologia e da linguagem como ferramentas eficazes para os dias atuais","a":"Louzil Batista de Souza","y":"2021"},{"t":"Comportamento ético pastoral ante as demandas da atualidade","a":"Luciano Telles Ribeiro","y":"2021"},{"t":"Soteriologia: doutrina da salvação para a humanidade através de Jesus Cristo","a":"Pierre Pereira de Paula","y":"2021"},{"t":"Catequese: a ferramenta para o crescimento espiritual da igreja na contemporaneidade","a":"Alessandro Gomes Cavalcante","y":"2021"},{"t":"Os benefícios da implantação dos pequenos grupos para o crescimento saudável da igreja","a":"Ana Paula Barbosa Moreira","y":"2021"},{"t":"Feminicídio dentro das igrejas cristãs: fato ou fake","a":"Maria Isabel Falcão Brandão da Silva","y":"2021"},{"t":"Josué: um referencial de sucesso para uma liderança cristã eficaz","a":"Marcelo Berger de Vasconcelos","y":"2021"},{"t":"O crescimento coletivo e espiritual da igreja no século XXI no Brasil","a":"Marcos Antonio Carrarini Quarterolli","y":"2021"},{"t":"Diaconia e sua relevância de servir nos dias atuais","a":"Vilson Gonçalves Carvalhaes","y":"2021"},{"t":"Pastorear crianças: desafio e responsabilidade da igreja atual","a":"Leandro Sabatini","y":"2021"},{"t":"A formação de líderes para uma igreja saudável: o discipulado como ferramenta","a":"Pedro Paulo Carvalho","y":"2021"},{"t":"John Wesley: um resumo de sua trajetória ministerial, o impacto da experiência do coração aquecido na Inglaterra do século XVIII e o metodismo","a":"Rômulo Balbino do Nascimento Silva","y":"2021"},{"t":"Divórcio no século XXI: prevenção e orientação frente aos desafios atuais na esfera cristã evangélica brasileira","a":"Weverton Braz Soares da Silva","y":"2021"},{"t":"Adoração como instrumento de metanoia: a vocação de Davi como espelho para a missão atual","a":"Anderson da Conceição","y":"2021"},{"t":"A graça na percepção paulina: uma reflexão da Epístola aos Romanos para os debates atuais","a":"André Barbosa Schuab","y":"2021"},{"t":"Oração: em busca de uma teologia para a Igreja Metodista Wesleyana","a":"Márcia Nóbrega","y":"2021"},{"t":"Maturidade cristã","a":"Reginaldo Fuli da Silva","y":"2021"},{"t":"Discipulado de Cristo: da antiguidade para os dias atuais","a":"Shirleila V. Gonçalves Silva","y":"2021"},{"t":"A igreja e a diversidade cultural brasileira: desafios e propostas para a Missio Dei","a":"Sônia Regina de Jesus Ferrero","y":"2021"},{"t":"A Bíblia e a arqueologia: uma proposta de diálogo para o campo hermenêutico-exegético atual","a":"Álan Ribeiro Banni","y":"2022"},{"t":"As vozes discursivas no judaísmo e a mensagem do Reino por Jesus Cristo: análise, conflitos e soluções às divergências entre os opostos","a":"Edilon da Silva Oliveira","y":"2022"},{"t":"Pastoreio infantil: uma análise de como as Igrejas Metodistas Wesleyanas do distrito de Mantiquira têm cuidado das crianças","a":"Gabriel Bilheiro Alves","y":"2022"},{"t":"Música: sua natureza bíblica, sua importância e suas transformações nos períodos patrístico, da Reforma Protestante e pós-Reforma","a":"Leonardo Marcelino","y":"2022"},{"t":"Gestão e liderança de pessoas na prática: a liderança de Moisés, seu legado e os reflexos de influência para os dias atuais","a":"Roseane Rodrigues Ferreira","y":"2022"},{"t":"Atos 2: a disponibilidade do batismo com o Espírito Santo e sua relevância para a missão da igreja na atualidade. Uma perspectiva pentecostal","a":"Tiago P. Simas","y":"2022"},{"t":"GCEU, uma ferramenta para a administração pastoral","a":"Vitor Barreto Moreira da Silva","y":"2022"},{"t":"Pragmatismo religioso: tendências e implicações na natureza da igreja no século XXI","a":"Wilson da Silva Carneiro","y":"2022"},{"t":"O fruto do Espírito e a inteligência emocional: uma proposta relevante para se obter vida cristã estabilizada","a":"Ana Beloni Silveira Leite","y":"2023"},{"t":"A missão evangelizadora da igreja e os desafios da pós-modernidade","a":"Ana Paula Santos Romão Penha","y":"2023"},{"t":"A criação do ponto de vista bíblico: cosmogonia religiosa e cosmologia científica","a":"Ana Rachel de Souza Pereira Mota","y":"2023"},{"t":"A herança de Adão e o legado de Cristo: uma leitura exegética e hermenêutica de Romanos 5 com foco no plano salvífico","a":"Bruno Cleibe","y":"2023"},{"t":"A musicalidade na adoração cristã: uma reflexão sobre o papel da música e do canto congregacional","a":"Caio Camargo","y":"2023"},{"t":"Amor ao próximo: uma leitura bíblica através da ótica lucana sobre o cuidado de Cristo com os desfavorecidos","a":"Claudio G. da Silva","y":"2023"},{"t":"A Escola Bíblica Dominical e a sua missão através da pedagogia cristã","a":"Cristiane Dias Menezes Lussac Santos","y":"2023"},{"t":"A relevância das práticas pedagógicas na inclusão de crianças autistas na dinâmica das Igrejas Metodistas Wesleyanas da 6ª Região Eclesiástica","a":"Eny do Carmo da Silva Costa","y":"2023"},{"t":"Discipulado: uma reflexão sobre a ordem bíblica como princípio norteador no desenvolvimento e crescimento da igreja","a":"Erick B. Almeida","y":"2023"},{"t":"Espiritualidade cristã: sua expressão teológica e compromisso social além das fronteiras da religião","a":"Fernando Marques de Carvalho","y":"2023"},{"t":"A relação entre a igreja e a Polícia Militar: instituições paralelas no combate ao mal e as dificuldades em lidar com a corrupção da natureza humana","a":"Isaac Alves da Silva","y":"2023"},{"t":"Soteriologia: a salvação para a igreja moderna e os desafios em conduzir a igreja à universalidade da salvação","a":"Jeferson da Costa Silva","y":"2023"},{"t":"A música como instrumento facilitador na aprendizagem dos textos bíblicos em Salmos","a":"Luciana Brivio","y":"2023"},{"t":"Graça e fé: uma soma necessária para a salvação","a":"Maria das Neves Soares Alves","y":"2023"},{"t":"Discipulado: a missão da igreja","a":"Paulo César Martins da Silva","y":"2023"},{"t":"Evangelização e responsabilidade social: diferentes e inseparáveis","a":"Renan Costa Malvão","y":"2023"},{"t":"A importância das mulheres vocacionadas no contexto do ministério wesleyano: perspectivas do passado e atuais","a":"Rosângela Viana Dinelis Neves","y":"2023"},{"t":"A igreja e a importância da inclusão e acessibilidade das pessoas com deficiência","a":"Suelli Barbosa Leite Neres","y":"2023"},{"t":"Igreja na atualidade: o reflexo comportamental e seus desafios no mundo","a":"Vânia Baiano dos Santos","y":"2023"},{"t":"Lei e graça: uma leitura atual com prerrogativas bíblicas","a":"Viviane da Silva Gonçalves","y":"2023"},{"t":"Jesus: o modelo de liderança para os dias atuais","a":"Eduardo Marques Carvalho","y":"2023"},{"t":"Cosmovisão bíblica cristã e discipulado: missão integral da IMW","a":"Eliseu Mendes Gervasio Arcanjo","y":"2024"},{"t":"A licença poética e a desvirtualização da música litúrgica: uma reflexão bíblica para os dias atuais","a":"Luciano dos Santos","y":"2024"},{"t":"Renovação espiritual: uma reflexão sobre um coração abrasado na atualidade","a":"Thiago Tenório Batista de Souza","y":"2024"},{"t":"1 Timóteo 4:16 e as implicações na atualidade: uma reflexão sobre a saúde pastoral e seus desafios","a":"Michelle Bertino","y":"2024"},{"t":"A importância da inclusão de pessoas com deficiência na Igreja Metodista Wesleyana: a salvação em Cristo através da inclusão","a":"Adriana Santos da Silva Lima","y":"2024"},{"t":"Missão na atualidade pela perspectiva da teologia wesleyana","a":"Victor Marcel","y":"2024"},{"t":"Os desafios para o novo convertido viver o cristianismo na atualidade","a":"Marcio Soares Alves","y":"2024"},{"t":"Os princípios teológicos de John Wesley e sua relevância na sociedade contemporânea","a":"Luciana Duarte dos Santos Pena","y":"2024"},{"t":"A influência do movimento G12 sobre o modelo dos pequenos grupos da Igreja Metodista Wesleyana","a":"Vânia Carneiro Paes","y":"2024"},{"t":"Atos 2 e a relevância do Espírito Santo: uma reflexão para a igreja da atualidade","a":"Djair Anchieta dos Santos Gaudard","y":"2024"},{"t":"Hombridade: o papel do homem cristão na sociedade contemporânea. Uma análise bíblica e suas implicações para a masculinidade autêntica","a":"Carlos Silveira","y":"2024"},{"t":"Uma análise bíblica sobre a eficácia da música do meio evangélico: um diálogo com a evangelização","a":"Isaac Faht","y":"2024"},{"t":"Fazei discípulos: uma análise e reflexão sobre renúncia, devoção e compromisso na atualidade","a":"Jirlene Firmino Rabaça","y":"2024"},{"t":"Aconselhamento bíblico para mulheres cristãs: uma análise contextual e prática no âmbito da Igreja Metodista Wesleyana","a":"Graciane Borges de Queroz Souza Soares","y":"2024"},{"t":"Pequenos grupos: uma ferramenta de comunhão, discipulado e consolidação na Igreja Metodista Wesleyana em Mananciais","a":"Delion Ramos da Silva","y":"2024"},{"t":"Discípulo comprometido: uma ótica de reflexão da importância de prosseguirmos no legado de Jesus Cristo","a":"Claudio Luiz Pereira Rosa","y":"2024"},{"t":"A contextualização da comunicação e suas implicações para a igreja atual","a":"Cristiane Mendonça da Silva","y":"2024"},{"t":"A relevância da ação social e do serviço social na igreja e suas implicações sociais","a":"Igor Borges de Lima Silva","y":"2024"},{"t":"A dispersão das gerações subsequentes nas famílias cristãs engajadas nos ministérios das igrejas evangélicas","a":"Rosemary dos Santos","y":"2024"},{"t":"A centralidade da oração: fundamento espiritual para o crescimento e fortalecimento da igreja contemporânea","a":"Adriana N. L.","y":"2025"},{"t":"A atuação do Espírito Santo na comunhão e unidade da igreja: uma reflexão sob a ótica da teologia wesleyana","a":"Aline Chagas da Silva Ramos","y":"2025"},{"t":"Conversa entre fé cristã e ciência: análise da obra Em Defesa de Cristo, de Lee Strobel","a":"André Gonçalves de Souza","y":"2025"},{"t":"Discernindo o abuso espiritual: um estudo teológico-bíblico e pastoral","a":"Daiane Serafim A. de Barros","y":"2025"},{"t":"Maturidade cristã como base para uma liderança eficaz: reflexões teológicas e práticas para a igreja contemporânea","a":"Edgar Edson","y":"2025"},{"t":"Discipulado cristão no lar: fundamentos bíblicos e práticas para a formação espiritual dos filhos","a":"Erlanderson Ramos","y":"2025"},{"t":"Empreender com propósito, conectando negócios a valores eternos: uma perspectiva teológica e missional sobre o empreendedorismo cristão","a":"Everton Gois","y":"2025"},{"t":"A participação dos jovens na missão cristã contemporânea: desafios, potencialidades e caminhos de formação","a":"Gabriel Cabral","y":"2025"},{"t":"O ensino cristão de adultos na igreja: um estudo andragógico com base no modelo de Jesus","a":"Gisele Rosa Ribeiro de Souza","y":"2025"},{"t":"Discipulado bíblico como fundamento para o crescimento saudável da igreja, aplicado à Igreja Metodista Wesleyana no Brasil","a":"Heber Severiano Junior","y":"2025"},{"t":"O papel da igreja local na formação de empreendedores missionais: uma reflexão teológica à luz de Business as Mission","a":"Hudson Joubert Rodrigues da Silva","y":"2025"},{"t":"João Batista, a voz que soou no deserto, e sua relevância na atualidade","a":"Lindalva C. de Souza Passoumidis","y":"2025"},{"t":"Escola Bíblica Dominical: discipulando a geração atual através do evangelho","a":"Renato de Almeida da Silva","y":"2025"},{"t":"A influência do conhecimento teontológico no enfrentamento de doenças crônicas não transmissíveis","a":"Ricardo Fonseca Ramos","y":"2025"},{"t":"Escola Bíblica Dominical: um paradigma para todos os tempos","a":"Rogaciano Vieira Alencar","y":"2025"},{"t":"Inclusão eclesiástica de crianças com deficiência auditiva e da fala: acolhimento e acessibilidade à luz da teologia","a":"Silvia Cristina da Silva Ventura","y":"2025"},{"t":"O louvor e a música na adoração: princípios bíblicos e fundamentais para uma adoração cristocêntrica na igreja atual","a":"Sullivan Alcantara de Souza","y":"2025"},{"t":"Neopentecostalismo e metodismo no Brasil: uma análise teológico-sociológica das transformações religiosas no século XX","a":"Sônia Maria de Lima","y":"2025"},{"t":"O egocentrismo na igreja contemporânea e suas implicações para um crescimento saudável","a":"Tatiana Oliveira de Melo","y":"2025"},{"t":"Transformação social e espiritual em Nova Iguaçu: um desafio sob a inspiração do pensamento de John Wesley","a":"Tiago Santana Cordeiro","y":"2025"},{"t":"Planejamento: uma necessidade bíblica e estratégica para a eficácia ministerial","a":"Welton Luiz","y":"2025"},{"t":"A importância do GCEU e sua estrutura na aplicação do discipulado e crescimento da Igreja Metodista Wesleyana","a":"Wesley Cesar Oliveira de Sousa","y":"2022"},{"t":"John Wesley e o movimento abolicionista: seus desdobramentos para além das fronteiras inglesas","a":"Valdir Gabriel de Lima","y":"2022"},{"t":"A realidade da mulher nos tempos de Jesus e nos dias atuais","a":"Marília Nascimento da Silva Rodrigues","y":"2022"},{"t":"A igreja atual e o combate à ansiedade","a":"Ronaldo Araújo de Jesus","y":"2022"},{"t":"Ministério pastoral: uma perspectiva bíblica sobre o cuidado de Deus e os desafios do apascentar na atualidade","a":"Robson Moreira de Lima","y":"2022"},{"t":"A importância dos pequenos grupos nos dias atuais como ferramenta evangelizadora na Igreja Metodista Wesleyana","a":"João Passoumidis Neto","y":"2022"},{"t":"A educação deve começar desde o nascimento: contribuições do pensamento Montessori","a":"Jan Carlos Felix de Souza","y":"2022"},{"t":"","a":"Gilvan","y":"2022"},{"t":"Conversão: os sermões atuais e a necessidade da chamada ao arrependimento na igreja brasileira","a":"Ronaldo Alves dos Santos","y":"2022"},{"t":"Arminianismo: os efeitos da graça dentro da teologia armínio-wesleyana","a":"Jonatas Lessa","y":"2022"},{"t":"Evangelização e sua relevância para a Igreja Metodista Wesleyana na contemporaneidade","a":"Emerson Márcio dos Santos","y":"2022"},{"t":"Pregação: um panorama bíblico e suas implicações para a igreja pós-moderna brasileira nos dias de hoje","a":"Patrick Alves Francisco","y":"2022"},{"t":"A educação infantil direcionada mudando o cristianismo contemporâneo","a":"Mariângela Fernandes","y":"2022"},{"t":"Os desafios do ensino cristão na atualidade","a":"Eli Velasco Leite","y":"2022"},{"t":"Teologia da prosperidade e seus impactos na saúde mental: uma reflexão para a atualidade","a":"Alexandre dos Santos Oliveira","y":"2022"},{"t":"Discipulado: uma reflexão para a educação cristã na atualidade","a":"Fernanda A. C. Pachêco","y":"2022"},{"t":"A Escola Bíblica Dominical e seus desafios por uma educação cristã no século XXI","a":"Andréa Carneiro de Jesus Bezerra","y":"2022"},{"t":"Juventude cristã e expressão da fé: o papel do discipulado na formação do testemunho além do ambiente eclesiástico","a":"Wesley Rodrigo Motta Amaro","y":"2026"},{"t":"O burnout no ministério pastoral: uma análise bíblico-teológica para a prevenção e o enfrentamento entre pastores e ministros da Igreja Metodista Wesleyana da 6ª Região","a":"Carlos Vinícius Rangel Pinto","y":"2026"},{"t":"Reestruturando nossas bases: liderança, oração e reconstrução em Neemias 1","a":"Neemias Paulo Moreira de Souza","y":"2026"},{"t":"Tecnologias digitais na propagação do Evangelho: possibilidades e desafios para a igreja brasileira no contexto pós-pandemia","a":"Rafael Rangel Amorim Pinheiro","y":"2026"},{"t":"O sofrimento como elemento da igreja cristã: perseguição, martírio e expansão do Evangelho no período apostólico","a":"Lílian Cristina Duarte Silva","y":"2026"},{"t":"A justiça social em Amós: a responsabilidade da igreja diante das desigualdades contemporâneas","a":"Priscila S. R. Rodrigues","y":"2026"},{"t":"O cristianismo equilibrado e o início do ministério pastoral: contribuições para o desenvolvimento da inteligência emocional dos ministros","a":"Marcos Antônio Alvino da Silva","y":"2026"},{"t":"Entre o tempo e o Espírito Santo: pneumatologia e vida cristã na sociedade acelerada","a":"Márcio Silva Carvalho","y":"2026"},{"t":"Oração e liderança cristã: impacto na formação ministerial e espiritual na igreja local","a":"Janine Andrade Medeiros","y":"2026"},{"t":"Teologia pastoral na perspectiva wesleyana","a":"Daniel Araújo Lima","y":"2026"},{"t":"A sororidade wesleyana como expressão da santidade social: uma análise bíblico-teológica sobre o fortalecimento das mulheres na igreja contemporânea","a":"Joilma Rozilane de O. Simião","y":"2026"},{"t":"Liderança de Jesus com o discipulado dos Doze e a estratégia de expansão do Evangelho","a":"Lucas Motta Amaro","y":"2026"},{"t":"Governo e integridade: a importância da liderança doméstica para o exercício do ministério eclesiástico","a":"Cristiane Vale da Rosa Saraiva","y":"2026"},{"t":"O novo nascimento na perspectiva wesleyana: fundamentos bíblicos para a formação espiritual e a transformação da vida cristã","a":"Felipe da Silva Cardoso","y":"2026"},{"t":"A inclusão da comunidade surda na evangelização cristã: uma análise bíblico-teológica do uso da Libras nas igrejas brasileiras","a":"Carla Ferreira Santos","y":"2026"},{"t":"Depressão em pastores: uma abordagem bíblico-teológica sobre saúde mental e exercício ministerial","a":"Alexandre Monteiro Ramos","y":"2026"},{"t":"A espiritualidade wesleyana e a formação espiritual da igreja contemporânea: uma análise das obras de piedade e obras de misericórdia","a":"Erineudo Pereira Guimarães","y":"2026"},{"t":"Escola Bíblica como instrumento de educação cristã na contemporaneidade","a":"Lilian Santos de A. Cardoso","y":"2026"},{"t":"A suficiência das Escrituras no aconselhamento bíblico: uma perspectiva wesleyana sobre o poder transformador do Evangelho","a":"Diego Magalhães","y":"2026"},{"t":"Ministério pastoral e família: desafios para a harmonização entre a vocação e o cuidado com o lar","a":"Almir Santiago Evaristo","y":"2026"},{"t":"O discipulado familiar na perspectiva bíblica e wesleyana: contribuições para a formação de adolescentes","a":"Fernanda Cristina Indalecio Carvalhaes","y":"2026"},{"t":"Permanecer em Cristo para cumprir a missão: a vida devocional no ministério missionário transcultural","a":"Luiz Carlos de Souza Dantas","y":"2026"},{"t":"A plantação de igrejas por meio dos pequenos grupos: fundamentos bíblicos, wesleyanos e ministeriais","a":"Carlos Eduardo Rodrigues Lima","y":"2026"},{"t":"Salvação e vida comunitária: uma análise da necessidade da igreja local no cristianismo","a":"Emidio de Oliveira Saraiva Junior","y":"2026"},{"t":"Entre o tempo e o Espírito: pneumatologia e vida cristã na sociedade acelerada","a":"Márcio Silva Carvalho","y":"2026","te":"Vida cristã diante da aceleração social"}];
+let IDF = null;
+const GENERICAS = new Set(['igrej','crist','crista','cristi','bibli','teolo','wesle','minis','persp','anali','contr','desaf','funda','abord','impor','relac','prati','forma','propo','refle','luz','visao','papel','vida','atual','dias','brasi']);
+function chavesA(s){
+  const set = new Set();
+  palavras(s).forEach(w => { if(w.length >= 4 && !STOP.has(w)) set.add(w.slice(0,6)); });
+  return set;
+}
+const generica = k => GENERICAS.has(k.slice(0,5));
+function construirIDF(){
+  const df = {}; ACERVO.forEach(x => { x._k = chavesA(x.t); x._k.forEach(k => df[k] = (df[k]||0) + 1); });
+  const N = ACERVO.length; IDF = {};
+  Object.keys(df).forEach(k => IDF[k] = Math.log((N + 1) / (df[k] + 0.5)));
+}
+const peso = k => (IDF[k] !== undefined ? IDF[k] : Math.log(ACERVO.length + 1)) * (generica(k) ? 0.35 : 1);
+function compararAcervo(tema){
+  if(!IDF) construirIDF();
+  const K = chavesA(tema); if(K.size < 2) return [];
+  let total = 0; K.forEach(k => total += peso(k));
+  return ACERVO.map(x => {
+    let c = 0, n = 0, esp = 0;
+    K.forEach(k => { if(x._k.has(k)){ c += peso(k); n++; if(!generica(k)) esp++; } });
+    return {x, score: c / total, n, esp};
+  }).filter(r => r.esp >= 1 && r.n >= 2).sort((a,b) => b.score - a.score);
+}
+function analisarAcervo(){
+  const t = D.tema.trim(); if(!t) return [];
+  const r = compararAcervo(t), K = chavesA(t).size;
+  const fmt = m => '<i>' + esc(m.x.t) + '</i>' + (m.x.a ? ' (' + esc(m.x.a) + ', ' + m.x.y + ')' : ' (' + m.x.y + ')');
+  const iguais = r.filter(m => m.score >= 0.8 && m.n >= Math.min(3, K));
+  const proximos = r.filter(m => !iguais.includes(m) && m.score >= 0.5).slice(0, 4);
+  const caminhos = ['Mude o <b>público</b> estudado (jovens, líderes, famílias, novos convertidos, pastores jubilados…).','Mude o <b>espaço</b>: um ministério, uma congregação ou uma região específica.','Mude a <b>abordagem</b>: bíblica (um livro ou texto específico), histórica, wesleyana ou pastoral.','Aproxime o tema de um <b>desafio atual</b>: ' + (caminhosAtualidade(t).filter(c => sobreposicao(c, t) < 0.5).slice(0,2).join('; ') || 'relacione-o a uma situação concreta vivida hoje pela igreja') + '.'];
+  const link = '<br>Consulte o <a href="' + URL_ACERVO + '" target="_blank" rel="noopener">acervo de trabalhos aprovados</a> antes de definir o tema.';
+  if(iguais.length) return [I('err','<b>Este tema já foi pesquisado.</b>Seu tema é igual ou muito semelhante a ' + (iguais.length > 1 ? 'trabalhos já aprovados' : 'um trabalho já aprovado') + ' no acervo. Não é possível repetir um tema; escolha um novo recorte.', {lista: iguais.slice(0,3).map(fmt)}), I('dica','<b>Como construir um tema novo a partir do seu interesse:</b>' + link, {lista: caminhos})];
+  if(proximos.length) return [I('warn','<b>Seu tema é próximo de trabalhos já existentes no acervo.</b>Isso é permitido, mas o seu trabalho precisa trazer um recorte diferente (outro público, espaço, abordagem ou aspecto). Leia esses trabalhos e deixe clara a diferença.', {lista: proximos.map(fmt)}), I('dica','<b>Caminhos para diferenciar o seu tema:</b>' + link, {lista: caminhos})];
+  return [I('ok','<b>Acervo:</b> não encontramos tema igual entre os ' + ACERVO.length + ' trabalhos já aprovados.')];
+}
+// Quando a página está no GitHub Pages (mesmo endereço do acervo), busca a versão mais recente do acervo.
+(async function atualizarAcervo(){
+  try{
+    const r = await fetch(URL_ACERVO, {cache:'no-store'}); if(!r.ok) return;
+    const m = (await r.text()).match(/const ARTIGOS = (\[[\s\S]*?\]);/); if(!m) return;
+    const novos = JSON.parse(m[1]).map(x => ({t:x.t, a:x.a, y:x.y})).filter(x => x.t);
+    if(novos.length >= ACERVO.length * 0.8){
+      const vistos = new Set(novos.map(x => norm(x.t)));
+      ACERVO = novos.concat(ACERVO.filter(x => !vistos.has(norm(x.t)))); IDF = null;
+    }
+  }catch(e){}
+})();
+
+/* "Melhorar meu texto\": orientações de aperfeiçoamento (não escreve pelo aluno) */
+const MELHORAR = {
+tema(){
+  const l = ['Use o modelo: <b>[assunto] + [aspecto estudado] + [público ou contexto]</b>.','Teste: alguém que não conhece sua pesquisa entende, só pelo tema, o que você vai estudar?','Retire palavras desnecessárias ("um estudo sobre", "uma análise de").'];
+  const s = sugestoesPara(D.tema); if(s && nPal(D.tema) < 7) l.push('Caminhos possíveis para especificar: ' + s.join('; ') + '.');
+  l.push('<b>Relevância para a atualidade:</b> responda “por que estudar isso agora?”. ' + ESTRATEGIAS_ATUAL.slice(0,3).map(x => x.replace(/<\/?b>/g,'')).join(' '));
+  l.push('Ângulos atuais possíveis para o seu tema: ' + caminhosAtualidade(D.tema).join('; ') + '.');
+  return l;
+},
+contexto(){ return ['Organize em três movimentos: <b>1)</b> o assunto e sua base bíblica; <b>2)</b> como ele aparece hoje na igreja ou no ministério; <b>3)</b> a situação concreta que gera a necessidade de pesquisa.','Responda, em sequência, às quatro perguntas orientadoras; cada resposta pode virar um parágrafo.','Evite opiniões sem apoio: sempre que possível, apresente um dado, um texto bíblico ou um autor.','Termine o texto apontando a questão que será investigada.']; },
+delimitacao(){ return ['Leia a prévia em voz alta: ela deve soar como uma única frase coerente.','No espaço, prefira algo concreto e acessível a você (um ministério, uma congregação, uma região).','No tempo, use anos sempre que possível; se o estudo for bíblico, indique o período ou o livro bíblico.']; },
+justificativa(){ return ['Na relevância teológica, siga a ordem: <b>importância do tema → texto bíblico → explicação do texto → diálogo com um autor</b>.','Não basta citar o versículo: explique, com suas palavras, como ele se relaciona com o tema.','Na relevância social e ministerial, responda às quatro perguntas: problema, beneficiados, contribuição, importância ministerial.','Conectivos úteis: "nesse sentido", "dessa forma", "por conseguinte", "à luz de".']; },
+problema(){
+  const l = ['Estruturas que ajudam: <b>"Como [tema] contribui para [efeito] em [espaço]?"</b>, <b>"De que maneira [tema] se relaciona com [aspecto] em [espaço]?"</b>, <b>"Em que medida [tema] influencia [aspecto] de [público]?"</b>','Inclua na pergunta o recorte da delimitação (espaço e, se couber, tempo).','Pergunte-se: é possível responder a essa pergunta com a pesquisa que pretendo fazer?'];
+  if(/^(e |existe|sera|pode|deve|ha )/.test(norm(D.problema))) l.unshift('Sua pergunta começa como pergunta fechada. Reescreva começando com "Como", "De que maneira" ou "Em que medida", mantendo o mesmo assunto.');
+  return l;
+},
+objgeral(){ return ['Modelo: <b>[verbo no infinitivo] + [o que será investigado] + [recorte]</b>.','Compare palavra por palavra com sua pergunta: o objetivo geral é a pergunta transformada em ação. Se a pergunta começa com "Como…", o objetivo pode começar com "Analisar como…" ou "Compreender como…".','Use um único verbo de ação.']; },
+objesp(){ return ['Pense em três degraus: <b>a) fundamentar</b> (apresentar, conceituar), <b>b) conhecer a realidade</b> (identificar, descrever) e <b>c) interpretar</b> (analisar, avaliar).','Cada objetivo específico costuma se tornar um capítulo ou uma seção do trabalho.','Confira: se você cumprir os três, o objetivo geral estará alcançado?']; }
+};
+
+/* =========================================================
+   RENDERIZAÇÃO
+   ========================================================= */
+let vista = 'inicio';
+const $ = id => document.getElementById(id);
+
+function statusEtapa(e){
+  const r = ANALISE[e.id]();
+  const preenchido = e.campos.every(c => D[c.k].trim());
+  if(!preenchido || r.st === 'err') return preenchido ? 'pendente' : (e.campos.some(c => D[c.k].trim()) ? 'pendente' : 'vazio');
+  return r.st === 'warn' ? 'atencao' : 'feito';
+}
+function atualizarProgresso(){
+  let feitas = 0;
+  ETAPAS.forEach(e => {
+    const s = statusEtapa(e);
+    if(s === 'feito' || s === 'atencao') feitas++;
+    const b = document.querySelector('.navitem[data-v="etapa-' + e.n + '"]');
+    if(b){ b.classList.toggle('feito', s === 'feito'); b.classList.toggle('atencao', s === 'atencao'); }
+  });
+  $('progTxt').textContent = feitas + ' de 7 etapas concluídas';
+  $('progBar').style.width = (feitas / 7 * 100) + '%';
+}
+
+function montarMenu(){
+  const itens = [{v:'inicio', num:'★', txt:'Início'}]
+    .concat(ETAPAS.map(e => ({v:'etapa-' + e.n, num:e.n, txt:e.curto})))
+    .concat([{sep:true},{v:'projeto', num:'✓', txt:'Aperfeiçoar e exportar'}]);
+  $('menu').innerHTML = itens.map(i => i.sep ? '<div class="navsep"></div>' :
+    '<button class="navitem' + (vista === i.v ? ' ativo' : '') + '" data-v="' + i.v + '"><span class="num">' + i.num + '</span><span class="txt">' + i.txt + '</span></button>').join('');
+  $('menu').querySelectorAll('.navitem').forEach(b => b.onclick = () => ir(b.dataset.v));
+  atualizarProgresso();
+}
+
+function ir(v){
+  vista = v;
+  try{ if(location.hash !== '#' + v) history.replaceState(null, '', '#' + v); }catch(e){}
+  montarMenu(); render();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function campoHTML(c){
+  let h = '';
+  if(c.bloco) h += '<div class="bloco"><div class="bloco-tit">' + c.bloco + '</div><p class="bloco-desc">' + c.blocoDesc + '</p>';
+  if(c.perguntas) h += '<div class="msg dica" style="margin-bottom:12px"><b>Perguntas orientadoras</b><ol style="margin:4px 0 0;padding-left:18px">' + c.perguntas.map(p => '<li>' + p + '</li>').join('') + '</ol></div>';
+  h += '<div class="campo"><label for="f_' + c.k + '">' + c.label + '</label>' + (c.sub ? '<span class="sub">' + c.sub + '</span>' : '');
+  h += c.input
+    ? '<input id="f_' + c.k + '" data-k="' + c.k + '" placeholder="' + esc(c.ph||'') + '" value="' + esc(D[c.k]) + '">'
+    : '<textarea id="f_' + c.k + '" data-k="' + c.k + '" rows="' + (c.rows||4) + '" placeholder="' + esc(c.ph||'') + '">' + esc(D[c.k]) + '</textarea>';
+  h += '<div class="contador" id="c_' + c.k + '"></div></div>';
+  if(c.bloco) h += '</div>';
+  return h;
+}
+
+function previaDelimitacao(){
+  const g = D.campoGeral.trim() || '[campo geral]', e = D.campoEsp.trim() || '[campo específico]', s = D.espaco.trim() || '[espaço]', t = D.tempo.trim() || '[tempo]';
+  const low = x => x.charAt(0).toLowerCase() + x.slice(1);
+  return 'A pesquisa insere-se no campo da ' + esc(g.replace(/\.$/,'')) + ', tendo como recorte específico ' + esc(low(e).replace(/\.$/,'')) + ', no âmbito do ' + esc(low(s).replace(/\.$/,'')) + ', considerando o ' + esc(low(t).replace(/\.$/,'')) + '.';
+}
+
+function renderRetorno(r, titulo){
+  return '<div class="retorno-tit">' + titulo + '</div>' + r.itens.map(i =>
+    '<div class="msg ' + i.t + '">' + i.m + (i.lista ? '<ul>' + i.lista.map(x => '<li>' + x + '</li>').join('') + '</ul>' : '') + '</div>').join('');
+}
+
+function render(){
+  const m = $('principal');
+  if(vista === 'inicio') return renderInicio(m);
+  if(vista === 'projeto') return renderProjeto(m);
+  const e = ETAPAS.find(x => 'etapa-' + x.n === vista);
+  if(!e){ vista = 'inicio'; return renderInicio(m); }
+
+  m.innerHTML =
+    '<span class="etiqueta">Etapa ' + e.n + ' de 7</span>' +
+    '<h2 class="titulo-etapa">' + e.titulo + '</h2>' +
+    '<div class="oque"><span class="ic">🎯</span><div><b>O que você precisa fazer?</b>' + e.oque + '</div></div>' +
+    '<div class="grade">' +
+      '<section>' +
+        '<div class="card">' + e.campos.map(campoHTML).join('') +
+          (e.id === 'delimitacao' ? '<div class="previa"><span class="etiqueta">Prévia da sua delimitação</span><p id="previaDel">' + previaDelimitacao() + '</p></div>' : '') +
+        '</div>' +
+        '<div class="botoes" style="margin-top:16px">' +
+          '<button class="btn btn-pri" id="btAnalisar">🔍 Analisar minha resposta</button>' +
+          '<button class="btn btn-sec" id="btMelhorar">✏️ Melhorar meu texto</button>' +
+        '</div>' +
+        '<div class="retorno" id="retorno" aria-live="polite"></div>' +
+      '</section>' +
+      '<aside class="lado">' +
+        '<div class="card"><h3>📘 Orientações</h3><ul>' + e.orient.map(o => '<li>' + o + '</li>').join('') + '</ul></div>' +
+        (e.perguntas ? '<div class="card"><h3>❓ Perguntas orientadoras</h3><ol>' + e.perguntas.map(o => '<li>' + o + '</li>').join('') + '</ol></div>' : '') +
+        '<div class="card"><details class="exemplo"><summary>Ver exemplo didático</summary><div class="exemplo-txt">' + esc(e.exemplo) + '</div><p style="font-size:14px;color:var(--muted);margin:10px 0 0">O exemplo serve de modelo. Construa o seu texto com suas próprias palavras.</p></details></div>' +
+      '</aside>' +
+    '</div>' +
+    '<div class="navpe no-print">' +
+      (e.n > 1 ? '<button class="btn btn-leve" id="btAnt">← Etapa ' + (e.n-1) + '</button>' : '<button class="btn btn-leve" id="btAnt">← Início</button>') +
+      (e.n < 7 ? '<button class="btn btn-pri" id="btProx">Etapa ' + (e.n+1) + ' →</button>' : '<button class="btn btn-ouro" id="btProx">Aperfeiçoar e exportar →</button>') +
+    '</div>';
+
+  e.campos.forEach(c => {
+    const el = $('f_' + c.k);
+    const cont = () => { $('c_' + c.k).textContent = nPal(D[c.k]) + ' palavra(s)'; };
+    cont();
+    el.addEventListener('input', () => {
+      D[c.k] = el.value; cont(); salvarDepois(); atualizarProgresso();
+      if(e.id === 'delimitacao') $('previaDel').innerHTML = previaDelimitacao();
+    });
+  });
+  $('btAnalisar').onclick = () => { $('retorno').innerHTML = renderRetorno(ANALISE[e.id](), 'Análise da sua resposta'); salvar(false); };
+  $('btMelhorar').onclick = () => { $('retorno').innerHTML = '<div class="retorno-tit">Como aperfeiçoar seu texto</div>' + MELHORAR[e.id]().map(x => '<div class="msg dica">' + x + '</div>').join(''); };
+  $('btAnt').onclick = () => ir(e.n > 1 ? 'etapa-' + (e.n-1) : 'inicio');
+  $('btProx').onclick = () => ir(e.n < 7 ? 'etapa-' + (e.n+1) : 'projeto');
+}
+
+function renderInicio(m){
+  m.innerHTML =
+    '<span class="etiqueta">Bem-vindo(a) ao laboratório</span>' +
+    '<h2 class="titulo-etapa">Aprendendo a construir um projeto de pesquisa teológico-ministerial</h2>' +
+    '<p class="autoria">Elaborado pelo <b>Prof. Alexandre Fonseca do Prado Beloni</b></p>' +
+    '<p style="max-width:760px">Esta página não é apenas um formulário: ela funciona como um pequeno orientador. Em cada etapa você encontra explicações, exemplos e uma análise da sua resposta, para identificar fragilidades e melhorar o texto antes de encaminhá-lo ao professor.</p>' +
+    '<div class="pilares">' +
+      '<div class="pilar"><h3>1. Aprender</h3><p>Explicações, exemplos e orientações sobre cada etapa do projeto.</p></div>' +
+      '<div class="pilar"><h3>2. Construir</h3><p>Campos interativos para você desenvolver o seu projeto, etapa por etapa.</p></div>' +
+      '<div class="pilar"><h3>3. Aperfeiçoar</h3><p>Análise das respostas, identificação de fragilidades e sugestões de melhoria.</p></div>' +
+    '</div>' +
+    '<div class="card"><h3 style="color:var(--navy);font-size:20px;margin-bottom:12px">Identificação</h3><div class="ident">' +
+      campoHTML({k:'aluno', label:'Nome do(a) aluno(a)', input:true, ph:'Seu nome completo'}) +
+      campoHTML({k:'orientador', label:'Professor(a) orientador(a)', input:true, ph:'Nome do(a) professor(a)'}) +
+      campoHTML({k:'instituicao', label:'Instituição de ensino', input:true, ph:'Nome da sua instituição'}) +
+      campoHTML({k:'curso', label:'Curso / turma', input:true, ph:'Ex.: Curso de Teologia – Turma 2026'}) +
+    '</div>' +
+    '<p class="aviso">Seu texto fica salvo automaticamente <b>neste aparelho</b>. Para continuar em outro computador ou celular, use “Baixar rascunho” e depois “Abrir rascunho”.</p>' +
+    '<p class="aviso">A ferramenta orienta, mas não escreve o projeto por você. O protagonismo da construção é seu.</p></div>' +
+    AVISO_HTML +
+    '<div class="navpe"><span></span><button class="btn btn-pri" id="btComecar">Começar pela Etapa 1 →</button></div>';
+  ['aluno','orientador','instituicao','curso'].forEach(k => {
+    const el = $('f_' + k); $('c_' + k).textContent = '';
+    el.addEventListener('input', () => { D[k] = el.value; salvarDepois(); });
+  });
+  $('btComecar').onclick = () => ir('etapa-1');
+}
+
+/* ---------- Coerência entre as etapas ---------- */
+function coerencia(){
+  const it = [];
+  const par = (a, b, lim, okMsg, errMsg) => {
+    if(!a.trim() || !b.trim()) return;
+    it.push(sobreposicao(a, b) >= lim ? I('ok', okMsg) : I('warn', errMsg));
+  };
+  par(D.tema, D.problema, .25, 'Tema e pergunta de pesquisa estão relacionados.', '<b>Tema × Problematização:</b> a pergunta não retoma os termos centrais do tema.');
+  par(D.problema, D.objGeral, .35, 'Pergunta e objetivo geral estão relacionados.', '<b>Existe uma possível incompatibilidade entre sua pergunta e seu objetivo geral.</b>Revise os dois elementos para que estejam relacionados.');
+  par(D.tema, D.campoEsp, .01, 'O campo específico da delimitação corresponde ao tema.', '<b>Tema × Delimitação:</b> o campo específico não aparece no tema.');
+  par(D.problema, D.espaco, .01, 'A pergunta incorpora o espaço definido na delimitação.', '<b>Delimitação × Problematização:</b> o espaço delimitado não aparece na pergunta.');
+  analisarAcervo().filter(x => x.t !== 'dica').forEach(x => it.push(x));
+  if(D.tema.trim()){ const todo = norm([D.relevAtual, D.contexto, D.justSoc].join(' ')); it.push(RE_ATUAL.test(todo) ? I('ok','O projeto mostra a relevância do tema para os dias atuais.') : I('warn','<b>Relevância para a atualidade:</b> o projeto ainda não mostra por que o tema importa hoje. Revise a Etapa 1 e a contextualização.')); }
+  par(D.tema, D.justTeo + ' ' + D.justSoc, .3, 'A justificativa trata do mesmo assunto do tema.', '<b>Tema × Justificativa:</b> a justificativa retoma poucos termos do tema.');
+  const esp = [D.obj1, D.obj2, D.obj3].filter(x => x.trim()).join(' ');
+  par(D.objGeral, esp, .3, 'Os objetivos específicos se conectam ao objetivo geral.', '<b>Objetivo geral × Específicos:</b> os específicos parecem distantes do objetivo geral.');
+  if(!it.length) it.push(I('dica','Preencha as etapas para que a ferramenta verifique a coerência entre elas.'));
+  return it;
+}
+
+function paragrafos(t){
+  const p = (t||'').split(/\n+/).map(x => x.trim()).filter(Boolean);
+  return p.length ? p.map(x => '<p>' + esc(x) + '</p>').join('') : '<p class="vazio sem">[não preenchido]</p>';
+}
+function linha(t){ return t.trim() ? esc(t.trim()) : '<span class="vazio">[não preenchido]</span>'; }
+
+function documentoHTML(){
+  const refs = D.justRef.split('\n').map(x => x.trim()).filter(Boolean).sort((a,b) => a.localeCompare(b,'pt-BR'));
+  const objs = [D.obj1, D.obj2, D.obj3];
+  return '<div class="folha" id="documento">' +
+    ((D.instituicao.trim() || D.curso.trim()) ? '<div class="cab">' + [D.instituicao.trim(), D.curso.trim()].filter(Boolean).map(esc).join('<br>') + '</div>' : '') +
+    '<div class="tit-proj">' + (D.tema.trim() ? esc(D.tema.trim().replace(/\.$/,'')) : 'PROJETO DE PESQUISA') + '</div>' +
+    '<div class="autor">' + linha(D.aluno) + (D.orientador.trim() ? '<br>Orientador(a): ' + esc(D.orientador.trim()) : '') + '</div>' +
+    '<h4>1 Tema</h4><p>' + linha(D.tema) + '</p>' +
+      '<h5>1.1 Relevância para a atualidade</h5>' + paragrafos(D.relevAtual) +
+    '<h4>2 Contextualização</h4>' + paragrafos(D.contexto) +
+    '<h4>3 Delimitação do tema</h4>' +
+      '<p class="sem"><b>Campo geral:</b> ' + linha(D.campoGeral) + '</p>' +
+      '<p class="sem"><b>Campo específico:</b> ' + linha(D.campoEsp) + '</p>' +
+      '<p class="sem"><b>Espaço geográfico:</b> ' + linha(D.espaco) + '</p>' +
+      '<p class="sem"><b>Tempo:</b> ' + linha(D.tempo) + '</p>' +
+    '<h4>4 Justificativa</h4>' +
+      '<h5>4.1 Relevância teológica</h5>' + paragrafos(D.justTeo) +
+      '<h5>4.2 Relevância social e ministerial</h5>' + paragrafos(D.justSoc) +
+    '<h4>5 Problematização</h4><p>' + linha(D.problema) + '</p>' +
+    '<h4>6 Objetivos</h4>' +
+      '<h5>6.1 Objetivo geral</h5><p>' + linha(D.objGeral) + '</p>' +
+      '<h5>6.2 Objetivos específicos</h5>' +
+      objs.map((o, i) => '<p class="sem">' + 'abc'[i] + ') ' + linha(o.replace(/[.;]\s*$/,'')) + (i < 2 ? ';' : '.') + '</p>').join('') +
+    '<h4 style="margin-top:24pt">Referências</h4><div class="refs">' + (refs.length ? refs.map(r => '<p>' + esc(r) + '</p>').join('') : '<p class="vazio">[nenhuma referência informada]</p>') + '</div>' +
+  '</div>';
+}
+
+function renderProjeto(m){
+  const res = ETAPAS.map(e => ({e, r: ANALISE[e.id](), s: statusEtapa(e)}));
+  const rot = {ok:'Adequada', warn:'Revisar', err:'Pendente'};
+  m.innerHTML =
+    '<div class="no-print">' +
+    '<span class="etiqueta">Aperfeiçoar</span>' +
+    '<h2 class="titulo-etapa">Revisão geral do projeto</h2>' +
+    '<p>Antes de exportar, confira a situação de cada etapa e a coerência entre as partes do projeto. Clique em uma etapa para revisá-la.</p>' +
+    '<div class="resumo">' + res.map(x => '<button data-v="etapa-' + x.e.n + '"><span class="selo ' + x.r.st + '">' + rot[x.r.st] + '</span><span>' + x.e.n + '. ' + x.e.curto + '</span></button>').join('') + '</div>' +
+    '<h3 class="sec-tit">Coerência entre as etapas</h3>' +
+    coerencia().map(i => '<div class="msg ' + i.t + '">' + i.m + '</div>').join('') +
+    '<h3 class="sec-tit">Visualizar projeto</h3>' +
+    '<div class="botoes">' +
+      '<button class="btn btn-ouro" id="btPDF">📄 Exportar em PDF</button>' +
+      '<button class="btn btn-sec" id="btCopiar">📋 Copiar texto do projeto</button>' +
+    '</div>' +
+    '<p style="font-size:14.5px;color:var(--muted);margin-top:0">Ao exportar, escolha <b>“Salvar como PDF”</b> na janela de impressão. O documento sai em A4, Times New Roman 12, espaçamento 1,5 e margens ABNT.</p>' +
+    '</div>' +
+    documentoHTML();
+  m.querySelectorAll('.resumo button').forEach(b => b.onclick = () => ir(b.dataset.v));
+  $('btPDF').onclick = exportarPDF;
+  $('btCopiar').onclick = copiarTexto;
+}
+
+/* =========================================================
+   EXPORTAÇÃO E RASCUNHO EM ARQUIVO
+   ========================================================= */
+function exportarPDF(){
+  if(vista !== 'projeto'){ ir('projeto'); }
+  if(analisarAcervo().some(x => x.t === 'err')){
+    abrirModal('Tema já pesquisado', '<p>Seu tema é igual ou muito semelhante a um trabalho já aprovado no acervo. Para exportar o projeto, construa um novo recorte na Etapa 1.</p>', [{t:'Ir para a Etapa 1', c:'btn-pri', f:() => { fecharModal(); ir('etapa-1'); }}]);
+    return;
+  }
+  const pendentes = ETAPAS.filter(e => ANALISE[e.id]().st === 'err');
+  const imprimir = () => {
+    fecharModal();
+    let abriu = false;
+    const marca = () => { abriu = true; };
+    window.addEventListener('beforeprint', marca, {once:true});
+    try{ window.print(); }catch(e){}
+    setTimeout(() => {
+      if(!abriu) abrirModal('Não foi possível abrir a impressão aqui',
+        '<p>Nesta visualização, o navegador bloqueou a janela de impressão. Abra a página diretamente pelo link do laboratório (no navegador) e clique novamente em “Exportar em PDF”, ou use “Copiar texto do projeto” e cole em um editor de texto.</p>',
+        [{t:'Entendi', c:'btn-pri', f:fecharModal}]);
+    }, 900);
+  };
+  if(pendentes.length){
+    abrirModal('Ainda há etapas pendentes',
+      '<p>As etapas a seguir ainda têm pendências: <b>' + pendentes.map(e => e.n + '. ' + e.curto).join(', ') + '</b>.</p><p>Você pode exportar assim mesmo (por exemplo, para revisão com o professor) ou voltar e completá-las.</p>',
+      [{t:'Voltar e revisar', c:'btn-sec', f:() => { fecharModal(); ir('etapa-' + pendentes[0].n); }},
+       {t:'Exportar assim mesmo', c:'btn-pri', f:imprimir}]);
+  } else imprimir();
+}
+
+function textoPlano(){
+  const objs = [D.obj1, D.obj2, D.obj3];
+  const refs = D.justRef.split('\n').map(x => x.trim()).filter(Boolean).sort((a,b) => a.localeCompare(b,'pt-BR'));
+  return [
+    D.instituicao.trim() ? D.instituicao.trim().toUpperCase() : null, D.curso.trim() ? D.curso.trim().toUpperCase() : null, '',
+    (D.tema.trim() || 'PROJETO DE PESQUISA').toUpperCase(), '',
+    D.aluno.trim(), D.orientador.trim() ? 'Orientador(a): ' + D.orientador.trim() : null, '',
+    '1 TEMA', D.tema.trim(), '', '1.1 Relevância para a atualidade', D.relevAtual.trim(), '',
+    '2 CONTEXTUALIZAÇÃO', D.contexto.trim(), '',
+    '3 DELIMITAÇÃO DO TEMA', 'Campo geral: ' + D.campoGeral.trim(), 'Campo específico: ' + D.campoEsp.trim(), 'Espaço geográfico: ' + D.espaco.trim(), 'Tempo: ' + D.tempo.trim(), '',
+    '4 JUSTIFICATIVA', '4.1 Relevância teológica', D.justTeo.trim(), '', '4.2 Relevância social e ministerial', D.justSoc.trim(), '',
+    '5 PROBLEMATIZAÇÃO', D.problema.trim(), '',
+    '6 OBJETIVOS', '6.1 Objetivo geral', D.objGeral.trim(), '', '6.2 Objetivos específicos',
+    ...objs.map((o, i) => 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')), '',
+    'REFERÊNCIAS', ...refs
+  ].filter(x => x !== null).join('\n');
+}
+async function copiarTexto(){
+  try{ await navigator.clipboard.writeText(textoPlano()); toast('Texto do projeto copiado. Cole em um editor de texto ou no e-mail ao professor.'); }
+  catch(e){
+    abrirModal('Copie o texto abaixo', '<textarea style="width:100%;height:260px;font:14px/1.4 monospace" readonly>' + esc(textoPlano()) + '</textarea><p style="font-size:14px;color:var(--muted)">Selecione tudo (Ctrl+A) e copie (Ctrl+C).</p>', [{t:'Fechar', c:'btn-pri', f:fecharModal}]);
+  }
+}
+
+function baixarRascunho(){
+  try{
+    const blob = new Blob([JSON.stringify(Object.assign({}, D, {_app:'iwe-lab-projeto', _salvoEm: new Date().toISOString()}), null, 2)], {type:'application/json'});
+    const a = document.createElement('a');
+    const nome = (D.aluno.trim() || 'projeto').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    a.href = URL.createObjectURL(blob); a.download = 'rascunho-' + nome + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    toast('Arquivo do rascunho gerado. Guarde-o para continuar em outro aparelho.');
+  }catch(e){ toast('Não foi possível baixar o arquivo nesta visualização.'); }
+}
+function abrirRascunho(ev){
+  const f = ev.target.files[0]; if(!f) return;
+  const rd = new FileReader();
+  rd.onload = () => {
+    try{
+      const o = JSON.parse(rd.result);
+      CAMPOS.forEach(k => { D[k] = typeof o[k] === 'string' ? o[k] : ''; });
+      salvar(false); montarMenu(); render();
+      toast('Rascunho carregado com sucesso.');
+    }catch(e){ toast('Este arquivo não é um rascunho válido do laboratório.'); }
+    ev.target.value = '';
+  };
+  rd.readAsText(f);
+}
+
+/* ---------- Avisos ---------- */
+let tToast;
+function toast(t){ const el = $('toast'); el.textContent = t; el.classList.add('on'); clearTimeout(tToast); tToast = setTimeout(() => el.classList.remove('on'), 3800); }
+function abrirModal(tit, html, bts){
+  $('modalTit').textContent = tit; $('modalTxt').innerHTML = html;
+  $('modalBts').innerHTML = '';
+  bts.forEach(b => { const x = document.createElement('button'); x.className = 'btn ' + b.c; x.textContent = b.t; x.onclick = b.f; $('modalBts').appendChild(x); });
+  $('modal').classList.add('on');
+}
+function fecharModal(){ $('modal').classList.remove('on'); }
+$('modal').addEventListener('click', e => { if(e.target.id === 'modal') fecharModal(); });
+
+/* =========================================================
+   INÍCIO
+   ========================================================= */
+carregar();
+$('btSalvar').onclick = () => salvar(true);
+$('btVer').onclick = () => ir('projeto');
+$('btBaixarRasc').onclick = baixarRascunho;
+$('btAbrirRasc').onclick = () => $('arqRasc').click();
+$('arqRasc').addEventListener('change', abrirRascunho);
+window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if(h && h !== vista) { vista = h; montarMenu(); render(); } });
+const h0 = (location.hash || '').slice(1);
+if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-[1-7]$/.test(h0)) vista = h0;
+mostrarSalvo(); montarMenu(); render();
+</script>
+</body>
+</html>
