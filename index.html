@@ -24,6 +24,9 @@ a{color:var(--navy-2)}
 /* Cabeçalho */
 .topo{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:22px 28px 26px;position:relative;overflow:hidden}
 .topo::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;border:38px solid rgba(196,154,44,.18)}
+.voltar-acervo{position:absolute;top:18px;right:24px;z-index:2;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.55);border-radius:99px;padding:7px 16px;font-weight:600;font-size:15px;text-decoration:none;transition:.2s}
+.voltar-acervo:hover{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+@media (max-width:700px){.voltar-acervo{position:static;margin-bottom:12px;font-size:14px}}
 .topo .inst{font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
 .topo .inst b{color:var(--gold)}
 .topo h1{font-size:clamp(24px,3.4vw,36px);margin-top:8px}
@@ -189,6 +192,7 @@ details.exemplo[open] summary::before{content:"▾ "}
 <body>
 
 <header class="topo no-print">
+  <a class="voltar-acervo" href="https://alexandrebeloniimw-cmyk.github.io/revistateologicoministerialiwecascadura2026/acervo.html">← Voltar ao acervo</a>
   <div class="inst">Material de apoio didático · <b>Prof. Alexandre Fonseca do Prado Beloni</b></div>
   <h1>Laboratório de Projeto de Pesquisa</h1>
   <p>Construindo meu Projeto de Pesquisa Teológico-Ministerial: uma ferramenta interativa para orientar, construir e aperfeiçoar o seu projeto.</p>
