@@ -858,8 +858,8 @@ function renderInicio(m){
     '<div class="card"><h3 style="color:var(--navy);font-size:20px;margin-bottom:12px">Identificação</h3><div class="ident">' +
       campoHTML({k:'aluno', label:'Nome do(a) aluno(a)', input:true, ph:'Seu nome completo'}) +
       campoHTML({k:'orientador', label:'Professor(a) orientador(a)', input:true, ph:'Nome do(a) professor(a)'}) +
-      campoHTML({k:'instituicao', label:'Instituição de ensino', input:true, ph:'Nome da sua instituição'}) +
-      campoHTML({k:'curso', label:'Curso / turma', input:true, ph:'Ex.: Curso de Teologia – Turma 2026'}) +
+      campoHTML({k:'instituicao', label:'Instituição de ensino', sub:'Usado apenas para identificar o envio ao professor; não aparece no PDF.', input:true, ph:'Nome da sua instituição'}) +
+      campoHTML({k:'curso', label:'Curso / turma', sub:'Usado apenas para identificar o envio ao professor; não aparece no PDF.', input:true, ph:'Ex.: Curso de Teologia – Turma 2026'}) +
     '</div>' +
     '<p class="aviso">Seu texto fica salvo automaticamente <b>neste aparelho</b>. Para continuar em outro computador ou celular, use “Baixar rascunho” e depois “Abrir rascunho”.</p>' +
     '<p class="aviso">A ferramenta orienta, mas não escreve o projeto por você. O protagonismo da construção é seu.</p></div>' +
@@ -919,7 +919,6 @@ function documentoHTML(){
   const falta = (t) => '<div class="falta"><b>Seção a ser desenvolvida.</b> ' + t + '</div>';
   return '<div class="folha" id="documento">' +
     '<div class="doc-cab">' + CAB_DOC + '</div>' +
-    ((D.instituicao.trim() || D.curso.trim()) ? '<div class="cab">' + [D.instituicao.trim(), D.curso.trim()].filter(Boolean).map(esc).join('<br>') + '</div>' : '') +
     '<div class="tit-proj">' + (D.tema.trim() ? esc(D.tema.trim().replace(/\.$/,'')) : 'PROJETO DE PESQUISA') + '</div>' +
     '<div class="autor">' + linha(D.aluno) + (D.orientador.trim() ? '<br>Orientador(a): ' + esc(D.orientador.trim()) : '') + '</div>' +
     '<h4>Sumário</h4>' + falta('O sumário será elaborado ao final, com a paginação definitiva do projeto.') +
@@ -1014,8 +1013,6 @@ const URL_ENVIO = 'https://script.google.com/macros/s/AKfycbxIoKt6ruAz1aZFxNNmbf
 function blocosProjeto(){
   const B = [], add = (t, x) => B.push([t, x]);
   const paras = t => (t||'').split(/\n+/).map(x => x.trim()).filter(Boolean);
-  if(D.instituicao.trim()) add('cab', D.instituicao.trim().toUpperCase());
-  if(D.curso.trim()) add('cab', D.curso.trim().toUpperCase());
   add('titulo', (D.tema.trim() || 'Projeto de pesquisa').replace(/\.$/,'').toUpperCase());
   add('autor', D.aluno.trim());
   if(D.orientador.trim()) add('autor', 'Orientador(a): ' + D.orientador.trim());
@@ -1073,7 +1070,7 @@ function enviarProfessor(){
 
 async function despachar(situacao){
   abrirModal('Enviando…', '<p>Aguarde alguns segundos enquanto o projeto é enviado.</p>', []);
-  const payload = {cabecalho:CAB_DOC, rodape:ROD_DOC, aluno:D.aluno, curso:D.curso, instituicao:D.instituicao, orientador:D.orientador, tema:D.tema, situacao, blocos:blocosProjeto(), dados:Object.assign({}, D, {_app:'iwe-lab-projeto'})};
+  const payload = {cabecalho:CAB_DOC, rodape:ROD_DOC, aluno:D.aluno, curso:D.curso, instituicao:D.instituicao, orientador:D.orientador, tema:D.tema, situacao, blocos:blocosProjeto(), dados:Object.assign({}, D, {_app:'laboratorio-projeto-pesquisa'})};
   try{
     const r = await fetch(URL_ENVIO, {method:'POST', body:JSON.stringify(payload)});
     const j = await r.json();
@@ -1091,7 +1088,6 @@ function textoPlano(){
   const refs = D.justRef.split('\n').map(x => x.trim()).filter(Boolean).sort((a,b) => a.localeCompare(b,'pt-BR'));
   return [
     CAB_DOC, '',
-    D.instituicao.trim() ? D.instituicao.trim().toUpperCase() : null, D.curso.trim() ? D.curso.trim().toUpperCase() : null, '',
     (D.tema.trim() || 'PROJETO DE PESQUISA').toUpperCase(), '',
     D.aluno.trim(), D.orientador.trim() ? 'Orientador(a): ' + D.orientador.trim() : null, '',
     '1 TEMA', D.tema.trim(), '', '1.1 Relevância para a atualidade', D.relevAtual.trim(), '',
@@ -1115,7 +1111,7 @@ async function copiarTexto(){
 
 function baixarRascunho(){
   try{
-    const blob = new Blob([JSON.stringify(Object.assign({}, D, {_app:'iwe-lab-projeto', _salvoEm: new Date().toISOString()}), null, 2)], {type:'application/json'});
+    const blob = new Blob([JSON.stringify(Object.assign({}, D, {_app:'laboratorio-projeto-pesquisa', _salvoEm: new Date().toISOString()}), null, 2)], {type:'application/json'});
     const a = document.createElement('a');
     const nome = (D.aluno.trim() || 'projeto').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
     a.href = URL.createObjectURL(blob); a.download = 'rascunho-' + nome + '.json';
