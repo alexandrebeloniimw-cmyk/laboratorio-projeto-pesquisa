@@ -1083,8 +1083,7 @@ const SECOES_FALTAM = [
   ['7 Fundamentação teórica', 'A fundamentação teórica (ou revisão teórica) será construída com o professor orientador, a partir das leituras indicadas.'],
   ['8 Metodologia', 'A metodologia (tipo de pesquisa, abordagem, procedimentos e instrumentos) será definida com o professor orientador.'],
   ['9 Recursos', 'Os recursos necessários à pesquisa (materiais, humanos e financeiros) serão definidos com o professor orientador.'],
-  ['10 Cronograma', 'O cronograma das atividades da pesquisa será organizado com o professor orientador.'],
-  ['11 Considerações finais', 'As considerações finais do projeto serão redigidas com o professor orientador.']
+  ['10 Cronograma', 'O cronograma das atividades da pesquisa será organizado com o professor orientador.']
 ];
 function tituloCompleto(){
   const t = D.titulo.trim().replace(/[.:]\s*$/,''), st = D.subtitulo.trim().replace(/\.$/,'');
@@ -1140,7 +1139,7 @@ function renderProjeto(m){
     coerencia().map(i => '<div class="msg ' + i.t + '">' + i.m + '</div>').join('') +
     '<h3 class="sec-tit">O que ainda falta no projeto</h3>' +
     '<div class="faltam"><p>Neste laboratório você constrói o projeto <b>do tema aos objetivos</b>. As seções abaixo completam o projeto de pesquisa e serão desenvolvidas com o seu professor orientador:</p>' +
-    '<ul><li>Sumário</li><li>Fundamentação teórica (ou revisão teórica)</li><li>Metodologia</li><li>Recursos</li><li>Cronograma</li><li>Considerações finais</li><li>Bibliografia</li></ul>' +
+    '<ul><li>Sumário</li><li>Fundamentação teórica (ou revisão teórica)</li><li>Metodologia</li><li>Recursos</li><li>Cronograma</li><li>Bibliografia</li></ul>' +
     '<p>Elas já aparecem no documento abaixo, marcadas como <i>“Seção a ser desenvolvida”</i>.</p></div>' +
     '<h3 class="sec-tit">Visualizar projeto</h3>' +
     '<div class="botoes">' +
