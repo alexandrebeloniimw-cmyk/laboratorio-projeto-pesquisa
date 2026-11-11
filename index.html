@@ -174,6 +174,13 @@ details.exemplo[open] summary::before{content:"▾ "}
 .livro-lat b{display:block;color:var(--navy);font-family:"Fraunces",serif;font-size:15.5px;margin:2px 0}
 .livro-lat span{color:var(--gold);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
 @media (max-width:960px){.livro{flex-direction:column;align-items:flex-start}.livro-lat{display:none}}
+.sugref:empty{display:none}
+.sugref{margin-top:8px;background:var(--tip-bg);border-radius:10px;padding:10px 12px;font-size:15px}
+.sugref .sr-tit{font-weight:700;color:var(--navy);font-size:14px;margin-bottom:6px}
+.sugref .sr-item{background:#fff;border:1px solid #d5dff0;border-radius:8px;padding:8px 10px;margin-bottom:6px;display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.sugref .sr-item span{flex:1;line-height:1.4}
+.sugref .sr-item button{flex:0 0 auto;font-size:13.5px;padding:6px 10px}
+.sugref .sr-ok{color:var(--ok);font-weight:600}
 .rodape{text-align:center;font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding:18px 16px 28px;max-width:1240px;margin:0 auto}
 
 @media (max-width:960px){
@@ -210,7 +217,7 @@ details.exemplo[open] summary::before{content:"▾ "}
   <h1>Laboratório de Projeto de Pesquisa</h1>
   <p>Construindo meu Projeto de Pesquisa Teológico-Ministerial: uma ferramenta interativa para orientar, construir e aperfeiçoar o seu projeto.</p>
   <div class="progresso">
-    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 8 etapas</span></div>
+    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 9 etapas</span></div>
     <div class="barra"><span id="progBar"></span></div>
   </div>
 </header>
@@ -241,12 +248,13 @@ details.exemplo[open] summary::before{content:"▾ "}
 <div class="toast" id="toast"></div>
 <div class="modal" id="modal"><div class="card"><h3 id="modalTit"></h3><div id="modalTxt"></div><div class="botoes" style="margin-top:16px" id="modalBts"></div></div></div>
 
+<script src="dados/referencias.js"></script>
 <script>
 /* =========================================================
    DADOS E PERSISTÊNCIA
    ========================================================= */
 const CHAVE = 'iwe-lab-projeto-v1';
-const CAMPOS = ['aluno','instituicao','curso','orientador','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3'];
+const CAMPOS = ['aluno','instituicao','curso','orientador','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3'];
 let D = {}; CAMPOS.forEach(k => D[k] = '');
 let salvoEm = null;
 
@@ -422,7 +430,17 @@ const ETAPAS = [
   {k:'obj2', label:'b)', input:true, ph:'Segundo passo (geralmente: identificar / descrever)…'},
   {k:'obj3', label:'c)', input:true, ph:'Terceiro passo (geralmente: analisar / avaliar)…'}],
  orient:['Cada objetivo precisa representar uma ação.','Os objetivos devem contribuir para alcançar o objetivo geral.','Devem apresentar uma sequência lógica.','Evite repetir o mesmo objetivo com palavras diferentes.'],
- exemplo:'a) Apresentar os fundamentos bíblico-teológicos do discipulado cristão;\nb) Identificar as práticas de discipulado adotadas no ministério de novos convertidos da igreja local;\nc) Analisar as contribuições dessas práticas para a formação espiritual dos novos convertidos.'}
+ exemplo:'a) Apresentar os fundamentos bíblico-teológicos do discipulado cristão;\nb) Identificar as práticas de discipulado adotadas no ministério de novos convertidos da igreja local;\nc) Analisar as contribuições dessas práticas para a formação espiritual dos novos convertidos.'},
+
+{n:9, id:'obras', titulo:'Obras de referência', curto:'Obras de referência',
+ oque:'Indicar até três obras que você certamente pretende usar na pesquisa. Elas são o ponto de partida da sua bibliografia.',
+ campos:[
+  {k:'obra1', label:'Obra 1', sub:'Escreva o autor e o título, ou a referência completa.', rows:2, ph:'Ex.: Comiskey, Discipulado relacional', sug:true},
+  {k:'obra2', opcional:true, label:'Obra 2 (opcional)', rows:2, ph:'Autor e título da segunda obra', sug:true},
+  {k:'obra3', opcional:true, label:'Obra 3 (opcional)', rows:2, ph:'Autor e título da terceira obra', sug:true}],
+ orient:['Escolha obras que tratem diretamente do seu tema: livros, comentários bíblicos, artigos ou documentos.','Prefira obras em português e de autores reconhecidos na área.','Escreva o autor e o título. Se a obra estiver na lista de referências do laboratório, a página oferece a referência completa no padrão ABNT.','As obras indicadas aqui entram automaticamente nas Referências do projeto.'],
+ perguntas:['Essa obra trata diretamente do meu tema?','Tenho acesso a ela (biblioteca, livraria, arquivo digital)?','Ela me ajuda a responder à minha pergunta de pesquisa?'],
+ exemplo:'Escreva, por exemplo: "Comiskey, Discipulado relacional".\nA página encontra a obra na lista e oferece a referência completa:\nCOMISKEY, Joel. Discipulado relacional: como Deus usa a comunidade para modelar seguidores de Jesus. Fortaleza: Premius, 2014.'}
 ];
 
 ETAPAS.forEach((e, i) => e.n = i + 1);
@@ -634,6 +652,29 @@ objesp(){
     it.push(I('dica','Verifique a sequência lógica: normalmente começa-se por fundamentar (apresentar, conceituar), passa-se a identificar ou descrever a realidade e conclui-se analisando ou avaliando.'));
   if(preenchidos === 3 && !it.some(x => x.t === 'err' || x.t === 'warn')) it.push(I('ok','Seus objetivos específicos são ações distintas, em sequência, que contribuem para o objetivo geral.'));
   return resultado(it);
+},
+obras(){
+  const it = [], ks = ['obra1','obra2','obra3'], nomes = ['Obra 1','Obra 2','Obra 3'];
+  const cheias = ks.filter(k => D[k].trim());
+  if(!cheias.length) return resultado([I('err','Indique pelo menos uma obra que você certamente pretende usar (até três).')]);
+  ks.forEach((k, i) => {
+    const q = D[k].trim(); if(!q) return;
+    if(refExata(q)){ it.push(I('ok','<b>' + nomes[i] + ':</b> referência completa, conferida na lista de referências.')); return; }
+    const ms = buscarRefs(q);
+    if(ms.length){ it.push(I('warn','<b>' + nomes[i] + ':</b> encontramos esta obra na lista de referências. Clique em “Usar esta referência”, abaixo do campo, para completar a referência no padrão ABNT.')); return; }
+    const falt = [];
+    if(!/^[A-ZÀ-Ú][A-ZÀ-Ú\s'-]{1,},\s/.test(q)) falt.push('o SOBRENOME do autor em maiúsculas, seguido do prenome');
+    if(!/\b(1[5-9]|20)\d{2}\b|s\. d\./.test(q)) falt.push('o ano de publicação');
+    if(!/:/.test(q)) falt.push('Cidade: Editora');
+    if(falt.length) it.push(I('warn','<b>' + nomes[i] + ':</b> a obra não está na lista de referências do laboratório, então escreva a referência completa. Falta: ' + falt.join('; ') + '. Modelo: SOBRENOME, Nome. Título: subtítulo. Cidade: Editora, ano.'));
+    else it.push(I('ok','<b>' + nomes[i] + ':</b> a referência tem os elementos básicos do padrão ABNT. Confira os dados na própria obra.'));
+  });
+  const ns = cheias.map(k => norm(D[k]).replace(/[^a-z0-9]/g,''));
+  if(new Set(ns).size < ns.length) it.push(I('warn','Você repetiu a mesma obra. Indique obras diferentes.'));
+  const base = [D.tema, D.titulo, D.subtitulo, D.campoEsp].join(' ');
+  if(base.trim() && cheias.every(k => sobreposicao(D[k], base) === 0)) it.push(I('dica','Verifique se as obras tratam diretamente do seu tema: nenhuma delas retoma os termos centrais do tema ou do título.'));
+  it.push(I('dica','As obras indicadas entram automaticamente nas <b>Referências</b> do projeto, junto com a obra citada na justificativa.'));
+  return resultado(it);
 }
 };
 
@@ -749,7 +790,63 @@ function verificarNoAcervo(texto, rotulo){
   }catch(e){}
 })();
 
-/* "Melhorar meu texto\": orientações de aperfeiçoamento (não escreve pelo aluno) */
+/* ---------- Obras de referência: lista de referências completas ---------- */
+const REFS = (window.LISTA_REFS || []);
+let REFS_IDX = null;
+function indexarRefs(){
+  const df = {};
+  REFS_IDX = REFS.map(r => {
+    const k = new Set(palavras(r).filter(w => w.length >= 3 && !STOP.has(w) && !/^\d+$/.test(w)).map(w => w.slice(0,5)));
+    k.forEach(x => df[x] = (df[x]||0) + 1);
+    return {r, k, sob: norm(r.split(/[,.]/)[0])};
+  });
+  const N = REFS.length; REFS_IDX.idf = {}; Object.keys(df).forEach(x => REFS_IDX.idf[x] = Math.log((N + 1) / (df[x] + 0.5)));
+}
+function refExata(q){ const n = norm(q).replace(/\s+/g,' ').trim(); return REFS.find(r => norm(r).replace(/\s+/g,' ').trim() === n) || null; }
+function buscarRefs(q){
+  if(!REFS.length || !q || nPal(q) < 2) return [];
+  if(!REFS_IDX) indexarRefs();
+  const ws = [...new Set(palavras(q).filter(w => w.length >= 3 && !STOP.has(w) && !/^\d+$/.test(w)))];
+  const K = [...new Set(ws.map(w => w.slice(0,5)))];
+  const frase = norm(q).replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+  if(K.length < 2){
+    if(frase.length < 8) return [];
+    return REFS.filter(r => norm(r).replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').includes(frase)).slice(0, 3).map(r => ({r, sc: 1, n: 1}));
+  }
+  const peso = k => REFS_IDX.idf[k] || Math.log(REFS.length + 1);
+  let total = 0; K.forEach(k => total += peso(k));
+  return REFS_IDX.map(x => {
+    let c = 0, n = 0; K.forEach(k => { if(x.k.has(k)){ c += peso(k); n++; } });
+    let sc = c / total; if(ws.includes(x.sob)) sc += 0.25;
+    return {r: x.r, sc, n};
+  }).filter(m => m.n >= 2 && m.sc >= 0.5).sort((a,b) => b.sc - a.sc).slice(0, 3);
+}
+const tSug = {};
+function sugerirDepois(k){ clearTimeout(tSug[k]); tSug[k] = setTimeout(() => mostrarSugestoes(k), 350); }
+function mostrarSugestoes(k){
+  const box = $('s_' + k); if(!box) return;
+  const q = D[k].trim();
+  if(!q){ box.innerHTML = ''; return; }
+  if(refExata(q)){ box.innerHTML = '<span class="sr-ok">✓ Referência completa, conferida na lista de referências.</span>'; return; }
+  const ms = buscarRefs(q);
+  if(!ms.length){ box.innerHTML = nPal(q) >= 2 ? '<div class="sr-tit">Não encontramos esta obra na lista de referências.</div>Escreva a referência completa no padrão ABNT: SOBRENOME, Nome. Título: subtítulo. Cidade: Editora, ano.' : ''; return; }
+  box.innerHTML = '<div class="sr-tit">📚 Encontramos na lista de referências. É esta a obra?</div>' + ms.map((m, i) =>
+    '<div class="sr-item"><span>' + esc(m.r) + '</span><button class="btn btn-pri" data-i="' + i + '">Usar esta referência</button></div>').join('');
+  box.querySelectorAll('button').forEach(b => b.onclick = () => {
+    D[k] = ms[+b.dataset.i].r; const el = $('f_' + k); if(el) el.value = D[k];
+    const c = $('c_' + k); if(c) c.textContent = nPal(D[k]) + ' palavra(s)';
+    salvar(false); atualizarProgresso(); mostrarSugestoes(k);
+    toast('Referência completa inserida. Ela entrará nas Referências do projeto.');
+  });
+}
+function listaReferencias(){
+  const todas = D.justRef.split('\n').concat([D.obra1, D.obra2, D.obra3]).map(x => x.trim().replace(/\s+/g,' ')).filter(Boolean);
+  const vistos = new Set(), out = [];
+  todas.forEach(r => { const n = norm(r).replace(/[^a-z0-9]/g,''); if(!vistos.has(n)){ vistos.add(n); out.push(r); } });
+  return out.sort((a,b) => a.localeCompare(b,'pt-BR'));
+}
+
+/* "Melhorar meu texto": orientações de aperfeiçoamento (não escreve pelo aluno) */
 const MELHORAR = {
 tema(){
   const l = ['Use o modelo: <b>[assunto] + [aspecto estudado] + [público ou contexto]</b>.','Teste: alguém que não conhece sua pesquisa entende, só pelo tema, o que você vai estudar?','Retire palavras desnecessárias ("um estudo sobre", "uma análise de").'];
@@ -768,7 +865,8 @@ problema(){
   return l;
 },
 objgeral(){ return ['Modelo: <b>[verbo no infinitivo] + [o que será investigado] + [recorte]</b>.','Compare palavra por palavra com sua pergunta: o objetivo geral é a pergunta transformada em ação. Se a pergunta começa com "Como…", o objetivo pode começar com "Analisar como…" ou "Compreender como…".','Use um único verbo de ação.']; },
-objesp(){ return ['Pense em três degraus: <b>a) fundamentar</b> (apresentar, conceituar), <b>b) conhecer a realidade</b> (identificar, descrever) e <b>c) interpretar</b> (analisar, avaliar).','Cada objetivo específico costuma se tornar um capítulo ou uma seção do trabalho.','Confira: se você cumprir os três, o objetivo geral estará alcançado?']; }
+objesp(){ return ['Pense em três degraus: <b>a) fundamentar</b> (apresentar, conceituar), <b>b) conhecer a realidade</b> (identificar, descrever) e <b>c) interpretar</b> (analisar, avaliar).','Cada objetivo específico costuma se tornar um capítulo ou uma seção do trabalho.','Confira: se você cumprir os três, o objetivo geral estará alcançado?']; },
+obras(){ return ['Escreva o sobrenome do autor e uma ou duas palavras do título (ex.: “Comiskey, Discipulado relacional”): se a obra estiver na lista, a página oferece a referência completa.','Se a obra não estiver na lista, siga o modelo ABNT: <b>SOBRENOME, Nome. Título: subtítulo. Edição. Cidade: Editora, ano.</b>','Para comentários bíblicos em vários volumes, indique o volume e o livro bíblico comentado.','Prefira obras que você já tem em mãos ou às quais terá acesso com certeza.']; }
 };
 
 /* =========================================================
@@ -820,7 +918,7 @@ function campoHTML(c){
   h += c.input
     ? '<input id="f_' + c.k + '" data-k="' + c.k + '" placeholder="' + esc(c.ph||'') + '" value="' + esc(D[c.k]) + '">'
     : '<textarea id="f_' + c.k + '" data-k="' + c.k + '" rows="' + (c.rows||4) + '" placeholder="' + esc(c.ph||'') + '">' + esc(D[c.k]) + '</textarea>';
-  h += '<div class="contador" id="c_' + c.k + '"></div></div>';
+  h += '<div class="contador" id="c_' + c.k + '"></div>' + (c.sug ? '<div class="sugref" id="s_' + c.k + '" aria-live="polite"></div>' : '') + '</div>';
   if(c.bloco) h += '</div>';
   return h;
 }
@@ -877,7 +975,9 @@ function render(){
     el.addEventListener('input', () => {
       D[c.k] = el.value; cont(); salvarDepois(); atualizarProgresso();
       if(e.id === 'delimitacao') $('previaDel').innerHTML = previaDelimitacao();
+      if(c.sug) sugerirDepois(c.k);
     });
+    if(c.sug) mostrarSugestoes(c.k);
   });
   $('btAnalisar').onclick = () => { $('retorno').innerHTML = renderRetorno(ANALISE[e.id](), 'Análise da sua resposta'); salvar(false); };
   $('btMelhorar').onclick = () => { $('retorno').innerHTML = '<div class="retorno-tit">Como aperfeiçoar seu texto</div>' + MELHORAR[e.id]().map(x => '<div class="msg dica">' + x + '</div>').join(''); };
@@ -961,7 +1061,7 @@ function tituloCompleto(){
   return (D.tema.trim() || 'Projeto de pesquisa').replace(/\.$/,'');
 }
 function documentoHTML(){
-  const refs = D.justRef.split('\n').map(x => x.trim()).filter(Boolean).sort((a,b) => a.localeCompare(b,'pt-BR'));
+  const refs = listaReferencias();
   const objs = [D.obj1, D.obj2, D.obj3];
   const falta = (t) => '<div class="falta"><b>Seção a ser desenvolvida.</b> ' + t + '</div>';
   return '<div class="folha" id="documento">' +
@@ -1080,7 +1180,7 @@ function blocosProjeto(){
   [D.obj1, D.obj2, D.obj3].forEach((o, i) => add('item', 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')));
   SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
   add('h1', 'REFERÊNCIAS');
-  D.justRef.split('\n').map(x => x.trim()).filter(Boolean).sort((a,b) => a.localeCompare(b,'pt-BR')).forEach(r => add('ref', r));
+  listaReferencias().forEach(r => add('ref', r));
   add('falta', 'Seção a ser desenvolvida. A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.');
   return B;
 }
@@ -1132,7 +1232,7 @@ async function despachar(situacao){
 
 function textoPlano(){
   const objs = [D.obj1, D.obj2, D.obj3];
-  const refs = D.justRef.split('\n').map(x => x.trim()).filter(Boolean).sort((a,b) => a.localeCompare(b,'pt-BR'));
+  const refs = listaReferencias();
   return [
     CAB_DOC, '',
     tituloCompleto().toUpperCase(), '',
@@ -1204,7 +1304,7 @@ $('btAbrirRasc').onclick = () => $('arqRasc').click();
 $('arqRasc').addEventListener('change', abrirRascunho);
 window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if(h && h !== vista) { vista = h; montarMenu(); render(); } });
 const h0 = (location.hash || '').slice(1);
-if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-[1-8]$/.test(h0)) vista = h0;
+if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-[1-9]$/.test(h0)) vista = h0;
 mostrarSalvo(); montarMenu(); render();
 </script>
 </body>
