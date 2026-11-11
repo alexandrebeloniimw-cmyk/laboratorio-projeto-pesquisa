@@ -147,6 +147,18 @@ details.exemplo[open] summary::before{content:"▾ "}
 .importante h3{color:var(--navy);font-size:20px;margin-bottom:8px}
 .importante p{margin:0 0 8px}
 .importante p:last-child{margin:0}
+.livro{display:flex;gap:20px;align-items:center;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;border-radius:var(--radius);padding:22px 24px;margin-top:20px}
+.livro .capa{flex:0 0 86px;height:122px;border-radius:4px 8px 8px 4px;background:linear-gradient(160deg,var(--gold) 0%,#a37c1c 100%);box-shadow:6px 6px 0 rgba(0,0,0,.18);display:flex;flex-direction:column;justify-content:center;padding:8px;color:var(--navy);font-family:"Fraunces",serif;font-weight:700;font-size:12.5px;line-height:1.15;border-left:6px solid rgba(0,0,0,.18)}
+.livro .capa small{display:block;font-family:"Source Sans 3",sans-serif;font-weight:600;font-size:10px;margin-top:6px;opacity:.8}
+.livro .etiqueta{color:var(--gold)}
+.livro h3{font-size:22px;margin-bottom:6px}
+.livro p{margin:0 0 12px;opacity:.92}
+.livro .btn{text-decoration:none}
+.livro-lat{display:block;margin-top:14px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:12px 14px;text-decoration:none;color:var(--ink);font-size:14.5px;line-height:1.4}
+.livro-lat:hover{border-color:var(--gold)}
+.livro-lat b{display:block;color:var(--navy);font-family:"Fraunces",serif;font-size:15.5px;margin:2px 0}
+.livro-lat span{color:var(--gold);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+@media (max-width:960px){.livro{flex-direction:column;align-items:flex-start}.livro-lat{display:none}}
 .rodape{text-align:center;font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding:18px 16px 28px;max-width:1240px;margin:0 auto}
 
 @media (max-width:960px){
@@ -194,6 +206,7 @@ details.exemplo[open] summary::before{content:"▾ "}
       <input type="file" id="arqRasc" class="oculto-arq" accept=".json,application/json">
     </div>
     <div class="salvo" id="salvoTxt"></div>
+    <a class="livro-lat" href="https://loja.uiclap.com/titulo/ua207553" target="_blank" rel="noopener"><span>📚 Leitura recomendada</span><b>Sobrevivendo ao Projeto de Pesquisa</b>Alexandre Prado · Conheça o livro ↗</a>
   </aside>
 
   <main id="principal"></main>
@@ -201,7 +214,8 @@ details.exemplo[open] summary::before{content:"▾ "}
 
 <footer class="rodape no-print">
   <b>Laboratório de Projeto de Pesquisa</b> · Prof. Alexandre Fonseca do Prado Beloni<br>
-  Este laboratório não substitui a sala de aula, física ou virtual. A orientação do professor orientador é a que prevalece.
+  Este laboratório não substitui a sala de aula, física ou virtual. A orientação do professor orientador é a que prevalece.<br>
+  📚 Leitura recomendada: <a href="https://loja.uiclap.com/titulo/ua207553" target="_blank" rel="noopener"><i>Sobrevivendo ao Projeto de Pesquisa</i>, de Alexandre Prado</a>
 </footer>
 
 <div class="toast" id="toast"></div>
@@ -312,6 +326,7 @@ const SUGESTOES_AMPLAS = [
   {re:/deus|\bfe\b|teolog|cristian|evangelho/, s:['Fé e sofrimento na vida cristã','Providência divina e cuidado pastoral','Evangelho e transformação social']}
 ];
 
+const URL_LIVRO = 'https://loja.uiclap.com/titulo/ua207553';
 const AVISO_HTML =
   '<div class="importante"><div class="ic">⚖️</div><div>' +
   '<h3>Um apoio ao seu estudo, não um substituto</h3>' +
@@ -784,6 +799,7 @@ function render(){
       '<aside class="lado">' +
         '<div class="card"><h3>📘 Orientações</h3><ul>' + e.orient.map(o => '<li>' + o + '</li>').join('') + '</ul></div>' +
         (e.perguntas ? '<div class="card"><h3>❓ Perguntas orientadoras</h3><ol>' + e.perguntas.map(o => '<li>' + o + '</li>').join('') + '</ol></div>' : '') +
+        '<a class="card" href="' + URL_LIVRO + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;margin-top:14px;border-left:4px solid var(--gold)"><h3>📚 Para aprofundar</h3><p style="margin:0;font-size:15px">Esta etapa é explicada passo a passo, com exemplos, normas da ABNT e bom humor, no livro <b><i>Sobrevivendo ao Projeto de Pesquisa</i></b>, de Alexandre Prado. <span style="color:var(--navy-2);font-weight:600">Conheça o livro ↗</span></p></a>' +
         '<div class="card"><details class="exemplo"><summary>Ver exemplo didático</summary><div class="exemplo-txt">' + esc(e.exemplo) + '</div><p style="font-size:14px;color:var(--muted);margin:10px 0 0">O exemplo serve de modelo. Construa o seu texto com suas próprias palavras.</p></details></div>' +
       '</aside>' +
     '</div>' +
@@ -827,6 +843,12 @@ function renderInicio(m){
     '<p class="aviso">Seu texto fica salvo automaticamente <b>neste aparelho</b>. Para continuar em outro computador ou celular, use “Baixar rascunho” e depois “Abrir rascunho”.</p>' +
     '<p class="aviso">A ferramenta orienta, mas não escreve o projeto por você. O protagonismo da construção é seu.</p></div>' +
     AVISO_HTML +
+    '<div class="livro"><div class="capa">Sobrevivendo ao Projeto de Pesquisa<small>Alexandre Prado</small></div><div>' +
+      '<span class="etiqueta">📚 Leitura recomendada</span>' +
+      '<h3>Sobrevivendo ao Projeto de Pesquisa</h3>' +
+      '<p>Para quem está construindo o primeiro projeto de pesquisa. De forma didática, objetiva e bem-humorada, o livro percorre cada etapa trabalhada neste laboratório, do tema aos objetivos, com exemplos práticos e as normas da ABNT.</p>' +
+      '<a class="btn btn-ouro" href="' + URL_LIVRO + '" target="_blank" rel="noopener">Conhecer o livro ↗</a>' +
+    '</div></div>' +
     '<div class="navpe"><span></span><button class="btn btn-pri" id="btComecar">Começar pela Etapa 1 →</button></div>';
   ['aluno','orientador','instituicao','curso'].forEach(k => {
     const el = $('f_' + k); $('c_' + k).textContent = '';
