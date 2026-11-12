@@ -191,6 +191,34 @@ details.exemplo[open] summary::before{content:"▾ "}
 .livro-lat b{display:block;color:var(--navy);font-family:"Fraunces",serif;font-size:15.5px;margin:2px 0}
 .livro-lat span{color:var(--gold);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
 @media (max-width:960px){.livro{flex-direction:column;align-items:flex-start}.livro-lat{display:none}}
+.met-tabs{display:flex;gap:8px;margin:14px 0 4px;flex-wrap:wrap}
+.met-tabs button{flex:1 1 200px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:10px;padding:10px 12px;font-weight:700}
+.met-tabs button.on{background:var(--navy);color:#fff}
+.met-dots{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 4px}
+.met-dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:#fff;font-weight:700;color:var(--navy)}
+.met-dot.feito{background:var(--ok);border-color:var(--ok);color:#fff}
+.met-dot.on{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+.met-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin:10px 0 16px}
+.met-card h3{color:var(--navy);font-size:20px;margin:2px 0 6px}
+.met-perg{font-size:16.5px;color:var(--navy-2);font-weight:600;margin:0 0 10px}
+.met-ops{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 10px}
+.grade-ops{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.met-op{text-align:left;border:1.5px solid var(--line);background:#fffefb;border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;color:var(--ink)}
+.met-op:hover:not([disabled]){border-color:var(--navy-2)}
+.met-op b{color:var(--navy);font-size:15.5px}
+.met-op span{font-size:14px;line-height:1.35}
+.met-op em{font-size:13px;color:var(--muted)}
+.met-op.sel{border-color:var(--navy);background:var(--tip-bg);box-shadow:0 0 0 2px var(--navy) inset}
+.met-op.sugerida:not(.sel){border-style:dashed;border-color:var(--gold)}
+.met-op.certa{border-color:var(--ok);background:var(--ok-bg)}
+.met-op.errada{border-color:var(--err);background:var(--err-bg)}
+.tag-sug{font-size:11px;font-weight:700;color:#7a5b00;background:var(--gold-soft);border-radius:99px;padding:1px 7px;margin-left:4px;vertical-align:middle}
+.met-memo{background:var(--gold-soft);border-radius:10px;padding:8px 12px;font-size:14.5px}
+.met-tab{width:100%;border-collapse:collapse;font-size:15px}
+.met-tab td{border-bottom:1px solid var(--line);padding:6px 8px;vertical-align:top}
+.met-tab td:first-child{font-weight:700;color:var(--navy);width:38%}
+.met-tab .vaz{color:var(--err)}
+.roteiro li{margin-bottom:6px}
 .caminho{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:var(--radius);padding:16px 20px;margin:12px 0}
 .caminho h3{color:var(--navy);font-size:19px;margin:2px 0 8px}
 .caminho p{margin:6px 0}
@@ -258,7 +286,7 @@ details.exemplo[open] summary::before{content:"▾ "}
   <h1>Laboratório de Projeto de Pesquisa</h1>
   <p>Construindo meu Projeto de Pesquisa Teológico-Ministerial: uma ferramenta interativa para orientar, construir e aperfeiçoar o seu projeto.</p>
   <div class="progresso">
-    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 10 etapas</span></div>
+    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 11 etapas</span></div>
     <div class="barra"><span id="progBar"></span></div>
   </div>
 </header>
@@ -298,7 +326,7 @@ details.exemplo[open] summary::before{content:"▾ "}
    DADOS E PERSISTÊNCIA
    ========================================================= */
 const CHAVE = 'iwe-lab-projeto-v1';
-const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3','fundNotas','textoBiblico','palavrasChave','conceitos'];
+const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3','fundNotas','textoBiblico','palavrasChave','conceitos','m_abordagem','m_objetivo','m_procedimento','m_natureza','m_tempo','m_metodo','m_coleta','mj_abordagem','mj_objetivo','mj_procedimento','mj_natureza','mj_tempo','mj_metodo','mj_coleta','metPublico','metTexto'];
 let D = {}; CAMPOS.forEach(k => D[k] = '');
 let salvoEm = null;
 
@@ -506,7 +534,14 @@ const ETAPAS = [
   {k:'fundNotas', opcional:true, label:'Minhas anotações sobre os caminhos que pretendo seguir (opcional)', sub:'Registre quais caminhos fazem mais sentido para você, para conversar com o professor orientador.', rows:5, ph:'Ex.: Pretendo seguir os caminhos 1 e 3, começando pelo estudo de Mt 28.19-20…'}],
  orient:['A fundamentação teórica reúne o que as Escrituras, a teologia e os autores dizem sobre o seu tema.','Ela deve ajudar a responder à sua pergunta de pesquisa: leia sempre com a pergunta à vista.','Comece pelas obras que você já tem e pelas da lista de referências do laboratório.','Para analisar textos bíblicos, use bíblias de estudo, comentários e dicionários exegéticos.','Ao usar os autores, siga a ABNT NBR 10520:2023 nas citações e anote a referência completa (NBR 6023).'],
  perguntas:['Qual é a minha pergunta de pesquisa?','O que preciso saber para respondê-la?','Quais autores e textos bíblicos me ajudam nisso?'],
- exemplo:'Pergunta: Como o discipulado cristão contribui para a formação espiritual dos novos convertidos no contexto da igreja local?\n\nCaminhos possíveis: (1) fundamentos bíblico-teológicos do discipulado (Mt 28.19-20); (2) conceitos de formação espiritual; (3) a realidade do ministério de novos convertidos; (4) implicações ministeriais para a igreja local.'}
+ exemplo:'Pergunta: Como o discipulado cristão contribui para a formação espiritual dos novos convertidos no contexto da igreja local?\n\nCaminhos possíveis: (1) fundamentos bíblico-teológicos do discipulado (Mt 28.19-20); (2) conceitos de formação espiritual; (3) a realidade do ministério de novos convertidos; (4) implicações ministeriais para a igreja local.'},
+
+{n:11, id:'metodologia', titulo:'Metodologia', curto:'Metodologia',
+ oque:'Definir como a sua pesquisa será realizada: abordagem, objetivo, procedimentos, natureza, tempo, método e coleta de dados. Escolha um cartão por vez e justifique cada escolha.',
+ campos:[{k:'metTexto', label:'Texto da minha metodologia', sub:'Depois de passar pelos cartões, escreva com as suas palavras como a pesquisa será realizada e por quê. Use o roteiro do resumo como guia.', rows:9, ph:'Esta pesquisa, de natureza…, adota abordagem…, porque…'}],
+ orient:['A metodologia responde: como a pesquisa será realizada?','Cada elemento responde a uma pergunta diferente; eles não são sinônimos.','Qualitativa não é sinônimo de pesquisa de campo; bibliográfica não é o mesmo que documental; método dedutivo não é objetivo explicativo.','Seja realista: não prometa entrevistar ou consultar mais pessoas do que consegue alcançar.','Tema, problema, objetivos e metodologia precisam conversar entre si.'],
+ perguntas:['Minhas escolhas ajudam a responder à minha pergunta de pesquisa?','Consigo realizar o que estou prometendo no prazo do TCC?','Sei explicar por que escolhi cada caminho?'],
+ exemplo:'Tema: O discipulado cristão e a formação espiritual dos novos convertidos.\n\nUma combinação coerente: natureza aplicada; abordagem qualitativa; objetivo exploratório; pesquisa bibliográfica e estudo de caso; transversal; método dedutivo; coleta por análise bibliográfica e entrevistas semiestruturadas com líderes do ministério de novos convertidos.\n\nNão existe uma única combinação obrigatória: o importante é a coerência com o problema e os objetivos.'}
 ];
 
 ETAPAS.forEach((e, i) => e.n = i + 1);
@@ -742,6 +777,24 @@ obras(){
   const base = [D.tema, D.titulo, D.subtitulo, D.campoEsp].join(' ');
   if(base.trim() && cheias.every(k => sobreposicao(D[k], base) === 0)) it.push(I('dica','Verifique se as obras tratam diretamente do seu tema: nenhuma delas retoma os termos centrais do tema ou do título.'));
   it.push(I('dica','As obras indicadas entram automaticamente nas <b>Referências</b> do projeto, junto com a obra citada na justificativa.'));
+  return resultado(it);
+},
+metodologia(){
+  const it = [], falt = METOD.filter(m => !selMet(m.id).length);
+  if(falt.length) it.push(I(falt.length > 3 ? 'err' : 'warn', 'Faltam escolhas nos cartões: ' + falt.map(m => m.titulo).join(', ') + '.'));
+  coerenciaMet().forEach(x => it.push(x));
+  const sj = METOD.filter(m => selMet(m.id).length && !(D['mj_' + m.id] || '').trim());
+  if(sj.length) it.push(I('dica','Justifique em uma frase as escolhas de: ' + sj.map(m => m.titulo).join(', ') + '. Isso ajuda a escrever o texto final.'));
+  const tx = D.metTexto.trim();
+  if(!tx) it.push(I('err','Escreva o texto da sua metodologia, usando o roteiro do resumo como guia.'));
+  else {
+    const n = nPal(tx), nt = norm(tx);
+    if(n < 60) it.push(I('warn','O texto da metodologia está breve (' + n + ' palavras). Explique cada escolha e por que ela ajuda a responder à pergunta.'));
+    const ausentes = METOD.filter(m => selMet(m.id).length && !selMet(m.id).some(o => nt.includes(norm(nomeOp(m.id, o)).split(' ')[0].slice(0, 6))));
+    if(ausentes.length) it.push(I('warn','O texto ainda não menciona: ' + ausentes.map(m => m.titulo.toLowerCase()).join(', ') + '.'));
+    if(!/porque|pois|uma vez que|ja que|visto que|por isso|a fim de|para responder/.test(nt)) it.push(I('warn','Explique <strong>por que</strong> fez cada escolha (use “porque”, “pois”, “a fim de”…). A metodologia precisa justificar o caminho, não só nomeá-lo.'));
+    if(n >= 60 && !ausentes.length) it.push(I('ok','O texto apresenta as escolhas metodológicas.'));
+  }
   return resultado(it);
 },
 fundamentacao(){
@@ -1081,6 +1134,217 @@ function caminhosHTML(){
     '<p class="cam-dim">' + c.dimensao + '</p></div>').join('');
 }
 
+/* ---------- Etapa 11: Metodologia (a partir da aula do professor) ---------- */
+const METOD = [
+ {id:'abordagem', titulo:'Abordagem', pergunta:'Como vou trabalhar os dados?', multi:false,
+  memo:'Qualitativa: compreende experiências. Quantitativa: mede dados. Mista: combina as duas.',
+  ops:[
+   {id:'qualitativa', nome:'Qualitativa', def:'Trabalha com opiniões, experiências, relatos e percepções. Busca compreender significados.', ex:'Investigar como os membros compreendem a importância da oração.'},
+   {id:'quantitativa', nome:'Quantitativa', def:'Trabalha com números, medidas, tabelas e estatísticas.', ex:'Identificar quantos membros participam das atividades semanais.'},
+   {id:'mista', nome:'Mista (quanti-qualitativa)', def:'Combina dados numéricos com relatos e interpretações.', ex:'Medir a participação dos jovens e entrevistar alguns para compreender os motivos.'}]},
+ {id:'objetivo', titulo:'Objetivo da pesquisa', pergunta:'O que pretendo alcançar?', multi:false,
+  memo:'Exploratória: conhecer melhor. Descritiva: apresentar características. Explicativa: investigar razões e causas.',
+  ops:[
+   {id:'exploratoria', nome:'Exploratória', def:'Busca conhecer melhor um assunto ou problema ainda pouco compreendido.', ex:'Investigar possíveis razões para o afastamento de jovens das atividades da igreja.'},
+   {id:'descritiva', nome:'Descritiva', def:'Apresenta características de um grupo, situação ou fenômeno.', ex:'Descrever o perfil dos jovens que participam das atividades da igreja.'},
+   {id:'explicativa', nome:'Explicativa', def:'Investiga causas e razões; procura compreender por que algo acontece.', ex:'Investigar fatores que contribuem para o afastamento dos jovens.'}]},
+ {id:'procedimento', titulo:'Procedimento técnico', pergunta:'Como vou realizar a pesquisa?', multi:true,
+  memo:'Bibliográfica usa publicações. Documental examina registros e documentos. De campo coleta dados diretamente na realidade investigada.',
+  ops:[
+   {id:'bibliografica', nome:'Bibliográfica', def:'Consulta livros, artigos científicos e publicações já existentes.', ex:'Estudar o discipulado cristão com base em livros e artigos de Teologia.'},
+   {id:'documental', nome:'Documental', def:'Analisa documentos e registros, como atas, relatórios e arquivos institucionais.', ex:'Analisar atas de reuniões relacionadas ao trabalho missionário.'},
+   {id:'campo', nome:'Pesquisa de campo', def:'Coleta informações diretamente com pessoas ou no ambiente investigado.', ex:'Conversar com líderes sobre desafios do evangelismo local.'},
+   {id:'levantamento', nome:'Levantamento (survey)', def:'Utiliza questionários para reunir respostas de um conjunto de participantes.', ex:'Aplicar questionário aos membros sobre participação nas atividades.'},
+   {id:'estudocaso', nome:'Estudo de caso', def:'Investiga profundamente um caso específico, como uma igreja, um grupo ou um projeto.', ex:'Estudar o funcionamento de um projeto social de uma igreja.'},
+   {id:'experimental', nome:'Experimental', def:'Realiza testes ou intervenções para observar efeitos e resultados.', ex:'Aplicar uma estratégia de ensino bíblico e avaliar seus resultados.'}]},
+ {id:'natureza', titulo:'Natureza', pergunta:'Qual é a finalidade da pesquisa?', multi:false,
+  memo:'Básica amplia o conhecimento. Aplicada usa o conhecimento para melhorar uma realidade.',
+  ops:[
+   {id:'basica', nome:'Básica', def:'Busca ampliar o conhecimento teórico, sem exigir aplicação prática imediata.', ex:'Investigar diferentes interpretações teológicas sobre a santificação.'},
+   {id:'aplicada', nome:'Aplicada', def:'Utiliza o conhecimento para enfrentar problemas reais e práticos.', ex:'Desenvolver uma proposta de discipulado para acompanhar novos convertidos.'}]},
+ {id:'tempo', titulo:'Tempo', pergunta:'Em que período vou observar ou coletar os dados?', multi:false,
+  memo:'Transversal é uma fotografia: um momento. Longitudinal é um filme: mudanças ao longo do tempo.',
+  ops:[
+   {id:'transversal', nome:'Transversal', def:'Observa uma realidade em um único momento ou período delimitado.', ex:'Aplicar questionário aos membros durante março de 2026.'},
+   {id:'longitudinal', nome:'Longitudinal', def:'Acompanha uma realidade ao longo do tempo, observando mudanças.', ex:'Acompanhar a participação de um grupo de jovens durante dois anos.'}]},
+ {id:'metodo', titulo:'Método', pergunta:'Qual caminho lógico orientará o raciocínio?', multi:false,
+  memo:'Dedutivo: geral → particular. Indutivo: particular → geral. Hipotético-dedutivo: cria e verifica hipóteses. Dialético: analisa contradições e transformações.',
+  ops:[
+   {id:'dedutivo', nome:'Dedutivo', def:'Parte do geral para o particular: aplica princípios gerais a situações específicas.', ex:'Partir de princípios bíblicos sobre o amor cristão e analisar sua aplicação em uma comunidade.'},
+   {id:'indutivo', nome:'Indutivo', def:'Parte de casos particulares e identifica padrões para uma compreensão mais ampla.', ex:'Observar práticas de discipulado em diferentes igrejas e identificar princípios comuns.'},
+   {id:'hipotetico', nome:'Hipotético-dedutivo', def:'Formula uma hipótese para o problema e procura verificar se ela se sustenta.', ex:'Hipótese: a falta de atividades direcionadas contribui para a baixa participação dos jovens.'},
+   {id:'dialetico', nome:'Dialético', def:'Analisa contradições, conflitos e transformações da realidade.', ex:'Investigar tensões entre gerações na igreja e suas consequências para a convivência.'}]},
+ {id:'coleta', titulo:'Coleta de dados', pergunta:'Como vou obter as informações?', multi:true,
+  memo:'Entrevista e questionário obtêm informações de pessoas. Análise bibliográfica e documental trabalham com materiais já existentes.',
+  ops:[
+   {id:'entrevista', nome:'Entrevista', def:'Conversa planejada para obter informações; pode ser estruturada, semiestruturada ou aberta.', ex:'Entrevistar pastores sobre desafios do aconselhamento pastoral.'},
+   {id:'questionario', nome:'Questionário', def:'Conjunto de perguntas abertas ou fechadas respondidas pelos participantes.', ex:'Perguntar aos membros sobre participação nos cultos e atividades.'},
+   {id:'docs', nome:'Análise documental', def:'Exame organizado de documentos e registros existentes.', ex:'Analisar relatórios de projetos sociais desenvolvidos por uma igreja.'},
+   {id:'biblio', nome:'Análise bibliográfica', def:'Estudo de livros e artigos publicados sobre o tema.', ex:'Estudar autores que abordam a formação espiritual cristã.'}]}
+];
+const TREINO = [
+ {c:'Um pesquisador quer saber quantos membros participam das atividades semanais da igreja.', card:'abordagem', ok:'quantitativa', exp:'Contar e medir é próprio da abordagem quantitativa.'},
+ {c:'Uma aluna quer compreender como os membros vivenciam a oração em sua rotina.', card:'abordagem', ok:'qualitativa', exp:'Experiências, percepções e significados pedem a abordagem qualitativa.'},
+ {c:'O afastamento de jovens das atividades é um assunto ainda pouco estudado na igreja, e o pesquisador quer conhecer melhor as possíveis razões.', card:'objetivo', ok:'exploratoria', exp:'Quando se busca conhecer melhor um problema pouco compreendido, a pesquisa é exploratória.'},
+ {c:'O objetivo é apresentar o perfil dos jovens que participam das atividades da igreja.', card:'objetivo', ok:'descritiva', exp:'Apresentar características de um grupo é próprio da pesquisa descritiva.'},
+ {c:'Serão analisadas as atas de reuniões do trabalho missionário dos últimos cinco anos.', card:'procedimento', ok:'documental', exp:'Atas, relatórios e arquivos são documentos: pesquisa documental. Não confunda com bibliográfica, que usa publicações.'},
+ {c:'A pesquisa vai estudar em profundidade o projeto social de uma única igreja.', card:'procedimento', ok:'estudocaso', exp:'Investigar a fundo um caso específico e bem delimitado é estudo de caso.'},
+ {c:'O resultado esperado é uma proposta de discipulado para acompanhar novos convertidos.', card:'natureza', ok:'aplicada', exp:'Usar o conhecimento para melhorar uma realidade concreta é pesquisa aplicada.'},
+ {c:'O pesquisador parte dos princípios bíblicos sobre o amor cristão e analisa sua aplicação em uma comunidade.', card:'metodo', ok:'dedutivo', exp:'Do geral (princípios) para o particular (a comunidade): método dedutivo.'}
+];
+const cardMet = id => METOD.find(m => m.id === id);
+const nomeOp = (card, id) => { const o = cardMet(card).ops.find(x => x.id === id); return o ? o.nome : id; };
+const selMet = id => (D['m_' + id] || '').split(',').filter(Boolean);
+function pistaMet(id){
+  const t = norm([D.problema, D.objGeral, D.obj1, D.obj2, D.obj3].join(' ')), esp = norm(D.espaco);
+  const s = (ops, txt) => ({ops, txt});
+  if(id === 'abordagem'){
+    const q = /quant|percent|numero|indice|frequenc|medir|estatist/.test(t), ql = /compreend|percep|experien|significad|sentid|vivenc|entend|como .*(membros|jovens|lideres|pastores)/.test(t);
+    if(q && ql) return s(['mista'], 'Sua pergunta e seus objetivos falam em medir e também em compreender experiências: considere a abordagem mista.');
+    if(q) return s(['quantitativa'], 'Seus objetivos falam em contar ou medir: considere a abordagem quantitativa.');
+    return s(['qualitativa'], 'Sua pergunta busca compreender sentidos, práticas ou experiências: considere a abordagem qualitativa.');
+  }
+  if(id === 'objetivo'){
+    if(/causa|fator|por que|porque|explicar|razoes|motivo/.test(t)) return s(['explicativa'], 'Sua pergunta procura razões ou fatores: considere o objetivo explicativo.');
+    if(/identificar|descrever|caracterizar|levantar|perfil/.test(t)) return s(['descritiva'], 'Seus objetivos falam em identificar ou descrever uma realidade: considere o objetivo descritivo.');
+    return s(['exploratoria'], 'Sua pesquisa busca conhecer melhor o assunto: considere o objetivo exploratório.');
+  }
+  if(id === 'procedimento'){
+    const ops = ['bibliografica'], txt = ['Toda pesquisa teológica precisa de base bibliográfica.'];
+    if(/ata|relatorio|registro|document|estatuto/.test(t)){ ops.push('documental'); txt.push('Seus objetivos citam documentos ou registros: considere também a documental.'); }
+    if(/questionario|quantos|membros|participa/.test(t) && /quant|percent|quantos/.test(t)){ ops.push('levantamento'); txt.push('Para reunir respostas de muitas pessoas, considere o levantamento.'); }
+    else if(/identificar|descrever|praticas|lideres|membros|jovens|pastores|entrevist/.test(t) && /igreja|ministerio|grupo|congregac|comunidade/.test(esp)){ ops.push(/uma igreja|igreja local|um ministerio|projeto/.test(esp) ? 'estudocaso' : 'campo'); txt.push('Seu espaço delimitado é uma realidade concreta (' + esc(D.espaco.trim()) + '): considere ' + (/uma igreja|igreja local|um ministerio|projeto/.test(esp) ? 'o estudo de caso' : 'a pesquisa de campo') + '.'); }
+    return s(ops, txt.join(' '));
+  }
+  if(id === 'natureza'){
+    if(/propor|propost|desenvolver|elaborar|implant|aplicar|estrateg|plano/.test(t)) return s(['aplicada'], 'Seus objetivos preveem uma proposta ou aplicação prática: considere a natureza aplicada.');
+    return s(['basica'], 'Sua pesquisa busca sobretudo compreender e ampliar o conhecimento: considere a natureza básica.');
+  }
+  if(id === 'tempo'){
+    if(/acompanh|ao longo|evoluc|durante .* anos/.test(t)) return s(['longitudinal'], 'Seus objetivos falam em acompanhar mudanças ao longo do tempo: considere a pesquisa longitudinal.');
+    return s(['transversal'], 'Em um TCC, o mais comum e viável é observar a realidade em um período delimitado: considere a pesquisa transversal.');
+  }
+  if(id === 'metodo'){
+    if(/hipotes/.test(t)) return s(['hipotetico'], 'Você menciona hipótese: considere o método hipotético-dedutivo.');
+    if(/tens|conflit|contradic|gerac/.test(t)) return s(['dialetico'], 'Seu tema envolve tensões ou contradições: considere o método dialético.');
+    if(/diferentes igrejas|varias igrejas|casos|comparar/.test(t)) return s(['indutivo'], 'Você vai observar casos particulares para chegar a princípios: considere o método indutivo.');
+    return s(['dedutivo'], 'Pesquisas teológicas costumam partir de princípios bíblicos e teológicos para analisar uma situação concreta: considere o método dedutivo.');
+  }
+  if(id === 'coleta'){
+    const p = selMet('procedimento'), ops = [];
+    if(p.includes('bibliografica')) ops.push('biblio');
+    if(p.includes('documental')) ops.push('docs');
+    if(p.includes('campo') || p.includes('estudocaso')) ops.push('entrevista');
+    if(p.includes('levantamento')) ops.push('questionario');
+    return s(ops.length ? ops : ['biblio'], ops.length ? 'Pelos procedimentos que você marcou, considere: ' + ops.map(o => nomeOp('coleta', o).toLowerCase()).join(', ') + '.' : 'Marque primeiro o procedimento técnico (cartão 3): a coleta depende dele.');
+  }
+  return s([], '');
+}
+function coerenciaMet(){
+  const it = [], p = selMet('procedimento'), c = selMet('coleta'), ab = selMet('abordagem')[0], tp = selMet('tempo')[0], mt = selMet('metodo')[0], nat = selMet('natureza')[0];
+  const t = norm([D.problema, D.objGeral, D.obj1, D.obj2, D.obj3].join(' '));
+  const pessoas = c.includes('entrevista') || c.includes('questionario');
+  if((p.includes('campo') || p.includes('levantamento') || p.includes('estudocaso')) && !pessoas && !c.includes('docs')) it.push(I('warn','Você marcou pesquisa de campo, levantamento ou estudo de caso, mas não escolheu como vai obter as informações das pessoas: marque <strong>entrevista</strong> ou <strong>questionário</strong> no cartão 7.'));
+  if(pessoas && !(p.includes('campo') || p.includes('levantamento') || p.includes('estudocaso') || p.includes('experimental'))) it.push(I('warn','Entrevista e questionário obtêm informações de pessoas, mas você marcou apenas procedimentos com materiais já existentes. Inclua pesquisa de campo, levantamento ou estudo de caso no cartão 3.'));
+  if(c.includes('docs') && !p.includes('documental')) it.push(I('warn','Você escolheu análise documental na coleta, mas não marcou a pesquisa <strong>documental</strong> no cartão 3.'));
+  if(p.includes('documental') && !c.includes('docs')) it.push(I('dica','Você marcou pesquisa documental: inclua a <strong>análise documental</strong> na coleta de dados.'));
+  if(p.includes('bibliografica') && !c.includes('biblio')) it.push(I('dica','Você marcou pesquisa bibliográfica: inclua a <strong>análise bibliográfica</strong> na coleta de dados.'));
+  if(!p.includes('bibliografica') && p.length) it.push(I('dica','Mesmo pesquisas de campo precisam de base teórica: considere marcar também a pesquisa <strong>bibliográfica</strong>.'));
+  if(ab === 'quantitativa' && c.includes('entrevista') && !c.includes('questionario')) it.push(I('warn','A abordagem quantitativa trabalha com números; a entrevista produz relatos. Considere o questionário ou a abordagem mista.'));
+  if(ab === 'qualitativa' && p.includes('levantamento') && !c.includes('entrevista')) it.push(I('dica','Levantamento com questionário costuma gerar dados numéricos. Se também vai interpretar percepções, considere a abordagem mista.'));
+  if(tp === 'longitudinal'){
+    const anos = (D.tempo.match(/\b(19|20)\d{2}\b/g) || []).map(Number);
+    const span = anos.length >= 2 ? Math.max(...anos) - Math.min(...anos) : 0;
+    it.push(I('warn','Pesquisa longitudinal exige acompanhar a realidade por um período longo' + (span < 2 ? ', e a sua delimitação de tempo é curta ou não indica anos' : '') + '. Verifique se é viável no prazo do TCC; o mais comum é a transversal.'));
+  }
+  if(p.includes('experimental')) it.push(I('warn','Pesquisa experimental exige planejar a intervenção, o que será observado e a autorização das pessoas envolvidas. Converse com o orientador sobre a viabilidade.'));
+  if(mt === 'hipotetico' && !/hipotes/.test(t)) it.push(I('dica','O método hipotético-dedutivo parte de uma hipótese: formule-a com clareza (problema → hipótese → verificação).'));
+  if(nat === 'aplicada' && !/propor|propost|desenvolver|elaborar|implant|aplicar|estrateg|plano/.test(t)) it.push(I('dica','Na pesquisa aplicada, algum objetivo deve prever uma proposta ou aplicação prática. Verifique seus objetivos específicos.'));
+  if(pessoas){
+    if(!D.metPublico.trim()) it.push(I('warn','Você vai ouvir pessoas: informe <strong>quem</strong> e <strong>quantas</strong> no campo “Participantes”. Seja realista: não prometa mais do que consegue alcançar.'));
+    it.push(I('dica','Pesquisa com pessoas exige autorização dos participantes (termo de consentimento livre e esclarecido) e cuidado com o sigilo. Combine os detalhes com o orientador.'));
+  }
+  return it;
+}
+let metModo = 'aplicar', metPasso = 0, treinoI = 0, treinoOk = 0, treinoResp = null;
+function metodoHTML(){
+  const pr = [];
+  if(!D.problema.trim()) pr.push('a <strong>problematização</strong> (Etapa 6)');
+  if(!D.objGeral.trim()) pr.push('o <strong>objetivo geral</strong> (Etapa 7)');
+  if(![D.obj1, D.obj2, D.obj3].some(x => x.trim())) pr.push('os <strong>objetivos específicos</strong> (Etapa 8)');
+  let h = '<div class="msg dica"><b>Não escolha a metodologia primeiro.</b>Ela precisa ajudar a responder à sua pergunta de pesquisa. Tema, problema, objetivos e metodologia devem conversar entre si. Não existe uma única combinação obrigatória: o importante é a coerência.</div>';
+  if(pr.length) h += '<div class="msg warn">Antes de definir a metodologia, complete ' + pr.join(', ') + '. As pistas do orientador dependem dessas etapas.</div>';
+  h += '<div class="met-tabs"><button class="' + (metModo === 'treino' ? 'on' : '') + '" data-m="treino">🎯 Treinar (opcional)</button><button class="' + (metModo === 'aplicar' ? 'on' : '') + '" data-m="aplicar">🧭 Aplicar no meu projeto</button></div>';
+  return h + (metModo === 'treino' ? treinoHTML() : aplicarHTML());
+}
+function treinoHTML(){
+  if(treinoI >= TREINO.length) return '<div class="met-card"><h3>Treino concluído! 🎉</h3><p>Você acertou <b>' + treinoOk + ' de ' + TREINO.length + '</b> casos.</p><p>' + (treinoOk >= 6 ? 'Muito bem: você está pronto para aplicar no seu projeto.' : 'Releia as dicas “Para memorizar” de cada cartão enquanto aplica no seu projeto.') + '</p><div class="botoes"><button class="btn btn-pri" data-acao="ir-aplicar">Aplicar no meu projeto →</button><button class="btn btn-leve" data-acao="reiniciar">Treinar de novo</button></div></div>';
+  const q = TREINO[treinoI], cd = cardMet(q.card);
+  let h = '<div class="met-card"><div class="cam-tipo">Caso ' + (treinoI + 1) + ' de ' + TREINO.length + ' · ' + cd.titulo + '</div><h3>' + esc(q.c) + '</h3><p class="met-perg">' + cd.pergunta + '</p><div class="met-ops">';
+  h += cd.ops.map(o => {
+    let cls = '';
+    if(treinoResp){ if(o.id === q.ok) cls = ' certa'; else if(o.id === treinoResp) cls = ' errada'; }
+    return '<button class="met-op' + cls + '" data-t="' + o.id + '"' + (treinoResp ? ' disabled' : '') + '><b>' + o.nome + '</b></button>';
+  }).join('') + '</div>';
+  if(treinoResp) h += '<div class="msg ' + (treinoResp === q.ok ? 'ok' : 'warn') + '"><b>' + (treinoResp === q.ok ? 'Isso!' : 'Quase: a resposta é ' + nomeOp(q.card, q.ok) + '.') + '</b>' + q.exp + '</div><div class="botoes"><button class="btn btn-pri" data-acao="prox-caso">Próximo caso →</button></div>';
+  return h + '</div>';
+}
+function aplicarHTML(){
+  const pontos = METOD.map((m, i) => '<button class="met-dot' + (i === metPasso ? ' on' : '') + (selMet(m.id).length ? ' feito' : '') + '" data-p="' + i + '" title="' + m.titulo + '">' + (i + 1) + '</button>').join('') +
+    '<button class="met-dot' + (metPasso === METOD.length ? ' on' : '') + '" data-p="' + METOD.length + '" title="Resumo">✓</button>';
+  let h = '<div class="met-dots">' + pontos + '</div>';
+  if(metPasso >= METOD.length) return h + resumoMetHTML();
+  const m = METOD[metPasso], sel = selMet(m.id), pista = pistaMet(m.id);
+  h += '<div class="met-card"><div class="cam-tipo">Cartão ' + (metPasso + 1) + ' de ' + METOD.length + (m.multi ? ' · pode marcar mais de um' : '') + '</div><h3>' + m.titulo + '</h3><p class="met-perg">' + m.pergunta + '</p>';
+  if(pista.txt) h += '<div class="msg dica"><b>Pista do orientador</b>' + pista.txt + '</div>';
+  h += '<div class="met-ops grade-ops">' + m.ops.map(o => '<button class="met-op' + (sel.includes(o.id) ? ' sel' : '') + (pista.ops.includes(o.id) ? ' sugerida' : '') + '" data-o="' + o.id + '"><b>' + o.nome + (pista.ops.includes(o.id) ? ' <span class="tag-sug">sugerida</span>' : '') + '</b><span>' + o.def + '</span><em>Ex.: ' + o.ex + '</em></button>').join('') + '</div>';
+  h += '<p class="met-memo">💡 <b>Para memorizar:</b> ' + m.memo + '</p>';
+  h += '<div class="campo"><label for="mj_' + m.id + '">Por que escolhi (uma frase)</label><input id="mj_' + m.id + '" data-mj="' + m.id + '" value="' + esc(D['mj_' + m.id] || '') + '" placeholder="Ex.: Escolhi esta opção porque minha pergunta busca…"></div>';
+  if(m.id === 'coleta' && (sel.includes('entrevista') || sel.includes('questionario'))) h += '<div class="campo"><label for="metPublico">Participantes</label><span class="sub">Quem será ouvido e quantas pessoas, aproximadamente. Seja realista.</span><input id="metPublico" data-mj="publico" value="' + esc(D.metPublico) + '" placeholder="Ex.: 8 líderes do ministério de novos convertidos"></div>';
+  h += '<div class="botoes">' + (metPasso > 0 ? '<button class="btn btn-leve" data-acao="ant">← Anterior</button>' : '') + '<button class="btn btn-pri" data-acao="prox">' + (metPasso < METOD.length - 1 ? 'Próximo cartão →' : 'Ver resumo →') + '</button></div></div>';
+  return h;
+}
+function resumoMetHTML(){
+  const linhas = METOD.map(m => '<tr><td>' + m.titulo + '</td><td>' + (selMet(m.id).map(o => nomeOp(m.id, o)).join(', ') || '<span class="vaz">não escolhido</span>') + '</td></tr>').join('');
+  const co = coerenciaMet();
+  return '<div class="met-card"><h3>Resumo das suas escolhas</h3><table class="met-tab">' + linhas + (D.metPublico.trim() ? '<tr><td>Participantes</td><td>' + esc(D.metPublico) + '</td></tr>' : '') + '</table>' +
+    '<h3 style="margin-top:16px">Verificação de coerência</h3>' + (co.length ? co.map(i => '<div class="msg ' + i.t + '">' + i.m + '</div>').join('') : '<div class="msg ok">As suas escolhas estão coerentes entre si.</div>') +
+    '<h3 style="margin-top:16px">Roteiro para escrever a sua metodologia</h3><p>Use o roteiro como guia e escreva <b>com as suas palavras</b> no campo abaixo, explicando <b>por que</b> cada escolha ajuda a responder à sua pergunta:</p><ol class="roteiro">' + roteiroMet().map(x => '<li>' + x + '</li>').join('') + '</ol></div>';
+}
+function roteiroMet(){
+  const n = (id) => selMet(id).map(o => nomeOp(id, o).toLowerCase()).join(' e ') || '___';
+  return ['Natureza e abordagem: “Trata-se de uma pesquisa de natureza ' + n('natureza') + ', com abordagem ' + n('abordagem') + ', porque…”',
+    'Objetivo: “Quanto aos objetivos, é ' + n('objetivo') + ', pois…”',
+    'Procedimentos: “Quanto aos procedimentos, será ' + n('procedimento') + ', com base em…”',
+    'Tempo e método: “O estudo é ' + n('tempo') + ' e segue o método ' + n('metodo') + ', partindo de…”',
+    'Coleta: “Os dados serão obtidos por meio de ' + n('coleta') + (D.metPublico.trim() ? ', com ' + esc(D.metPublico.trim()) : '') + '…”',
+    'Fechamento: mostre como essas escolhas ajudam a responder à pergunta de pesquisa.'];
+}
+function ligarMetodo(){
+  const box = $('metodo'); if(!box) return;
+  const re = () => { box.innerHTML = metodoHTML(); ligarMetodo(); atualizarProgresso(); };
+  box.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { metModo = b.dataset.m; re(); });
+  box.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { metPasso = +b.dataset.p; re(); });
+  box.querySelectorAll('[data-t]').forEach(b => b.onclick = () => { treinoResp = b.dataset.t; if(treinoResp === TREINO[treinoI].ok) treinoOk++; re(); });
+  box.querySelectorAll('[data-o]').forEach(b => b.onclick = () => {
+    const m = METOD[metPasso]; let s = selMet(m.id); const o = b.dataset.o;
+    if(m.multi) s = s.includes(o) ? s.filter(x => x !== o) : s.concat(o); else s = [o];
+    D['m_' + m.id] = s.join(','); salvarDepois(); re();
+  });
+  box.querySelectorAll('[data-mj]').forEach(el => el.addEventListener('input', () => {
+    if(el.dataset.mj === 'publico') D.metPublico = el.value; else D['mj_' + el.dataset.mj] = el.value; salvarDepois();
+  }));
+  box.querySelectorAll('[data-acao]').forEach(b => b.onclick = () => {
+    const a = b.dataset.acao;
+    if(a === 'prox') metPasso = Math.min(METOD.length, metPasso + 1);
+    if(a === 'ant') metPasso = Math.max(0, metPasso - 1);
+    if(a === 'prox-caso'){ treinoI++; treinoResp = null; }
+    if(a === 'reiniciar'){ treinoI = 0; treinoOk = 0; treinoResp = null; }
+    if(a === 'ir-aplicar'){ metModo = 'aplicar'; metPasso = 0; }
+    re(); box.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+}
+
 function listaReferencias(){
   const todas = D.justRef.split('\n').concat([D.obra1, D.obra2, D.obra3]).map(x => x.trim().replace(/\s+/g,' ')).filter(Boolean);
   const vistos = new Set(), out = [];
@@ -1108,6 +1372,7 @@ problema(){
 },
 objgeral(){ return ['Modelo: <b>[verbo no infinitivo] + [o que será investigado] + [recorte]</b>.','Compare palavra por palavra com sua pergunta: o objetivo geral é a pergunta transformada em ação. Se a pergunta começa com "Como…", o objetivo pode começar com "Analisar como…" ou "Compreender como…".','Use um único verbo de ação.']; },
 objesp(){ return ['Pense em três degraus: <b>a) fundamentar</b> (apresentar, conceituar), <b>b) conhecer a realidade</b> (identificar, descrever) e <b>c) interpretar</b> (analisar, avaliar).','Cada objetivo específico costuma se tornar um capítulo ou uma seção do trabalho.','Confira: se você cumprir os três, o objetivo geral estará alcançado?']; },
+metodologia(){ return ['Comece pela pergunta de pesquisa: qual caminho permite respondê-la?','Use o roteiro do resumo, mas escreva com as suas palavras e acrescente o porquê de cada escolha.','Se for ouvir pessoas, diga quem, quantas e como serão escolhidas, e mencione a autorização dos participantes.','Faça o treino dos cartões se tiver dúvida entre conceitos parecidos (bibliográfica × documental; qualitativa × campo).','Releia a metodologia junto com os objetivos: cada objetivo específico deve ter um caminho para ser alcançado.']; },
 fundamentacao(){ return ['Leia com a sua pergunta de pesquisa à vista: anote só o que ajuda a respondê-la.','Faça fichamentos: para cada obra, registre a referência completa, as ideias principais e as citações com página.','Organize a fundamentação pelos eixos (caminhos), e não por autor: cada eixo reúne vários autores em diálogo.','No texto bíblico, observe o contexto, as palavras-chave e a aplicação; use bíblias de estudo, comentários e dicionários.','Se a sugestão ficou genérica, deixe mais clara a problematização (Etapa 6) e os objetivos específicos (Etapa 8).']; },
 obras(){ return ['Escreva o sobrenome do autor e uma ou duas palavras do título (ex.: “Comiskey, Discipulado relacional”): se a obra estiver na lista, a página oferece a referência completa.','Se a obra não estiver na lista, siga o modelo ABNT: <b>SOBRENOME, Nome. Título: subtítulo. Edição. Cidade: Editora, ano.</b>','Para comentários bíblicos em vários volumes, indique o volume e o livro bíblico comentado.','Prefira obras que você já tem em mãos ou às quais terá acesso com certeza.']; }
 };
@@ -1190,6 +1455,7 @@ function render(){
     '<div class="oque"><span class="ic">🎯</span><div><b>O que você precisa fazer?</b>' + e.oque + '</div></div>' +
     '<div class="grade">' +
       '<section>' +
+        (e.id === 'metodologia' ? '<div id="metodo">' + metodoHTML() + '</div>' : '') +
         (e.id === 'fundamentacao'
           ? '<div class="card"><div class="bloco-tit" style="margin-top:0">Deixe os caminhos mais específicos</div><p class="bloco-desc">Quanto mais precisos estes campos, mais específicas ficam as sugestões. Os caminhos se atualizam enquanto você escreve.</p>' + e.campos.filter(c => c.k !== 'fundNotas').map(campoHTML).join('') + '</div>' +
             '<div id="caminhos">' + caminhosHTML() + '</div>' +
@@ -1207,6 +1473,7 @@ function render(){
         '<div class="card"><h3>📘 Orientações</h3><ul>' + e.orient.map(o => '<li>' + o + '</li>').join('') + '</ul></div>' +
         (e.perguntas ? '<div class="card"><h3>❓ Perguntas orientadoras</h3><ol>' + e.perguntas.map(o => '<li>' + o + '</li>').join('') + '</ol></div>' : '') +
         '<div class="card" style="margin-top:14px;border-left:4px solid var(--gold)"><h3>📚 Para aprofundar</h3><p style="margin:0 0 10px;font-size:15px">Esta etapa é explicada passo a passo, com exemplos, normas da ABNT e bom humor, no livro <b><i>Sobrevivendo ao Projeto de Pesquisa</i></b>, de Alexandre Prado.</p><div class="lojas"><a href="' + URL_LIVRO + '" target="_blank" rel="noopener">UICLAP ↗</a><a href="' + URL_AMAZON + '" target="_blank" rel="noopener">Amazon ↗</a></div></div>' +
+        (e.id === 'metodologia' ? '<div class="card" style="margin-top:14px;border-left:4px solid var(--navy-2)"><h3>📖 Base teórica</h3><p style="margin:0;font-size:14.5px">PRODANOV, Cleber Cristiano; FREITAS, Ernani Cesar de. Metodologia do trabalho científico: métodos e técnicas da pesquisa e do trabalho acadêmico. 2. ed. Novo Hamburgo: Feevale, 2013.</p><p style="margin:8px 0 0;font-size:13.5px;color:var(--muted)">Obra de acesso livre (e-book da Universidade Feevale).</p></div>' : '') +
         '<div class="card"><details class="exemplo"><summary>Ver exemplo didático</summary><div class="exemplo-txt">' + esc(e.exemplo) + '</div><p style="font-size:14px;color:var(--muted);margin:10px 0 0">O exemplo serve de modelo. Construa o seu texto com suas próprias palavras.</p></details></div>' +
       '</aside>' +
     '</div>' +
@@ -1227,6 +1494,7 @@ function render(){
     });
     if(c.sug) mostrarSugestoes(c.k);
   });
+  if(e.id === 'metodologia') ligarMetodo();
   $('btAnalisar').onclick = () => { $('retorno').innerHTML = renderRetorno(ANALISE[e.id](), 'Análise da sua resposta'); salvar(false); };
   $('btMelhorar').onclick = () => { $('retorno').innerHTML = '<div class="retorno-tit">Como aperfeiçoar seu texto</div>' + MELHORAR[e.id]().map(x => '<div class="msg dica">' + x + '</div>').join(''); };
   $('btAnt').onclick = () => ir(e.n > 1 ? 'etapa-' + (e.n-1) : 'inicio');
@@ -1322,6 +1590,16 @@ function eixosTexto(){
   if(D.fundNotas.trim()) D.fundNotas.split(/\n+/).map(x => x.trim()).filter(Boolean).forEach(x => L.push(['p', x]));
   return L;
 }
+function metTemConteudo(){ return D.metTexto.trim() || METOD.some(m => selMet(m.id).length); }
+function metodoTexto(){
+  const L = [];
+  D.metTexto.split(/\n+/).map(x => x.trim()).filter(Boolean).forEach(x => L.push(['p', x]));
+  const esc2 = METOD.filter(m => selMet(m.id).length);
+  if(esc2.length){ L.push(['item', 'Quadro-resumo das escolhas metodológicas:']); esc2.forEach(m => L.push(['item', m.titulo + ': ' + selMet(m.id).map(o => nomeOp(m.id, o)).join(', ') + '.'])); }
+  if(D.metPublico.trim()) L.push(['item', 'Participantes: ' + D.metPublico.trim().replace(/\.$/,'') + '.']);
+  return L;
+}
+function metodoDocHTML(){ return metodoTexto().map(l => l[0] === 'p' ? '<p>' + esc(l[1]) + '</p>' : '<p class="sem">' + esc(l[1]) + '</p>').join(''); }
 function eixosHTML(){ return eixosTexto().map(l => l[0] === 'p' ? '<p>' + esc(l[1]) + '</p>' : '<p class="sem">' + esc(l[1]) + '</p>').join(''); }
 function documentoHTML(){
   const refs = listaReferencias();
@@ -1352,7 +1630,7 @@ function documentoHTML(){
       '<h5>6.1 Objetivo geral</h5><p>' + linha(D.objGeral) + '</p>' +
       '<h5>6.2 Objetivos específicos</h5>' +
       objs.map((o, i) => '<p class="sem">' + 'abc'[i] + ') ' + linha(o.replace(/[.;]\s*$/,'')) + (i < 2 ? ';' : '.') + '</p>').join('') +
-    SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + (/^7 /.test(x[0]) ? eixosHTML() : '') + falta(x[1])).join('') +
+    SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + (/^7 /.test(x[0]) ? eixosHTML() : '') + (/^8 /.test(x[0]) && metTemConteudo() ? metodoDocHTML() + falta('A metodologia será revisada e aprofundada com o professor orientador.') : falta(x[1]))).join('') +
     '<h4 class="centro" style="margin-top:24pt">Referências</h4><div class="refs">' + (refs.length ? refs.map(r => '<p>' + esc(r) + '</p>').join('') : '<p class="vazio">[nenhuma referência informada]</p>') + '</div>' +
     falta('A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.') +
     '<div class="doc-rod">' + ROD_DOC + '</div>' +
@@ -1449,7 +1727,7 @@ function blocosProjeto(){
   add('h2', '6.1 Objetivo geral'); add('p', D.objGeral.trim());
   add('h2', '6.2 Objetivos específicos');
   [D.obj1, D.obj2, D.obj3].forEach((o, i) => add('item', 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')));
-  SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); if(/^7 /.test(x[0])) eixosTexto().forEach(l => add(l[0], l[1])); add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
+  SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); if(/^7 /.test(x[0])) eixosTexto().forEach(l => add(l[0], l[1])); if(/^8 /.test(x[0]) && metTemConteudo()){ metodoTexto().forEach(l => add(l[0], l[1])); add('falta', 'A metodologia será revisada e aprofundada com o professor orientador.'); } else add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
   add('h1c', 'REFERÊNCIAS');
   listaReferencias().forEach(r => add('ref', r));
   add('falta', 'Seção a ser desenvolvida. A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.');
@@ -1515,7 +1793,7 @@ function textoPlano(){
     '5 PROBLEMATIZAÇÃO', D.problema.trim(), '',
     '6 OBJETIVOS', '6.1 Objetivo geral', D.objGeral.trim(), '', '6.2 Objetivos específicos',
     ...objs.map((o, i) => 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')), '',
-    ...SECOES_FALTAM.flatMap(x => [x[0].toUpperCase()].concat(/^7 /.test(x[0]) ? eixosTexto().map(l => l[1]) : []).concat(['[Seção a ser desenvolvida] ' + x[1], ''])),
+    ...SECOES_FALTAM.flatMap(x => [x[0].toUpperCase()].concat(/^7 /.test(x[0]) ? eixosTexto().map(l => l[1]) : []).concat(/^8 /.test(x[0]) && metTemConteudo() ? metodoTexto().map(l => l[1]) : []).concat(['[Seção a ser desenvolvida] ' + x[1], ''])),
     'REFERÊNCIAS', ...refs, '[A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.]', '',
     '—', ROD_DOC
   ].filter(x => x !== null).join('\n');
@@ -1585,7 +1863,7 @@ $('btApagar').onclick = () => abrirModal('Apagar o rascunho?',
 $('arqRasc').addEventListener('change', abrirRascunho);
 window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if(h && h !== vista) { vista = h; montarMenu(); render(); } });
 const h0 = (location.hash || '').slice(1);
-if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-(10|[1-9])$/.test(h0)) vista = h0;
+if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-(1[01]|[1-9])$/.test(h0)) vista = h0;
 mostrarSalvo(); montarMenu(); render();
 </script>
 </body>
