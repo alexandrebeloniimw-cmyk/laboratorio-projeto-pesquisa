@@ -232,6 +232,9 @@ details.exemplo[open] summary::before{content:"▾ "}
 .met-tab td:first-child{font-weight:700;color:var(--navy);width:38%}
 .met-tab .vaz{color:var(--err)}
 .roteiro li{margin-bottom:6px}
+.rec-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.rec-chip{border:1px dashed var(--navy-2);background:#fff;color:var(--navy-2);border-radius:99px;padding:4px 10px;font-size:13.5px}
+.rec-chip:hover{background:var(--tip-bg)}
 .cron-cfg{display:flex;gap:16px;flex-wrap:wrap;margin:10px 0}
 .cron-cfg label{font-weight:700;color:var(--navy);display:flex;flex-direction:column;gap:4px}
 .cron-cfg input,.cron-cfg select{font:inherit;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:#fffefb}
@@ -322,7 +325,7 @@ details.exemplo[open] summary::before{content:"▾ "}
   <h1>Laboratório de Projeto de Pesquisa</h1>
   <p>Construindo meu Projeto de Pesquisa Teológico-Ministerial: uma ferramenta interativa para orientar, construir e aperfeiçoar o seu projeto.</p>
   <div class="progresso">
-    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 13 etapas</span></div>
+    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 14 etapas</span></div>
     <div class="barra"><span id="progBar"></span></div>
   </div>
 </header>
@@ -362,7 +365,7 @@ details.exemplo[open] summary::before{content:"▾ "}
    DADOS E PERSISTÊNCIA
    ========================================================= */
 const CHAVE = 'iwe-lab-projeto-v1';
-const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3','fundNotas','textoBiblico','palavrasChave','conceitos','m_abordagem','m_objetivo','m_procedimento','m_natureza','m_tempo','m_metodo','m_coleta','mj_abordagem','mj_objetivo','mj_procedimento','mj_natureza','mj_tempo','mj_metodo','mj_coleta','metPublico','metTexto','metMenores','metInstit','metAnonimo','metDocPub','plano1','plano2','plano3','cronInicio','cronMeses','cronMarcas','cronOutra'];
+const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3','fundNotas','textoBiblico','palavrasChave','conceitos','m_abordagem','m_objetivo','m_procedimento','m_natureza','m_tempo','m_metodo','m_coleta','mj_abordagem','mj_objetivo','mj_procedimento','mj_natureza','mj_tempo','mj_metodo','mj_coleta','metPublico','metTexto','metMenores','metInstit','metAnonimo','metDocPub','plano1','plano2','plano3','cronInicio','cronMeses','cronMarcas','cronOutra','recMateriais','recHumanos','recFinanceiros'];
 let D = {}; CAMPOS.forEach(k => D[k] = '');
 let salvoEm = null;
 
@@ -594,7 +597,17 @@ const ETAPAS = [
  campos:[{k:'cronOutra', opcional:true, input:true, label:'Outra atividade (opcional)', sub:'Se a sua pesquisa tiver uma atividade que não está na tabela, escreva aqui; ela será acrescentada como última linha.', ph:'Ex.: Submissão ao Comitê de Ética'}],
  orient:['O cronograma mostra quando cada etapa da pesquisa será realizada.','Respeite a ordem lógica: levantamento e leitura antes da redação; coleta antes da análise; revisão antes da entrega.','Algumas atividades acontecem ao mesmo tempo, como leitura, fichamento e redação.','Reserve tempo para a revisão com o orientador antes da entrega final.','Se a pesquisa precisar do Comitê de Ética, inclua a submissão antes da coleta de dados.'],
  perguntas:['Consigo realizar cada atividade no tempo marcado?','A coleta de dados acontece antes da análise?','Deixei tempo para revisar o texto com o orientador?'],
- exemplo:'Projeto de 12 meses (março a fevereiro):\nEscolha do tema e pesquisa preliminar: mar.\nLevantamento bibliográfico: mar. a mai.\nElaboração do projeto: abr. e mai.\nLeitura e fichamento: mai. a set.\nRedação da fundamentação teórica: jul. a out.\nRedação do artigo: set. a dez.\nRevisão e formatação: dez. e jan.\nEntrega: fev.\nApresentação: fev.'}
+ exemplo:'Projeto de 12 meses (março a fevereiro):\nEscolha do tema e pesquisa preliminar: mar.\nLevantamento bibliográfico: mar. a mai.\nElaboração do projeto: abr. e mai.\nLeitura e fichamento: mai. a set.\nRedação da fundamentação teórica: jul. a out.\nRedação do artigo: set. a dez.\nRevisão e formatação: dez. e jan.\nEntrega: fev.\nApresentação: fev.'},
+
+{n:14, id:'recursos', titulo:'Recursos (quando necessário)', curto:'Recursos',
+ oque:'Quando necessário, indicar os recursos que a pesquisa vai exigir: materiais, humanos e financeiros. Em pesquisas apenas bibliográficas, esta etapa costuma ser simples, e pode ser deixada em branco se o orientador não exigir.',
+ campos:[
+  {k:'recMateriais', opcional:true, rec:true, label:'Recursos materiais', sub:'Livros, equipamentos, materiais e ferramentas. Clique nas sugestões ou escreva, separando por ponto e vírgula.', rows:2, ph:'Ex.: livros e comentários bíblicos; computador; acesso à internet'},
+  {k:'recHumanos', opcional:true, rec:true, label:'Recursos humanos', sub:'Pessoas envolvidas na pesquisa.', rows:2, ph:'Ex.: pesquisador; professor orientador; participantes da pesquisa'},
+  {k:'recFinanceiros', opcional:true, rec:true, label:'Recursos financeiros', sub:'Gastos previstos e de onde virão os recursos (se houver).', rows:2, ph:'Ex.: aquisição de livros; impressões; recursos próprios do pesquisador'}],
+ orient:['Os recursos são previstos quando necessários: a ABNT NBR 15287:2025 os inclui entre os elementos do projeto.','Seja realista: indique apenas o que de fato será usado.','Em pesquisas bibliográficas, normalmente bastam livros, computador e acesso à internet.','Se houver coleta de dados, lembre-se de formulários, transporte e autorizações.'],
+ perguntas:['De que materiais vou precisar?','Quem estará envolvido na pesquisa?','Haverá algum custo? Quem vai arcar com ele?'],
+ exemplo:'Recursos materiais: livros e comentários bíblicos; computador; acesso à internet; formulário on-line.\nRecursos humanos: pesquisador; professor orientador; participantes da pesquisa.\nRecursos financeiros: aquisição de livros e impressões, com recursos próprios do pesquisador.'}
 ];
 
 ETAPAS.forEach((e, i) => e.n = i + 1);
@@ -830,6 +843,15 @@ obras(){
   const base = [D.tema, D.titulo, D.subtitulo, D.campoEsp].join(' ');
   if(base.trim() && cheias.every(k => sobreposicao(D[k], base) === 0)) it.push(I('dica','Verifique se as obras tratam diretamente do seu tema: nenhuma delas retoma os termos centrais do tema ou do título.'));
   it.push(I('dica','As obras indicadas entram automaticamente nas <b>Referências</b> do projeto, junto com a obra citada na justificativa.'));
+  return resultado(it);
+},
+recursos(){
+  const it = [], tem = ['recMateriais','recHumanos','recFinanceiros'].filter(k => D[k].trim());
+  if(!tem.length) return resultado([I('dica','Etapa opcional: preencha os recursos quando necessário ou quando o seu orientador pedir. Em pesquisas apenas bibliográficas, costuma bastar indicar os materiais.')]);
+  const pessoas = selMet('coleta').some(c => c === 'questionario' || c === 'entrevista');
+  if(pessoas && !/particip/.test(norm(D.recHumanos))) it.push(I('dica','Sua metodologia prevê ouvir pessoas: inclua os participantes da pesquisa nos recursos humanos.'));
+  if(D.recFinanceiros.trim() && !/propri|instituic|patrocin|igreja|bolsa/.test(norm(D.recFinanceiros))) it.push(I('dica','Indique de onde virão os recursos financeiros (por exemplo, recursos próprios do pesquisador).'));
+  if(!it.length) it.push(I('ok','Os recursos da pesquisa foram indicados.'));
   return resultado(it);
 },
 cronograma(){
@@ -1611,6 +1633,33 @@ function cronogramaTexto(){
   return [['item', 'Cronograma das atividades (meses marcados):']].concat(cronLinhas().filter(l => l.cols.some(Boolean)).map(l => ['item', l.a.replace(/ \(se houver\)/, '') + ': ' + ms.filter((m, i) => l.cols[i]).join(', ') + '.']));
 }
 
+/* ---------- Etapa 14: Recursos (quando necessário) ---------- */
+const REC_SUG = {
+  recMateriais: ['Livros e comentários bíblicos','Acesso à internet','Computador ou notebook','Impressões e cópias','Bíblias de estudo','Formulário on-line (Google Formulários)','Gravador de voz','Material de escritório'],
+  recHumanos: ['Pesquisador(a)','Professor(a) orientador(a)','Participantes da pesquisa','Liderança da igreja (autorização)','Revisor(a) de texto'],
+  recFinanceiros: ['Aquisição de livros','Impressões e encadernação','Transporte para a coleta de dados','Internet e materiais diversos','Recursos próprios do pesquisador']
+};
+function recursosChipsHTML(k){
+  return '<div class="rec-chips">' + REC_SUG[k].map(x => '<button type="button" class="rec-chip" data-rec="' + k + '" data-v="' + esc(x) + '">+ ' + esc(x) + '</button>').join('') + '</div>';
+}
+function ligarRecursos(){
+  document.querySelectorAll('[data-rec]').forEach(b => b.onclick = () => {
+    const k = b.dataset.rec, v = b.dataset.v, el = $('f_' + k); if(!el) return;
+    const itens = D[k].split(/[;\n]+/).map(x => x.trim()).filter(Boolean);
+    if(itens.some(x => norm(x) === norm(v))) return;
+    itens.push(v); D[k] = itens.join('; '); el.value = D[k];
+    const c = $('c_' + k); if(c) c.textContent = nPal(D[k]) + ' palavra(s)';
+    salvarDepois(); atualizarProgresso();
+  });
+}
+function recursosTexto(){
+  const L = [];
+  [['recMateriais','Recursos materiais'],['recHumanos','Recursos humanos'],['recFinanceiros','Recursos financeiros']].forEach(([k, n]) => {
+    if(D[k].trim()) L.push(['item', n + ': ' + D[k].trim().replace(/\n+/g,'; ').replace(/[.;]\s*$/,'') + '.']);
+  });
+  return L;
+}
+
 function listaReferencias(){
   const todas = D.justRef.split('\n').concat([D.obra1, D.obra2, D.obra3]).map(x => x.trim().replace(/\s+/g,' ')).filter(Boolean);
   const vistos = new Set(), out = [];
@@ -1638,6 +1687,7 @@ problema(){
 },
 objgeral(){ return ['Modelo: <b>[verbo no infinitivo] + [o que será investigado] + [recorte]</b>.','Compare palavra por palavra com sua pergunta: o objetivo geral é a pergunta transformada em ação. Se a pergunta começa com "Como…", o objetivo pode começar com "Analisar como…" ou "Compreender como…".','Use um único verbo de ação.']; },
 objesp(){ return ['Pense em três degraus: <b>a) fundamentar</b> (apresentar, conceituar), <b>b) conhecer a realidade</b> (identificar, descrever) e <b>c) interpretar</b> (analisar, avaliar).','Cada objetivo específico costuma se tornar um capítulo ou uma seção do trabalho.','Confira: se você cumprir os três, o objetivo geral estará alcançado?']; },
+recursos(){ return ['Liste apenas o que será realmente usado.','Separe os recursos em materiais, humanos e financeiros.','Se não houver custos, você pode escrever: “Não haverá custos; os materiais são do próprio pesquisador.”']; },
 cronograma(){ return ['Comece marcando a entrega e a apresentação; depois distribua as outras atividades de trás para a frente.','Leitura, fichamento e redação podem ocorrer ao mesmo tempo, em meses sobrepostos.','Reserve de um a dois meses para revisão e ajustes com o orientador.','Se for ouvir pessoas e precisar do Comitê de Ética, acrescente a submissão como “outra atividade”, antes da coleta.']; },
 plano(){ return ['Leia os três títulos em sequência: eles devem contar a “história” do artigo, do fundamento à resposta da pergunta.','Use nomes no título da seção (ex.: “Os fundamentos bíblicos do discipulado”), e não verbos (“Apresentar…”).','Combine as alternativas: você pode usar a seção 1 de uma e as seções 2 e 3 de outra.','Mantenha a ordem dos objetivos específicos, salvo orientação diferente do professor.']; },
 metodologia(){ return ['Comece pela pergunta de pesquisa: qual caminho permite respondê-la?','Use o roteiro do resumo, mas escreva com as suas palavras e acrescente o porquê de cada escolha.','Se for ouvir pessoas, diga quem, quantas e como serão escolhidas, e mencione a autorização dos participantes.','Faça o treino dos cartões se tiver dúvida entre conceitos parecidos (bibliográfica × documental; qualitativa × campo).','Releia a metodologia junto com os objetivos: cada objetivo específico deve ter um caminho para ser alcançado.']; },
@@ -1694,7 +1744,7 @@ function campoHTML(c){
   h += c.input
     ? '<input id="f_' + c.k + '" data-k="' + c.k + '" placeholder="' + esc(c.ph||'') + '" value="' + esc(D[c.k]) + '">'
     : '<textarea id="f_' + c.k + '" data-k="' + c.k + '" rows="' + (c.rows||4) + '" placeholder="' + esc(c.ph||'') + '">' + esc(D[c.k]) + '</textarea>';
-  h += '<div class="contador" id="c_' + c.k + '"></div>' + (c.sug ? '<div class="sugref" id="s_' + c.k + '" aria-live="polite"></div>' : '') + '</div>';
+  h += '<div class="contador" id="c_' + c.k + '"></div>' + (c.rec ? recursosChipsHTML(c.k) : '') + (c.sug ? '<div class="sugref" id="s_' + c.k + '" aria-live="polite"></div>' : '') + '</div>';
   if(c.bloco) h += '</div>';
   return h;
 }
@@ -1767,6 +1817,7 @@ function render(){
   if(e.id === 'metodologia') ligarMetodo();
   if(e.id === 'plano') ligarPlanos();
   if(e.id === 'cronograma') ligarCronograma();
+  if(e.id === 'recursos') ligarRecursos();
   $('btAnalisar').onclick = () => { $('retorno').innerHTML = renderRetorno(ANALISE[e.id](), 'Análise da sua resposta'); salvar(false); };
   $('btMelhorar').onclick = () => { $('retorno').innerHTML = '<div class="retorno-tit">Como aperfeiçoar seu texto</div>' + MELHORAR[e.id]().map(x => '<div class="msg dica">' + x + '</div>').join(''); };
   $('btAnt').onclick = () => ir(e.n > 1 ? 'etapa-' + (e.n-1) : 'inicio');
@@ -1844,7 +1895,7 @@ const ROD_DOC = 'Elaborado no Laboratório de Projeto de Pesquisa – Prof. Alex
 const SECOES_FALTAM = [
   ['7 Fundamentação teórica', 'A fundamentação teórica (ou revisão teórica) será construída com o professor orientador, a partir das leituras indicadas.'],
   ['8 Metodologia', 'A metodologia (tipo de pesquisa, abordagem, procedimentos e instrumentos) será definida com o professor orientador.'],
-  ['9 Recursos', 'Os recursos necessários à pesquisa (materiais, humanos e financeiros) serão definidos com o professor orientador.'],
+  ['9 Recursos', 'Quando necessários, os recursos da pesquisa (materiais, humanos e financeiros) serão definidos com o professor orientador.'],
   ['10 Cronograma', 'O cronograma poderá ser ajustado com o professor orientador.'],
   ['11 Plano preliminar do artigo', 'O plano preliminar será ajustado com o professor orientador ao longo da pesquisa.']
 ];
@@ -1919,7 +1970,7 @@ function documentoHTML(){
       '<h5>6.1 Objetivo geral</h5><p>' + linha(D.objGeral) + '</p>' +
       '<h5>6.2 Objetivos específicos</h5>' +
       objs.map((o, i) => '<p class="sem">' + 'abc'[i] + ') ' + linha(o.replace(/[.;]\s*$/,'')) + (i < 2 ? ';' : '.') + '</p>').join('') +
-    SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + (/^7 /.test(x[0]) ? eixosHTML() : '') + (/^11 /.test(x[0]) ? planoTexto().map(l => '<p class="sem">' + esc(l[1]) + '</p>').join('') : '') + (/^10 /.test(x[0]) ? cronogramaDocHTML() : '') + (/^8 /.test(x[0]) && metTemConteudo() ? metodoDocHTML() + falta('A metodologia será revisada e aprofundada com o professor orientador.') : falta(x[1]))).join('') +
+    SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + (/^7 /.test(x[0]) ? eixosHTML() : '') + (/^11 /.test(x[0]) ? planoTexto().map(l => '<p class="sem">' + esc(l[1]) + '</p>').join('') : '') + (/^10 /.test(x[0]) ? cronogramaDocHTML() : '') + (/^9 /.test(x[0]) ? recursosTexto().map(l => '<p class="sem">' + esc(l[1]) + '</p>').join('') : '') + (/^8 /.test(x[0]) && metTemConteudo() ? metodoDocHTML() + falta('A metodologia será revisada e aprofundada com o professor orientador.') : falta(x[1]))).join('') +
     '<h4 class="centro" style="margin-top:24pt">Referências</h4><div class="refs">' + (refs.length ? refs.map(r => '<p>' + esc(r) + '</p>').join('') : '<p class="vazio">[nenhuma referência informada]</p>') + '</div>' +
     falta('A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.') +
     '<div class="doc-rod">' + ROD_DOC + '</div>' +
@@ -2016,7 +2067,7 @@ function blocosProjeto(){
   add('h2', '6.1 Objetivo geral'); add('p', D.objGeral.trim());
   add('h2', '6.2 Objetivos específicos');
   [D.obj1, D.obj2, D.obj3].forEach((o, i) => add('item', 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')));
-  SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); if(/^7 /.test(x[0])) eixosTexto().forEach(l => add(l[0], l[1])); if(/^11 /.test(x[0])) planoTexto().forEach(l => add(l[0], l[1])); if(/^10 /.test(x[0])) cronogramaTexto().forEach(l => add(l[0], l[1])); if(/^8 /.test(x[0]) && metTemConteudo()){ metodoTexto().forEach(l => add(l[0], l[1])); add('falta', 'A metodologia será revisada e aprofundada com o professor orientador.'); } else add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
+  SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); if(/^7 /.test(x[0])) eixosTexto().forEach(l => add(l[0], l[1])); if(/^11 /.test(x[0])) planoTexto().forEach(l => add(l[0], l[1])); if(/^10 /.test(x[0])) cronogramaTexto().forEach(l => add(l[0], l[1])); if(/^9 /.test(x[0])) recursosTexto().forEach(l => add(l[0], l[1])); if(/^8 /.test(x[0]) && metTemConteudo()){ metodoTexto().forEach(l => add(l[0], l[1])); add('falta', 'A metodologia será revisada e aprofundada com o professor orientador.'); } else add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
   add('h1c', 'REFERÊNCIAS');
   listaReferencias().forEach(r => add('ref', r));
   add('falta', 'Seção a ser desenvolvida. A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.');
@@ -2082,7 +2133,7 @@ function textoPlano(){
     '5 PROBLEMATIZAÇÃO', D.problema.trim(), '',
     '6 OBJETIVOS', '6.1 Objetivo geral', D.objGeral.trim(), '', '6.2 Objetivos específicos',
     ...objs.map((o, i) => 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')), '',
-    ...SECOES_FALTAM.flatMap(x => [x[0].toUpperCase()].concat(/^7 /.test(x[0]) ? eixosTexto().map(l => l[1]) : []).concat(/^11 /.test(x[0]) ? planoTexto().map(l => l[1]) : []).concat(/^10 /.test(x[0]) ? cronogramaTexto().map(l => l[1]) : []).concat(/^8 /.test(x[0]) && metTemConteudo() ? metodoTexto().map(l => l[1]) : []).concat(['[Seção a ser desenvolvida] ' + x[1], ''])),
+    ...SECOES_FALTAM.flatMap(x => [x[0].toUpperCase()].concat(/^7 /.test(x[0]) ? eixosTexto().map(l => l[1]) : []).concat(/^11 /.test(x[0]) ? planoTexto().map(l => l[1]) : []).concat(/^10 /.test(x[0]) ? cronogramaTexto().map(l => l[1]) : []).concat(/^9 /.test(x[0]) ? recursosTexto().map(l => l[1]) : []).concat(/^8 /.test(x[0]) && metTemConteudo() ? metodoTexto().map(l => l[1]) : []).concat(['[Seção a ser desenvolvida] ' + x[1], ''])),
     'REFERÊNCIAS', ...refs, '[A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.]', '',
     '—', ROD_DOC
   ].filter(x => x !== null).join('\n');
@@ -2152,7 +2203,7 @@ $('btApagar').onclick = () => abrirModal('Apagar o rascunho?',
 $('arqRasc').addEventListener('change', abrirRascunho);
 window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if(h && h !== vista) { vista = h; montarMenu(); render(); } });
 const h0 = (location.hash || '').slice(1);
-if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-(1[0-3]|[1-9])$/.test(h0)) vista = h0;
+if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-(1[0-4]|[1-9])$/.test(h0)) vista = h0;
 mostrarSalvo(); montarMenu(); render();
 </script>
 </body>
