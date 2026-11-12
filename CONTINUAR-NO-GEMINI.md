@@ -62,7 +62,7 @@ Recursos:
 ## 6. O que ainda está pendente
 
 1. **Testar o envio ao Drive.** Atualizar o código no Apps Script (colar o `apps-script/Codigo.gs` mais recente, rodar a função `autorizar` uma vez, depois Implantar → Gerenciar implantações → lápis → Nova versão → Implantar) e fazer um envio de teste pelo laboratório.
-2. **Ideia adiada:** mostrar, na Etapa 9, quais artigos do acervo já usaram cada obra. Exige ler a seção de Referências dos 158 PDFs do acervo, que estão no Google Drive pavimentandoocaminho@gmail.com, e montar um índice obra → artigos.
+2. **Feito (parcial):** a Etapa 9 mostra "📖 Já usada no acervo" com base na bibliografia de 88 artigos (2019–2026) enviada pelo professor (`dados/usos-acervo.js`). Para incluir mais artigos, enviar outro arquivo no mesmo formato (TÍTULO / AUTOR / ANO / REFERÊNCIAS).
 3. 15 referências da lista original ficaram de fora por estarem incompletas (sem ano ou sem cidade/editora); podem ser completadas e acrescentadas a `dados/referencias.js`.
 
 ## 7. Como pedir alterações ao assistente

@@ -197,6 +197,8 @@ details.exemplo[open] summary::before{content:"▾ "}
 .sugref .sr-item{background:#fff;border:1px solid #d5dff0;border-radius:8px;padding:8px 10px;margin-bottom:6px;display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
 .sugref .sr-item span{flex:1;line-height:1.4}
 .sugref .sr-item button{flex:0 0 auto;font-size:13.5px;padding:6px 10px}
+.sugref .sr-uso{margin-top:5px;font-size:13.5px;color:var(--muted);line-height:1.4}
+.sugref .sr-uso a{color:var(--navy-2)}
 .sugref .sr-ok{color:var(--ok);font-weight:600}
 .btn-amazon{background:#fff;color:var(--navy);text-decoration:none}
 .btn-amazon:hover{background:var(--gold-soft)}
@@ -280,6 +282,7 @@ details.exemplo[open] summary::before{content:"▾ "}
 <div class="modal" id="modal"><div class="card"><h3 id="modalTit"></h3><div id="modalTxt"></div><div class="botoes" style="margin-top:16px" id="modalBts"></div></div></div>
 
 <script src="dados/referencias.js"></script>
+<script src="dados/usos-acervo.js"></script>
 <script>
 /* =========================================================
    DADOS E PERSISTÊNCIA
@@ -871,17 +874,30 @@ function mostrarSugestoes(k){
   const box = $('s_' + k); if(!box) return;
   const q = D[k].trim();
   if(!q){ box.innerHTML = ''; return; }
-  if(refExata(q)){ box.innerHTML = '<span class="sr-ok">✓ Referência completa, conferida na lista de referências.</span>'; return; }
+  const ex = refExata(q);
+  if(ex){ box.innerHTML = '<span class="sr-ok">✓ Referência completa, conferida na lista de referências.</span>' + usosNoAcervo(ex); return; }
   const ms = buscarRefs(q);
   if(!ms.length){ box.innerHTML = nPal(q) >= 2 ? '<div class="sr-tit">Não encontramos esta obra na lista de referências.</div>Escreva a referência completa no padrão ABNT: SOBRENOME, Nome. Título: subtítulo. Cidade: Editora, ano.' : ''; return; }
   box.innerHTML = '<div class="sr-tit">📚 Encontramos na lista de referências. É esta a obra?</div>' + ms.map((m, i) =>
-    '<div class="sr-item"><span>' + esc(m.r) + '</span><button class="btn btn-pri" data-i="' + i + '">Usar esta referência</button></div>').join('');
+    '<div class="sr-item"><span>' + esc(m.r) + usosNoAcervo(m.r) + '</span><button class="btn btn-pri" data-i="' + i + '">Usar esta referência</button></div>').join('');
   box.querySelectorAll('button').forEach(b => b.onclick = () => {
     D[k] = ms[+b.dataset.i].r; const el = $('f_' + k); if(el) el.value = D[k];
     const c = $('c_' + k); if(c) c.textContent = nPal(D[k]) + ' palavra(s)';
     salvar(false); atualizarProgresso(); mostrarSugestoes(k);
     toast('Referência completa inserida. Ela entrará nas Referências do projeto.');
   });
+}
+function usosNoAcervo(ref){
+  const i = REFS.indexOf(ref); if(i < 0 || !window.REFS_USOS) return '';
+  const js = window.REFS_USOS[i]; if(!js || !js.length) return '';
+  const arts = js.map(j => window.ACERVO_ARTS[j]).filter(Boolean)
+    .sort((a,b) => String(b.y).localeCompare(String(a.y)));
+  const lim = arts.slice(0, 4).map(a => {
+    let t0 = a.t; if(t0 === t0.toUpperCase()) t0 = t0.charAt(0) + t0.slice(1).toLowerCase();
+    const t = t0.length > 70 ? t0.slice(0, 68).trim() + '…' : t0;
+    return a.id ? '<a href="https://drive.google.com/file/d/' + a.id + '/view" target="_blank" rel="noopener">' + esc(t) + '</a> (' + esc(String(a.y)) + ')' : esc(t) + ' (' + esc(String(a.y)) + ')';
+  });
+  return '<div class="sr-uso">📖 Já usada no acervo ' + (arts.length > 1 ? 'em ' + arts.length + ' trabalhos' : 'em 1 trabalho') + ': ' + lim.join('; ') + (arts.length > 4 ? '; e mais ' + (arts.length - 4) + '.' : '.') + '</div>';
 }
 function listaReferencias(){
   const todas = D.justRef.split('\n').concat([D.obra1, D.obra2, D.obra3]).map(x => x.trim().replace(/\s+/g,' ')).filter(Boolean);
