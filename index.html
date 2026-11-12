@@ -191,6 +191,16 @@ details.exemplo[open] summary::before{content:"▾ "}
 .livro-lat b{display:block;color:var(--navy);font-family:"Fraunces",serif;font-size:15.5px;margin:2px 0}
 .livro-lat span{color:var(--gold);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
 @media (max-width:960px){.livro{flex-direction:column;align-items:flex-start}.livro-lat{display:none}}
+.caminho{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:var(--radius);padding:16px 20px;margin:12px 0}
+.caminho h3{color:var(--navy);font-size:19px;margin:2px 0 8px}
+.caminho p{margin:6px 0}
+.caminho ul{margin:4px 0 8px;padding-left:20px}
+.caminho li{margin-bottom:4px}
+.cam-tipo{font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.cam-obras{background:var(--tip-bg);border-radius:10px;padding:8px 12px;margin:6px 0 8px}
+.cam-obras span{font-weight:700;color:var(--navy);font-size:14px}
+.cam-obras li{font-size:14.5px}
+.cam-dim{font-size:14.5px;color:var(--muted);font-style:italic}
 .sugref:empty{display:none}
 .sugref{margin-top:8px;background:var(--tip-bg);border-radius:10px;padding:10px 12px;font-size:15px}
 .sugref .sr-tit{font-weight:700;color:var(--navy);font-size:14px;margin-bottom:6px}
@@ -248,7 +258,7 @@ details.exemplo[open] summary::before{content:"▾ "}
   <h1>Laboratório de Projeto de Pesquisa</h1>
   <p>Construindo meu Projeto de Pesquisa Teológico-Ministerial: uma ferramenta interativa para orientar, construir e aperfeiçoar o seu projeto.</p>
   <div class="progresso">
-    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 9 etapas</span></div>
+    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 10 etapas</span></div>
     <div class="barra"><span id="progBar"></span></div>
   </div>
 </header>
@@ -288,7 +298,7 @@ details.exemplo[open] summary::before{content:"▾ "}
    DADOS E PERSISTÊNCIA
    ========================================================= */
 const CHAVE = 'iwe-lab-projeto-v1';
-const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3'];
+const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3','fundNotas'];
 let D = {}; CAMPOS.forEach(k => D[k] = '');
 let salvoEm = null;
 
@@ -485,7 +495,14 @@ const ETAPAS = [
   {k:'obra3', opcional:true, label:'Obra 3 (opcional)', rows:2, ph:'Autor e título da terceira obra', sug:true}],
  orient:['Escolha obras que tratem diretamente do seu tema: livros, comentários bíblicos, artigos ou documentos.','Prefira obras em português e de autores reconhecidos na área.','Escreva o autor e o título. Se a obra estiver na lista de referências do laboratório, a página oferece a referência completa no padrão ABNT.','As obras indicadas aqui entram automaticamente nas Referências do projeto.'],
  perguntas:['Essa obra trata diretamente do meu tema?','Tenho acesso a ela (biblioteca, livraria, arquivo digital)?','Ela me ajuda a responder à minha pergunta de pesquisa?'],
- exemplo:'Escreva, por exemplo: "Comiskey, Discipulado relacional".\nA página encontra a obra na lista e oferece a referência completa:\nCOMISKEY, Joel. Discipulado relacional: como Deus usa a comunidade para modelar seguidores de Jesus. Fortaleza: Premius, 2014.'}
+ exemplo:'Escreva, por exemplo: "Comiskey, Discipulado relacional".\nA página encontra a obra na lista e oferece a referência completa:\nCOMISKEY, Joel. Discipulado relacional: como Deus usa a comunidade para modelar seguidores de Jesus. Fortaleza: Premius, 2014.'},
+
+{n:10, id:'fundamentacao', titulo:'Caminhos para a fundamentação teórica', curto:'Fundamentação teórica',
+ oque:'Conhecer caminhos possíveis para construir a fundamentação teórica do seu projeto: o que pesquisar, com quais perguntas e em quais fontes. As sugestões partem do que você escreveu nas etapas anteriores.',
+ campos:[{k:'fundNotas', opcional:true, label:'Minhas anotações sobre os caminhos que pretendo seguir (opcional)', sub:'Registre quais caminhos fazem mais sentido para você, para conversar com o professor orientador.', rows:5, ph:'Ex.: Pretendo seguir os caminhos 1 e 3, começando pelo estudo de Mt 28.19-20…'}],
+ orient:['A fundamentação teórica reúne o que as Escrituras, a teologia e os autores dizem sobre o seu tema.','Ela deve ajudar a responder à sua pergunta de pesquisa: leia sempre com a pergunta à vista.','Comece pelas obras que você já tem e pelas da lista de referências do laboratório.','Para analisar textos bíblicos, use bíblias de estudo, comentários e dicionários exegéticos.','Ao usar os autores, siga a ABNT NBR 10520:2023 nas citações e anote a referência completa (NBR 6023).'],
+ perguntas:['Qual é a minha pergunta de pesquisa?','O que preciso saber para respondê-la?','Quais autores e textos bíblicos me ajudam nisso?'],
+ exemplo:'Pergunta: Como o discipulado cristão contribui para a formação espiritual dos novos convertidos no contexto da igreja local?\n\nCaminhos possíveis: (1) fundamentos bíblico-teológicos do discipulado (Mt 28.19-20); (2) conceitos de formação espiritual; (3) a realidade do ministério de novos convertidos; (4) implicações ministeriais para a igreja local.'}
 ];
 
 ETAPAS.forEach((e, i) => e.n = i + 1);
@@ -722,6 +739,14 @@ obras(){
   if(base.trim() && cheias.every(k => sobreposicao(D[k], base) === 0)) it.push(I('dica','Verifique se as obras tratam diretamente do seu tema: nenhuma delas retoma os termos centrais do tema ou do título.'));
   it.push(I('dica','As obras indicadas entram automaticamente nas <b>Referências</b> do projeto, junto com a obra citada na justificativa.'));
   return resultado(it);
+},
+fundamentacao(){
+  if(!D.tema.trim() && !D.problema.trim()) return resultado([I('err','Escreva pelo menos o tema e a problematização para receber caminhos de pesquisa.')]);
+  const pr = prontidao(), C = gerarCaminhos(), it = [];
+  pr.forEach(x => it.push(I('warn', x)));
+  if(C.length) it.push(I('ok', 'Foram sugeridos ' + C.length + ' caminhos de pesquisa a partir do que você escreveu. Converse com o seu professor orientador sobre quais seguir.'));
+  if(!D.fundNotas.trim()) it.push(I('dica','Registre nas anotações quais caminhos pretende seguir: isso ajuda na conversa com o orientador e aparece no projeto.'));
+  return resultado(it);
 }
 };
 
@@ -899,6 +924,141 @@ function usosNoAcervo(ref){
   });
   return '<div class="sr-uso">📖 Já usada no acervo ' + (arts.length > 1 ? 'em ' + arts.length + ' trabalhos' : 'em 1 trabalho') + ': ' + lim.join('; ') + (arts.length > 4 ? '; e mais ' + (arts.length - 4) + '.' : '.') + '</div>';
 }
+/* ---------- Etapa 10: caminhos para a fundamentação teórica (regras pedagógicas) ---------- */
+const LIVROS = {gn:'genesis',ex:'exodo',lv:'levitico',nm:'numeros',dt:'deuteronomio',js:'josue',jz:'juizes',rt:'rute',sm:'samuel',rs:'reis',cr:'cronicas',ed:'esdras',ne:'neemias',et:'ester',jo:'joao',sl:'salmos',pv:'proverbios',ec:'eclesiastes',ct:'cantares',is:'isaias',jr:'jeremias',lm:'lamentacoes',ez:'ezequiel',dn:'daniel',os:'oseias',jl:'joel',am:'amos',ob:'obadias',jn:'jonas',mq:'miqueias',na:'naum',hc:'habacuque',sf:'sofonias',ag:'ageu',zc:'zacarias',ml:'malaquias',mt:'mateus',mc:'marcos',lc:'lucas',at:'atos',rm:'romanos',co:'corintios',gl:'galatas',ef:'efesios',fp:'filipenses',cl:'colossenses',ts:'tessalonicenses',tm:'timoteo',tt:'tito',fm:'filemom',hb:'hebreus',tg:'tiago',pe:'pedro',jd:'judas',ap:'apocalipse'};
+const VERB_TIPO = {identificar:'realidade',descrever:'realidade',mapear:'realidade',levantar:'realidade',verificar:'realidade',caracterizar:'realidade',
+  analisar:'analise',avaliar:'analise',discutir:'analise',comparar:'analise',relacionar:'analise',compreender:'analise',investigar:'analise',examinar:'analise',refletir:'analise',propor:'analise',interpretar:'analise',problematizar:'analise'};
+function refsBiblicas(){
+  const re = new RegExp(RE_BIBLIA.source, 'g');
+  const ms = ((D.justTeo + ' ' + D.contexto + ' ' + D.relevAtual).match(re) || []).map(x => x.trim());
+  return [...new Set(ms)].slice(0, 3);
+}
+function livroDe(ref){
+  const n = norm(ref).replace(/^[1-3]\s?/, '');
+  const ab = (n.match(/^[a-z]+/) || [''])[0];
+  if(LIVROS[ab.slice(0,2)] && ab.length <= 3) return LIVROS[ab.slice(0,2)];
+  const full = Object.values(LIVROS).find(l => ab.startsWith(l.slice(0,4)));
+  return full || '';
+}
+function usosRef(r){ const i = REFS.indexOf(r); return (window.REFS_USOS && window.REFS_USOS[i]) ? window.REFS_USOS[i].length : 0; }
+const ehBiblia = r => /^b[ií]blia/i.test(r);
+let REFS6 = null;
+function rankRefs(texto, n, usados, chave){
+  if(!REFS.length) return [];
+  if(!REFS6){ const df = {}; REFS6 = REFS.map(r => { const k = new Set(palavras(r).filter(w => w.length >= 4 && !STOP.has(w)).map(w => w.slice(0,7))); k.forEach(x => df[x] = (df[x]||0) + 1); return {r, k}; }); REFS6.idf = {}; Object.keys(df).forEach(x => REFS6.idf[x] = Math.log((REFS.length + 1) / (df[x] + 0.5))); }
+  const K = [...new Set(palavras(texto).filter(w => w.length >= 4 && !STOP.has(w)).map(w => w.slice(0,7)))].filter(k => !generica(k));
+  const KC = chave ? [...new Set(palavras(chave).filter(w => w.length >= 4 && !STOP.has(w)).map(w => w.slice(0,7)))].filter(k => !generica(k)) : [];
+  if(!K.length) return [];
+  const out = REFS6.map(x => {
+    let s = 0, c = 0; K.forEach(k => { if(x.k.has(k)){ s += REFS6.idf[k] || 1; c++; } });
+    const temChave = !KC.length || KC.some(k => x.k.has(k));
+    return {r: x.r, s: s + Math.log(1 + usosRef(x.r)) * 0.6, c, temChave};
+  }).filter(m => m.temChave && m.c >= (KC.length ? 1 : Math.min(2, K.length)) && !ehBiblia(m.r) && !/\bdisponivel em\b/.test(norm(m.r)) && !(usados && usados.has(m.r)))
+    .sort((a,b) => b.s - a.s);
+  const obraKey = r => norm(r).split(/\.\s/).slice(0, 2).join('.').replace(/[^a-z0-9]/g,'');
+  const vistas = new Set(usados ? [...usados].map(obraKey) : []), res = [];
+  for(const m of out){ const k = obraKey(m.r); if(vistas.has(k)) continue; vistas.add(k); res.push(m.r); if(res.length >= n) break; }
+  if(usados) res.forEach(r => usados.add(r));
+  return res;
+}
+function filtrarRefs(cond, texto, n){
+  const K = new Set(palavras(texto).map(w => w.slice(0,5)));
+  return REFS.filter(r => cond(norm(r))).map(r => {
+    let c = 0; palavras(r).forEach(w => { if(K.has(w.slice(0,5))) c++; });
+    return {r, s: c + Math.log(1 + usosRef(r))};
+  }).sort((a,b) => b.s - a.s).slice(0, n).map(m => m.r);
+}
+function semVerbo(o){ return o.trim().replace(/^\S+\s+/, '').replace(/[.;]\s*$/, ''); }
+function nucleoTema(){ return (D.campoEsp.trim() || D.tema.trim()).replace(/\.$/,''); }
+function prontidao(){
+  const it = [];
+  if(!D.problema.trim()) it.push('Escreva a <b>problematização (Etapa 6)</b>: ela é o centro da fundamentação, porque é a pergunta que a pesquisa vai responder.');
+  else if(ANALISE.problema().st === 'err') it.push('Revise a <b>problematização (Etapa 6)</b>: com a pergunta mais clara, os caminhos ficam mais precisos.');
+  if(ANALISE.delimitacao().st === 'err') it.push('Complete a <b>delimitação (Etapa 4)</b>, sobretudo o campo específico e o espaço.');
+  if(![D.obj1, D.obj2, D.obj3].some(x => x.trim())) it.push('Escreva os <b>objetivos específicos (Etapa 8)</b>: cada um costuma se tornar um eixo da fundamentação.');
+  return it;
+}
+function gerarCaminhos(){
+  const nuc = nucleoTema(); if(!nuc) return [];
+  const esp = D.espaco.trim().replace(/\.$/,'') || 'o contexto da pesquisa';
+  const prob = D.problema.trim();
+  const usados = new Set(), C = [];
+  const refsB = refsBiblicas();
+  const livros = [...new Set(refsB.map(livroDe).filter(Boolean))];
+  const coment = livros.length ? filtrarRefs(n => /coment/.test(n) && livros.some(l => n.includes(l)), nuc, 2) : [];
+  const dic = filtrarRefs(n => /\bdicionario/.test(n), nuc, 2);
+  const bEst = filtrarRefs(n => /^biblia/.test(n) && /estudo/.test(n), nuc, 2);
+  // Caminho bíblico-teológico
+  const objsTeo = [D.obj1, D.obj2, D.obj3].filter(o => o.trim() && /biblic|teolog|fundament|escritur/.test(norm(o)) && ['apresentar','conceituar','fundamentar','expor','discorrer','definir','contextualizar'].includes(primeira(o)));
+  C.push({
+    tipo: 'Bíblico-teológico',
+    titulo: 'Fundamentos bíblico-teológicos de ' + nuc.charAt(0).toLowerCase() + nuc.slice(1),
+    porque: 'Uma pesquisa teológico-ministerial precisa mostrar o que as Escrituras e a teologia dizem sobre o assunto.' + (objsTeo.length ? ' Esse caminho atende ao objetivo “' + esc(objsTeo[0].trim()) + '”.' : '') + (prob ? ' Ele dá a base para responder à pergunta: “' + esc(prob) + '”.' : ''),
+    perguntas: [
+      refsB.length ? 'O que ' + refsB.join(', ') + ' ensina(m) sobre o tema, considerando o contexto histórico, literário e as palavras-chave do texto original?' : 'Quais textos bíblicos tratam diretamente do seu tema? Escolha um ou dois textos centrais para analisar com profundidade.',
+      'Como a teologia cristã, e em especial a tradição wesleyana, compreende esse assunto?',
+      'Que conceitos-chave você precisará definir para responder à sua pergunta?'],
+    obras: rankRefs(nuc + ' ' + D.tema + ' teologia bíblica', 3, usados, nuc),
+    fontes: [
+      'Bíblias de estudo, para o contexto e as notas dos textos' + (bEst.length ? ': ' + bEst.map(esc).join(' | ') : '.'),
+      (coment.length ? 'Comentários bíblicos do livro estudado: ' + coment.map(esc).join(' | ') : 'Comentários bíblicos do livro em que está o seu texto central (escolha o comentário pelo livro bíblico).'),
+      'Dicionários exegéticos e teológicos, para o sentido das palavras do texto original' + (dic.length ? ': ' + dic.map(esc).join(' | ') : '.'),
+      'Teologias sistemáticas e obras da tradição wesleyana (sermões e notas de John Wesley, manual de doutrinas da igreja).'],
+    dimensao: 'Teológica: firma a pesquisa nas Escrituras e na tradição. Ministerial: mostra por que esse ensino importa para a vida da igreja.'
+  });
+  // Caminhos a partir dos objetivos específicos
+  [D.obj1, D.obj2, D.obj3].forEach((o, i) => {
+    if(!o.trim() || objsTeo.includes(o) || C.length >= 3) return;
+    const v = primeira(o), tipo = VERB_TIPO[v] || 'conceitual', resto = semVerbo(o);
+    const letra = 'abc'[i] + ')';
+    const base = {porque: 'Responde ao objetivo específico ' + letra + ' “' + esc(o.trim()) + '” e contribui para responder à sua pergunta de pesquisa.', obras: rankRefs(resto + ' ' + nuc, 3, usados, resto)};
+    if(tipo === 'realidade') C.push(Object.assign(base, {
+      tipo: 'Realidade e contexto', titulo: 'Conhecer a realidade: ' + resto,
+      perguntas: ['Como isso se apresenta hoje em ' + esp + '?', 'Que dados, números ou documentos mostram essa realidade?', 'Que informações você mesmo poderá levantar (questionário, entrevista ou observação), sempre com a orientação do professor e a autorização das pessoas envolvidas?'],
+      fontes: ['IBGE (por exemplo, os dados do Censo 2022 sobre religião, família ou juventude, conforme o tema).', 'Pesquisas de institutos reconhecidos (Datafolha, Pew Research Center, Barna Group, Lifeway Research).', 'Documentos, relatórios e estatísticas da própria igreja ou da denominação.', 'Artigos científicos: Google Acadêmico, SciELO e Portal de Periódicos da CAPES.'],
+      dimensao: 'Ministerial: aproxima a pesquisa da realidade concreta da igreja. Teológica: os dados serão lidos à luz dos fundamentos bíblicos.'}));
+    else if(tipo === 'analise') C.push(Object.assign(base, {
+      tipo: 'Análise e diálogo', titulo: 'Análise e diálogo com autores: ' + resto,
+      perguntas: ['Que relação existe entre esse ponto e a sua pergunta de pesquisa?', 'Em que os autores concordam e em que discordam sobre isso?', 'Que critérios bíblicos e teológicos você usará para avaliar o que encontrar?'],
+      fontes: ['Obras de autores que discutem o assunto (priorize as indicadas acima).', 'Artigos de revistas de teologia e ciências da religião: Google Acadêmico, SciELO, Portal de Periódicos da CAPES.', 'Dissertações e teses: Biblioteca Digital Brasileira de Teses e Dissertações (BDTD).'],
+      dimensao: 'Teológica: interpreta o assunto com critérios bíblicos. Ministerial: aponta contribuições para a prática da igreja.'}));
+    else C.push(Object.assign(base, {
+      tipo: 'Conceitos e fundamentos', titulo: 'Conceitos e fundamentos: ' + resto,
+      perguntas: ['O que os principais autores entendem por isso?', 'Quais conceitos você precisará definir com clareza?', 'Como esses conceitos se ligam ao seu tema e à sua pergunta?'],
+      fontes: ['Obras de referência sobre o assunto (priorize as indicadas acima).', 'Dicionários teológicos e teologias sistemáticas.', 'Artigos científicos: Google Acadêmico e SciELO.'],
+      dimensao: 'Teológica: dá precisão aos conceitos. Ministerial: evita confusões na aplicação à vida da igreja.'}));
+  });
+  // Caminho ministerial
+  if(C.length < 4){
+    const soc = /famil|jove|crianc|social|sociedad|comunidad|crescim|evas|dados|censo|pandemi|digital|saude/.test(norm(D.justSoc + ' ' + D.relevAtual + ' ' + D.contexto));
+    C.push({
+      tipo: 'Ministerial e pastoral',
+      titulo: 'Implicações ministeriais: ' + nuc.charAt(0).toLowerCase() + nuc.slice(1) + ' em ' + esp.charAt(0).toLowerCase() + esp.slice(1),
+      porque: 'Liga a fundamentação à prática da igreja e à relevância do tema para os dias atuais, como você mostrou na justificativa.',
+      perguntas: ['Que práticas pastorais e ministeriais se relacionam com o seu tema?', 'Que desafios atuais a igreja enfrenta nesse assunto?', 'Que contribuições a sua pesquisa poderá oferecer a ' + esp + '?'],
+      obras: rankRefs(nuc + ' pastoral ministério liderança igreja', 3, usados, nuc),
+      fontes: ['Obras de teologia pastoral, liderança e ministério (priorize as indicadas acima).', 'Documentos e orientações da sua igreja ou denominação.'].concat(soc ? ['IBGE e pesquisas de institutos reconhecidos, para mostrar a realidade atual com dados.'] : []),
+      dimensao: 'Ministerial: aponta caminhos para a vida da igreja. Teológica: mantém a prática coerente com os fundamentos bíblicos.'
+    });
+  }
+  return C.slice(0, 4);
+}
+function caminhosHTML(){
+  const pr = prontidao(), C = gerarCaminhos();
+  let h = '<div class="msg dica"><b>Um caminho, e não o caminho.</b>Estas sugestões são geradas a partir do que você escreveu, principalmente da sua pergunta de pesquisa e dos seus objetivos. Elas mostram possibilidades de estudo; a definição da fundamentação teórica é feita com o seu professor orientador. Se você alterar as etapas anteriores, os caminhos mudam junto.</div>';
+  if(pr.length) h += '<div class="msg warn"><b>Para indicar caminhos mais precisos:</b><ul>' + pr.map(x => '<li>' + x + '</li>').join('') + '</ul></div>';
+  if(!C.length) return h + '<div class="msg err">Escreva pelo menos o tema (Etapa 1) e a delimitação (Etapa 4) para receber sugestões de caminhos.</div>';
+  return h + C.map((c, i) =>
+    '<div class="caminho"><div class="cam-tipo">Caminho ' + (i+1) + ' · ' + c.tipo + '</div>' +
+    '<h3>' + esc(c.titulo) + '</h3>' +
+    '<p><b>Por que esse caminho:</b> ' + c.porque + '</p>' +
+    '<p><b>Perguntas para guiar a leitura:</b></p><ul>' + c.perguntas.map(p => '<li>' + esc(p) + '</li>').join('') + '</ul>' +
+    '<p><b>Onde buscar:</b></p>' +
+    (c.obras.length ? '<div class="cam-obras"><span>📚 Obras da lista de referências do laboratório</span><ul>' + c.obras.map(r => '<li>' + esc(r) + '</li>').join('') + '</ul></div>' : '') +
+    '<ul>' + c.fontes.map(f => '<li>' + f + '</li>').join('') + '</ul>' +
+    '<p class="cam-dim">' + c.dimensao + '</p></div>').join('');
+}
+
 function listaReferencias(){
   const todas = D.justRef.split('\n').concat([D.obra1, D.obra2, D.obra3]).map(x => x.trim().replace(/\s+/g,' ')).filter(Boolean);
   const vistos = new Set(), out = [];
@@ -926,6 +1086,7 @@ problema(){
 },
 objgeral(){ return ['Modelo: <b>[verbo no infinitivo] + [o que será investigado] + [recorte]</b>.','Compare palavra por palavra com sua pergunta: o objetivo geral é a pergunta transformada em ação. Se a pergunta começa com "Como…", o objetivo pode começar com "Analisar como…" ou "Compreender como…".','Use um único verbo de ação.']; },
 objesp(){ return ['Pense em três degraus: <b>a) fundamentar</b> (apresentar, conceituar), <b>b) conhecer a realidade</b> (identificar, descrever) e <b>c) interpretar</b> (analisar, avaliar).','Cada objetivo específico costuma se tornar um capítulo ou uma seção do trabalho.','Confira: se você cumprir os três, o objetivo geral estará alcançado?']; },
+fundamentacao(){ return ['Leia com a sua pergunta de pesquisa à vista: anote só o que ajuda a respondê-la.','Faça fichamentos: para cada obra, registre a referência completa, as ideias principais e as citações com página.','Organize a fundamentação pelos eixos (caminhos), e não por autor: cada eixo reúne vários autores em diálogo.','No texto bíblico, observe o contexto, as palavras-chave e a aplicação; use bíblias de estudo, comentários e dicionários.','Se a sugestão ficou genérica, deixe mais clara a problematização (Etapa 6) e os objetivos específicos (Etapa 8).']; },
 obras(){ return ['Escreva o sobrenome do autor e uma ou duas palavras do título (ex.: “Comiskey, Discipulado relacional”): se a obra estiver na lista, a página oferece a referência completa.','Se a obra não estiver na lista, siga o modelo ABNT: <b>SOBRENOME, Nome. Título: subtítulo. Edição. Cidade: Editora, ano.</b>','Para comentários bíblicos em vários volumes, indique o volume e o livro bíblico comentado.','Prefira obras que você já tem em mãos ou às quais terá acesso com certeza.']; }
 };
 
@@ -1007,6 +1168,7 @@ function render(){
     '<div class="oque"><span class="ic">🎯</span><div><b>O que você precisa fazer?</b>' + e.oque + '</div></div>' +
     '<div class="grade">' +
       '<section>' +
+        (e.id === 'fundamentacao' ? '<div id="caminhos">' + caminhosHTML() + '</div>' : '') +
         '<div class="card">' + e.campos.map(campoHTML).join('') +
           (e.id === 'delimitacao' ? '<div class="previa"><span class="etiqueta">Prévia da sua delimitação</span><p id="previaDel">' + previaDelimitacao() + '</p></div>' : '') +
         '</div>' +
@@ -1124,6 +1286,14 @@ function tituloCompleto(){
   if(t) return t + (st ? ': ' + st : '');
   return (D.tema.trim() || 'Projeto de pesquisa').replace(/\.$/,'');
 }
+function eixosTexto(){
+  const C = gerarCaminhos(); if(!C.length) return [];
+  const L = [['item', 'Eixos previstos para a fundamentação teórica (caminhos sugeridos no laboratório):']];
+  C.forEach((c, i) => L.push(['item', 'abcd'[i] + ') ' + c.titulo + (i < C.length - 1 ? ';' : '.')]));
+  if(D.fundNotas.trim()) D.fundNotas.split(/\n+/).map(x => x.trim()).filter(Boolean).forEach(x => L.push(['p', x]));
+  return L;
+}
+function eixosHTML(){ return eixosTexto().map(l => l[0] === 'p' ? '<p>' + esc(l[1]) + '</p>' : '<p class="sem">' + esc(l[1]) + '</p>').join(''); }
 function documentoHTML(){
   const refs = listaReferencias();
   const objs = [D.obj1, D.obj2, D.obj3];
@@ -1153,7 +1323,7 @@ function documentoHTML(){
       '<h5>6.1 Objetivo geral</h5><p>' + linha(D.objGeral) + '</p>' +
       '<h5>6.2 Objetivos específicos</h5>' +
       objs.map((o, i) => '<p class="sem">' + 'abc'[i] + ') ' + linha(o.replace(/[.;]\s*$/,'')) + (i < 2 ? ';' : '.') + '</p>').join('') +
-    SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + falta(x[1])).join('') +
+    SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + (/^7 /.test(x[0]) ? eixosHTML() : '') + falta(x[1])).join('') +
     '<h4 class="centro" style="margin-top:24pt">Referências</h4><div class="refs">' + (refs.length ? refs.map(r => '<p>' + esc(r) + '</p>').join('') : '<p class="vazio">[nenhuma referência informada]</p>') + '</div>' +
     falta('A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.') +
     '<div class="doc-rod">' + ROD_DOC + '</div>' +
@@ -1250,7 +1420,7 @@ function blocosProjeto(){
   add('h2', '6.1 Objetivo geral'); add('p', D.objGeral.trim());
   add('h2', '6.2 Objetivos específicos');
   [D.obj1, D.obj2, D.obj3].forEach((o, i) => add('item', 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')));
-  SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
+  SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); if(/^7 /.test(x[0])) eixosTexto().forEach(l => add(l[0], l[1])); add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
   add('h1c', 'REFERÊNCIAS');
   listaReferencias().forEach(r => add('ref', r));
   add('falta', 'Seção a ser desenvolvida. A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.');
@@ -1316,7 +1486,7 @@ function textoPlano(){
     '5 PROBLEMATIZAÇÃO', D.problema.trim(), '',
     '6 OBJETIVOS', '6.1 Objetivo geral', D.objGeral.trim(), '', '6.2 Objetivos específicos',
     ...objs.map((o, i) => 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')), '',
-    ...SECOES_FALTAM.flatMap(x => [x[0].toUpperCase(), '[Seção a ser desenvolvida] ' + x[1], '']),
+    ...SECOES_FALTAM.flatMap(x => [x[0].toUpperCase()].concat(/^7 /.test(x[0]) ? eixosTexto().map(l => l[1]) : []).concat(['[Seção a ser desenvolvida] ' + x[1], ''])),
     'REFERÊNCIAS', ...refs, '[A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.]', '',
     '—', ROD_DOC
   ].filter(x => x !== null).join('\n');
@@ -1386,7 +1556,7 @@ $('btApagar').onclick = () => abrirModal('Apagar o rascunho?',
 $('arqRasc').addEventListener('change', abrirRascunho);
 window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if(h && h !== vista) { vista = h; montarMenu(); render(); } });
 const h0 = (location.hash || '').slice(1);
-if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-[1-9]$/.test(h0)) vista = h0;
+if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-(10|[1-9])$/.test(h0)) vista = h0;
 mostrarSalvo(); montarMenu(); render();
 </script>
 </body>

@@ -34,7 +34,7 @@ O site é publicado pelo **GitHub Pages** (ramo `main`, pasta raiz). Toda altera
 
 ## 4. O que o laboratório faz hoje
 
-**9 etapas:** 1 Tema (+ relevância para a atualidade) · 2 Título (título + subtítulo) · 3 Contextualização · 4 Delimitação (campo geral, específico, espaço, tempo) · 5 Justificativa (relevância teológica + referência; relevância social e ministerial) · 6 Problematização · 7 Objetivo geral · 8 Objetivos específicos (a, b, c) · 9 Obras de referência (até 3).
+**10 etapas:** 1 Tema (+ relevância para a atualidade) · 2 Título (título + subtítulo) · 3 Contextualização · 4 Delimitação (campo geral, específico, espaço, tempo) · 5 Justificativa (relevância teológica + referência; relevância social e ministerial) · 6 Problematização · 7 Objetivo geral · 8 Objetivos específicos (a, b, c) · 9 Obras de referência (até 3) · 10 Caminhos para a fundamentação teórica (até 4 caminhos gerados por regras a partir do que o aluno escreveu, priorizando obras da lista de referências; nunca cita os trabalhos do acervo; funções `gerarCaminhos()` e `caminhosHTML()`).
 
 Recursos:
 - Botões **Analisar minha resposta** e **Melhorar meu texto** em cada etapa (critérios pedagógicos automáticos, sem IA).
