@@ -232,6 +232,22 @@ details.exemplo[open] summary::before{content:"▾ "}
 .met-tab td:first-child{font-weight:700;color:var(--navy);width:38%}
 .met-tab .vaz{color:var(--err)}
 .roteiro li{margin-bottom:6px}
+.cron-cfg{display:flex;gap:16px;flex-wrap:wrap;margin:10px 0}
+.cron-cfg label{font-weight:700;color:var(--navy);display:flex;flex-direction:column;gap:4px}
+.cron-cfg input,.cron-cfg select{font:inherit;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;background:#fffefb}
+.cron-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+.cron{border-collapse:collapse;font-size:14px;min-width:100%}
+.cron th,.cron td{border:1px solid var(--line);padding:0;text-align:center}
+.cron th{background:var(--navy);color:#fff;padding:6px 4px;font-weight:600;white-space:nowrap}
+.cron td:first-child,.cron th:first-child{text-align:left;padding:6px 10px;position:sticky;left:0;background:#fff;min-width:210px;z-index:1}
+.cron th:first-child{background:var(--navy)}
+.cron-c{width:100%;min-width:38px;height:36px;border:0;background:#fff;font-weight:800;color:var(--navy)}
+.cron-c:hover{background:var(--gold-soft)}
+.cron-c.on{background:var(--gold);color:var(--navy)}
+.cron-dica{font-size:14px;color:var(--muted)}
+.folha .cron-doc{border-collapse:collapse;width:100%;font-size:9pt;margin:6pt 0 10pt;line-height:1.2}
+.folha .cron-doc th,.folha .cron-doc td{border:.5pt solid #000;padding:2pt 3pt;text-align:center}
+.folha .cron-doc td:first-child,.folha .cron-doc th:first-child{text-align:left}
 .plano-est{margin:8px 0;padding-left:22px}
 .plano-est li{margin-bottom:4px}
 .plano-est li.fixo{color:var(--muted);font-weight:600}
@@ -306,7 +322,7 @@ details.exemplo[open] summary::before{content:"▾ "}
   <h1>Laboratório de Projeto de Pesquisa</h1>
   <p>Construindo meu Projeto de Pesquisa Teológico-Ministerial: uma ferramenta interativa para orientar, construir e aperfeiçoar o seu projeto.</p>
   <div class="progresso">
-    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 12 etapas</span></div>
+    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 13 etapas</span></div>
     <div class="barra"><span id="progBar"></span></div>
   </div>
 </header>
@@ -346,7 +362,7 @@ details.exemplo[open] summary::before{content:"▾ "}
    DADOS E PERSISTÊNCIA
    ========================================================= */
 const CHAVE = 'iwe-lab-projeto-v1';
-const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3','fundNotas','textoBiblico','palavrasChave','conceitos','m_abordagem','m_objetivo','m_procedimento','m_natureza','m_tempo','m_metodo','m_coleta','mj_abordagem','mj_objetivo','mj_procedimento','mj_natureza','mj_tempo','mj_metodo','mj_coleta','metPublico','metTexto','metMenores','metInstit','metAnonimo','metDocPub','plano1','plano2','plano3'];
+const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3','fundNotas','textoBiblico','palavrasChave','conceitos','m_abordagem','m_objetivo','m_procedimento','m_natureza','m_tempo','m_metodo','m_coleta','mj_abordagem','mj_objetivo','mj_procedimento','mj_natureza','mj_tempo','mj_metodo','mj_coleta','metPublico','metTexto','metMenores','metInstit','metAnonimo','metDocPub','plano1','plano2','plano3','cronInicio','cronMeses','cronMarcas','cronOutra'];
 let D = {}; CAMPOS.forEach(k => D[k] = '');
 let salvoEm = null;
 
@@ -571,7 +587,14 @@ const ETAPAS = [
   {k:'plano3', input:true, label:'Seção 3 do desenvolvimento', sub:'Corresponde ao objetivo específico c).', ph:'Título da seção 3'}],
  orient:['O artigo segue sempre a estrutura: título, resumo, palavras-chave, introdução, desenvolvimento em três seções, considerações finais e bibliografia.','Cada seção do desenvolvimento cumpre um objetivo específico; juntas, respondem à pergunta de pesquisa.','O título da seção é um nome, e não uma frase com verbo no infinitivo.','O plano é preliminar: ele pode mudar ao longo da pesquisa, com o orientador.'],
  perguntas:['Cada seção cumpre um dos meus objetivos específicos?','Ao final das três seções, minha pergunta de pesquisa estará respondida?','A ordem das seções é lógica (do fundamento à aplicação)?'],
- exemplo:'Objetivos: a) apresentar os fundamentos bíblico-teológicos do discipulado; b) identificar as práticas de discipulado no ministério de novos convertidos; c) avaliar as contribuições dessas práticas.\n\nSeção 1: Os fundamentos bíblico-teológicos do discipulado cristão\nSeção 2: As práticas de discipulado no ministério de novos convertidos\nSeção 3: Contribuições do discipulado para a formação espiritual dos novos convertidos'}
+ exemplo:'Objetivos: a) apresentar os fundamentos bíblico-teológicos do discipulado; b) identificar as práticas de discipulado no ministério de novos convertidos; c) avaliar as contribuições dessas práticas.\n\nSeção 1: Os fundamentos bíblico-teológicos do discipulado cristão\nSeção 2: As práticas de discipulado no ministério de novos convertidos\nSeção 3: Contribuições do discipulado para a formação espiritual dos novos convertidos'},
+
+{n:13, id:'cronograma', titulo:'Cronograma', curto:'Cronograma',
+ oque:'Planejar no tempo as atividades da sua pesquisa, marcando na tabela os meses em que cada uma será realizada.',
+ campos:[{k:'cronOutra', opcional:true, input:true, label:'Outra atividade (opcional)', sub:'Se a sua pesquisa tiver uma atividade que não está na tabela, escreva aqui; ela será acrescentada como última linha.', ph:'Ex.: Submissão ao Comitê de Ética'}],
+ orient:['O cronograma mostra quando cada etapa da pesquisa será realizada.','Respeite a ordem lógica: levantamento e leitura antes da redação; coleta antes da análise; revisão antes da entrega.','Algumas atividades acontecem ao mesmo tempo, como leitura, fichamento e redação.','Reserve tempo para a revisão com o orientador antes da entrega final.','Se a pesquisa precisar do Comitê de Ética, inclua a submissão antes da coleta de dados.'],
+ perguntas:['Consigo realizar cada atividade no tempo marcado?','A coleta de dados acontece antes da análise?','Deixei tempo para revisar o texto com o orientador?'],
+ exemplo:'Projeto de 12 meses (março a fevereiro):\nEscolha do tema e pesquisa preliminar: mar.\nLevantamento bibliográfico: mar. a mai.\nElaboração do projeto: abr. e mai.\nLeitura e fichamento: mai. a set.\nRedação da fundamentação teórica: jul. a out.\nRedação do artigo: set. a dez.\nRevisão e formatação: dez. e jan.\nEntrega: fev.\nApresentação: fev.'}
 ];
 
 ETAPAS.forEach((e, i) => e.n = i + 1);
@@ -807,6 +830,25 @@ obras(){
   const base = [D.tema, D.titulo, D.subtitulo, D.campoEsp].join(' ');
   if(base.trim() && cheias.every(k => sobreposicao(D[k], base) === 0)) it.push(I('dica','Verifique se as obras tratam diretamente do seu tema: nenhuma delas retoma os termos centrais do tema ou do título.'));
   it.push(I('dica','As obras indicadas entram automaticamente nas <b>Referências</b> do projeto, junto com a obra citada na justificativa.'));
+  return resultado(it);
+},
+cronograma(){
+  const L = cronLinhas(), it = [];
+  if(!cronMarcas().size) return resultado([I('err','Marque na tabela os meses de cada atividade.')]);
+  const prim = i => L[i] ? L[i].cols.indexOf(true) : -1, ult = i => L[i] ? L[i].cols.lastIndexOf(true) : -1;
+  const vazias = L.map((l, i) => i).filter(i => !L[i].cols.some(Boolean) && !CRON_OPC.includes(i) && i < CRON_ATIV.length);
+  if(vazias.length) it.push(I('warn','Atividades sem nenhum mês marcado: ' + vazias.map(i => CRON_ATIV[i]).join('; ') + '.'));
+  const pessoas = selMet('coleta').some(c => c === 'questionario' || c === 'entrevista');
+  if(pessoas && prim(7) < 0) it.push(I('warn','Sua metodologia prevê coleta com pessoas: marque também os meses da análise e interpretação dos dados.'));
+  if(pessoas && prim(6) < 0) it.push(I('warn','Sua metodologia prevê questionário ou entrevista: marque os meses da coleta de dados.'));
+  if(prim(6) >= 0 && prim(7) >= 0 && prim(7) < prim(6)) it.push(I('warn','A análise dos dados começa antes da coleta. Ajuste a ordem.'));
+  if(prim(1) >= 0 && prim(8) >= 0 && prim(8) < prim(1)) it.push(I('warn','A redação do artigo começa antes do levantamento bibliográfico. Ajuste a ordem.'));
+  if(ult(10) >= 0 && ult(8) > ult(10)) it.push(I('warn','A redação do artigo continua depois da entrega. Ajuste os meses.'));
+  if(prim(10) >= 0 && prim(9) < 0) it.push(I('warn','Reserve pelo menos um mês para revisão e ajustes com o orientador antes da entrega.'));
+  if(prim(10) >= 0 && prim(9) >= 0 && prim(9) > prim(10)) it.push(I('warn','A revisão aparece depois da entrega. A revisão vem antes.'));
+  if(prim(11) >= 0 && prim(10) >= 0 && prim(11) < prim(10)) it.push(I('warn','A apresentação está antes da entrega da versão final. Verifique.'));
+  if(/comite|etica|cep/.test(norm(D.cronOutra)) && prim(6) >= 0 && prim(L.length - 1) > prim(6)) it.push(I('warn','A submissão ao Comitê de Ética deve vir antes da coleta de dados.'));
+  if(!it.length) it.push(I('ok','O cronograma está completo e segue uma ordem lógica.'));
   return resultado(it);
 },
 plano(){
@@ -1500,6 +1542,75 @@ function planoTexto(){
   return L;
 }
 
+/* ---------- Etapa 13: Cronograma (tabela para marcar) ---------- */
+const CRON_ATIV = [
+  'Escolha do tema e pesquisa preliminar',
+  'Levantamento bibliográfico',
+  'Elaboração do projeto de pesquisa',
+  'Leitura e fichamento das obras',
+  'Redação da fundamentação teórica',
+  'Elaboração dos instrumentos de coleta (se houver)',
+  'Coleta de dados (se houver)',
+  'Análise e interpretação dos dados (se houver)',
+  'Redação do artigo',
+  'Revisão, formatação (ABNT) e ajustes com o orientador',
+  'Entrega da versão final',
+  'Apresentação / defesa'
+];
+const CRON_OPC = [5, 6, 7];
+const MESES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+function cronAtividades(){ return CRON_ATIV.concat(D.cronOutra.trim() ? [D.cronOutra.trim()] : []); }
+function cronMarcas(){ try{ return new Set(JSON.parse(D.cronMarcas || '[]')); }catch(e){ return new Set(); } }
+function cronMeses(){
+  const n = Math.min(24, Math.max(3, parseInt(D.cronMeses || '12', 10) || 12));
+  let [y, m] = (D.cronInicio || '').split('-').map(Number);
+  if(!y || !m){ const d = new Date(); y = d.getFullYear(); m = d.getMonth() + 1; }
+  const out = []; for(let i = 0; i < n; i++){ const mm = (m - 1 + i) % 12, yy = y + Math.floor((m - 1 + i) / 12); out.push(MESES[mm] + '/' + String(yy).slice(2)); }
+  return out;
+}
+function cronogramaHTML(){
+  const ms = cronMeses(), mk = cronMarcas(), at = cronAtividades();
+  const hoje = new Date(), ini = D.cronInicio || (hoje.getFullYear() + '-' + String(hoje.getMonth() + 1).padStart(2, '0'));
+  let h = '<div class="msg dica"><b>Como preencher</b>Escolha o mês de início e a duração. Depois clique nas células para marcar (✕) os meses em que cada atividade será realizada. As atividades “se houver” só precisam ser marcadas se a sua metodologia prevê coleta com pessoas ou documentos.</div>';
+  h += '<div class="cron-cfg"><label>Mês de início <input type="month" id="cronInicio" value="' + ini + '"></label><label>Duração <select id="cronMeses">' + [6,8,10,12,18,24].map(n => '<option value="' + n + '"' + (String(n) === String(D.cronMeses || '12') ? ' selected' : '') + '>' + n + ' meses</option>').join('') + '</select></label></div>';
+  h += '<div class="cron-wrap"><table class="cron"><thead><tr><th>Atividades</th>' + ms.map(m => '<th>' + m + '</th>').join('') + '</tr></thead><tbody>';
+  at.forEach((a, r) => {
+    h += '<tr><td>' + esc(a) + '</td>' + ms.map((m, c) => '<td><button class="cron-c' + (mk.has(r + ':' + c) ? ' on' : '') + '" data-rc="' + r + ':' + c + '" aria-label="' + esc(a) + ' em ' + m + '">' + (mk.has(r + ':' + c) ? '✕' : '') + '</button></td>').join('') + '</tr>';
+  });
+  return h + '</tbody></table></div><p class="cron-dica">Dica: atividades podem acontecer em vários meses e ao mesmo tempo (por exemplo, leitura e redação). Seja realista com o prazo.</p>';
+}
+function ligarCronograma(){
+  const box = $('cronograma'); if(!box) return;
+  const re = () => { box.innerHTML = cronogramaHTML(); ligarCronograma(); atualizarProgresso(); };
+  box.querySelectorAll('[data-rc]').forEach(b => b.onclick = () => {
+    const mk = cronMarcas(), k = b.dataset.rc; mk.has(k) ? mk.delete(k) : mk.add(k);
+    D.cronMarcas = JSON.stringify([...mk]); salvarDepois();
+    b.classList.toggle('on'); b.textContent = mk.has(k) ? '✕' : ''; atualizarProgresso();
+  });
+  const ini = $('cronInicio'), dur = $('cronMeses');
+  if(ini) ini.onchange = () => { D.cronInicio = ini.value; salvarDepois(); re(); };
+  if(dur) dur.onchange = () => {
+    const n = +dur.value; const mk = [...cronMarcas()].filter(k => +k.split(':')[1] < n);
+    D.cronMeses = String(n); D.cronMarcas = JSON.stringify(mk); salvarDepois(); re();
+  };
+  const outra = $('f_cronOutra'); if(outra) outra.addEventListener('change', re);
+}
+function cronLinhas(){
+  const ms = cronMeses(), mk = cronMarcas();
+  return cronAtividades().map((a, r) => ({a, cols: ms.map((m, c) => mk.has(r + ':' + c))}));
+}
+function cronogramaDocHTML(){
+  if(!cronMarcas().size) return '';
+  const ms = cronMeses();
+  return '<table class="cron-doc"><thead><tr><th>Atividades</th>' + ms.map(m => '<th>' + m + '</th>').join('') + '</tr></thead><tbody>' +
+    cronLinhas().filter(l => l.cols.some(Boolean) || !CRON_OPC.includes(CRON_ATIV.indexOf(l.a))).map(l => '<tr><td>' + esc(l.a.replace(/ \(se houver\)/, '')) + '</td>' + l.cols.map(x => '<td>' + (x ? 'X' : '') + '</td>').join('') + '</tr>').join('') + '</tbody></table>';
+}
+function cronogramaTexto(){
+  if(!cronMarcas().size) return [];
+  const ms = cronMeses();
+  return [['item', 'Cronograma das atividades (meses marcados):']].concat(cronLinhas().filter(l => l.cols.some(Boolean)).map(l => ['item', l.a.replace(/ \(se houver\)/, '') + ': ' + ms.filter((m, i) => l.cols[i]).join(', ') + '.']));
+}
+
 function listaReferencias(){
   const todas = D.justRef.split('\n').concat([D.obra1, D.obra2, D.obra3]).map(x => x.trim().replace(/\s+/g,' ')).filter(Boolean);
   const vistos = new Set(), out = [];
@@ -1527,6 +1638,7 @@ problema(){
 },
 objgeral(){ return ['Modelo: <b>[verbo no infinitivo] + [o que será investigado] + [recorte]</b>.','Compare palavra por palavra com sua pergunta: o objetivo geral é a pergunta transformada em ação. Se a pergunta começa com "Como…", o objetivo pode começar com "Analisar como…" ou "Compreender como…".','Use um único verbo de ação.']; },
 objesp(){ return ['Pense em três degraus: <b>a) fundamentar</b> (apresentar, conceituar), <b>b) conhecer a realidade</b> (identificar, descrever) e <b>c) interpretar</b> (analisar, avaliar).','Cada objetivo específico costuma se tornar um capítulo ou uma seção do trabalho.','Confira: se você cumprir os três, o objetivo geral estará alcançado?']; },
+cronograma(){ return ['Comece marcando a entrega e a apresentação; depois distribua as outras atividades de trás para a frente.','Leitura, fichamento e redação podem ocorrer ao mesmo tempo, em meses sobrepostos.','Reserve de um a dois meses para revisão e ajustes com o orientador.','Se for ouvir pessoas e precisar do Comitê de Ética, acrescente a submissão como “outra atividade”, antes da coleta.']; },
 plano(){ return ['Leia os três títulos em sequência: eles devem contar a “história” do artigo, do fundamento à resposta da pergunta.','Use nomes no título da seção (ex.: “Os fundamentos bíblicos do discipulado”), e não verbos (“Apresentar…”).','Combine as alternativas: você pode usar a seção 1 de uma e as seções 2 e 3 de outra.','Mantenha a ordem dos objetivos específicos, salvo orientação diferente do professor.']; },
 metodologia(){ return ['Comece pela pergunta de pesquisa: qual caminho permite respondê-la?','Use o roteiro do resumo, mas escreva com as suas palavras e acrescente o porquê de cada escolha.','Se for ouvir pessoas, diga quem, quantas e como serão escolhidas, e mencione a autorização dos participantes.','Faça o treino dos cartões se tiver dúvida entre conceitos parecidos (bibliográfica × documental; qualitativa × campo).','Releia a metodologia junto com os objetivos: cada objetivo específico deve ter um caminho para ser alcançado.']; },
 fundamentacao(){ return ['Leia com a sua pergunta de pesquisa à vista: anote só o que ajuda a respondê-la.','Faça fichamentos: para cada obra, registre a referência completa, as ideias principais e as citações com página.','Organize a fundamentação pelos eixos (caminhos), e não por autor: cada eixo reúne vários autores em diálogo.','No texto bíblico, observe o contexto, as palavras-chave e a aplicação; use bíblias de estudo, comentários e dicionários.','Se a sugestão ficou genérica, deixe mais clara a problematização (Etapa 6) e os objetivos específicos (Etapa 8).']; },
@@ -1613,6 +1725,7 @@ function render(){
       '<section>' +
         (e.id === 'metodologia' ? '<div id="metodo">' + metodoHTML() + '</div>' : '') +
         (e.id === 'plano' ? '<div id="planos">' + planosHTML() + '</div>' : '') +
+        (e.id === 'cronograma' ? '<div id="cronograma">' + cronogramaHTML() + '</div>' : '') +
         (e.id === 'fundamentacao'
           ? '<div class="card"><div class="bloco-tit" style="margin-top:0">Deixe os caminhos mais específicos</div><p class="bloco-desc">Quanto mais precisos estes campos, mais específicas ficam as sugestões. Os caminhos se atualizam enquanto você escreve.</p>' + e.campos.filter(c => c.k !== 'fundNotas').map(campoHTML).join('') + '</div>' +
             '<div id="caminhos">' + caminhosHTML() + '</div>' +
@@ -1653,6 +1766,7 @@ function render(){
   });
   if(e.id === 'metodologia') ligarMetodo();
   if(e.id === 'plano') ligarPlanos();
+  if(e.id === 'cronograma') ligarCronograma();
   $('btAnalisar').onclick = () => { $('retorno').innerHTML = renderRetorno(ANALISE[e.id](), 'Análise da sua resposta'); salvar(false); };
   $('btMelhorar').onclick = () => { $('retorno').innerHTML = '<div class="retorno-tit">Como aperfeiçoar seu texto</div>' + MELHORAR[e.id]().map(x => '<div class="msg dica">' + x + '</div>').join(''); };
   $('btAnt').onclick = () => ir(e.n > 1 ? 'etapa-' + (e.n-1) : 'inicio');
@@ -1731,7 +1845,7 @@ const SECOES_FALTAM = [
   ['7 Fundamentação teórica', 'A fundamentação teórica (ou revisão teórica) será construída com o professor orientador, a partir das leituras indicadas.'],
   ['8 Metodologia', 'A metodologia (tipo de pesquisa, abordagem, procedimentos e instrumentos) será definida com o professor orientador.'],
   ['9 Recursos', 'Os recursos necessários à pesquisa (materiais, humanos e financeiros) serão definidos com o professor orientador.'],
-  ['10 Cronograma', 'O cronograma das atividades da pesquisa será organizado com o professor orientador.'],
+  ['10 Cronograma', 'O cronograma poderá ser ajustado com o professor orientador.'],
   ['11 Plano preliminar do artigo', 'O plano preliminar será ajustado com o professor orientador ao longo da pesquisa.']
 ];
 function tituloCompleto(){
@@ -1805,7 +1919,7 @@ function documentoHTML(){
       '<h5>6.1 Objetivo geral</h5><p>' + linha(D.objGeral) + '</p>' +
       '<h5>6.2 Objetivos específicos</h5>' +
       objs.map((o, i) => '<p class="sem">' + 'abc'[i] + ') ' + linha(o.replace(/[.;]\s*$/,'')) + (i < 2 ? ';' : '.') + '</p>').join('') +
-    SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + (/^7 /.test(x[0]) ? eixosHTML() : '') + (/^11 /.test(x[0]) ? planoTexto().map(l => '<p class="sem">' + esc(l[1]) + '</p>').join('') : '') + (/^8 /.test(x[0]) && metTemConteudo() ? metodoDocHTML() + falta('A metodologia será revisada e aprofundada com o professor orientador.') : falta(x[1]))).join('') +
+    SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + (/^7 /.test(x[0]) ? eixosHTML() : '') + (/^11 /.test(x[0]) ? planoTexto().map(l => '<p class="sem">' + esc(l[1]) + '</p>').join('') : '') + (/^10 /.test(x[0]) ? cronogramaDocHTML() : '') + (/^8 /.test(x[0]) && metTemConteudo() ? metodoDocHTML() + falta('A metodologia será revisada e aprofundada com o professor orientador.') : falta(x[1]))).join('') +
     '<h4 class="centro" style="margin-top:24pt">Referências</h4><div class="refs">' + (refs.length ? refs.map(r => '<p>' + esc(r) + '</p>').join('') : '<p class="vazio">[nenhuma referência informada]</p>') + '</div>' +
     falta('A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.') +
     '<div class="doc-rod">' + ROD_DOC + '</div>' +
@@ -1902,7 +2016,7 @@ function blocosProjeto(){
   add('h2', '6.1 Objetivo geral'); add('p', D.objGeral.trim());
   add('h2', '6.2 Objetivos específicos');
   [D.obj1, D.obj2, D.obj3].forEach((o, i) => add('item', 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')));
-  SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); if(/^7 /.test(x[0])) eixosTexto().forEach(l => add(l[0], l[1])); if(/^11 /.test(x[0])) planoTexto().forEach(l => add(l[0], l[1])); if(/^8 /.test(x[0]) && metTemConteudo()){ metodoTexto().forEach(l => add(l[0], l[1])); add('falta', 'A metodologia será revisada e aprofundada com o professor orientador.'); } else add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
+  SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); if(/^7 /.test(x[0])) eixosTexto().forEach(l => add(l[0], l[1])); if(/^11 /.test(x[0])) planoTexto().forEach(l => add(l[0], l[1])); if(/^10 /.test(x[0])) cronogramaTexto().forEach(l => add(l[0], l[1])); if(/^8 /.test(x[0]) && metTemConteudo()){ metodoTexto().forEach(l => add(l[0], l[1])); add('falta', 'A metodologia será revisada e aprofundada com o professor orientador.'); } else add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
   add('h1c', 'REFERÊNCIAS');
   listaReferencias().forEach(r => add('ref', r));
   add('falta', 'Seção a ser desenvolvida. A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.');
@@ -1968,7 +2082,7 @@ function textoPlano(){
     '5 PROBLEMATIZAÇÃO', D.problema.trim(), '',
     '6 OBJETIVOS', '6.1 Objetivo geral', D.objGeral.trim(), '', '6.2 Objetivos específicos',
     ...objs.map((o, i) => 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')), '',
-    ...SECOES_FALTAM.flatMap(x => [x[0].toUpperCase()].concat(/^7 /.test(x[0]) ? eixosTexto().map(l => l[1]) : []).concat(/^11 /.test(x[0]) ? planoTexto().map(l => l[1]) : []).concat(/^8 /.test(x[0]) && metTemConteudo() ? metodoTexto().map(l => l[1]) : []).concat(['[Seção a ser desenvolvida] ' + x[1], ''])),
+    ...SECOES_FALTAM.flatMap(x => [x[0].toUpperCase()].concat(/^7 /.test(x[0]) ? eixosTexto().map(l => l[1]) : []).concat(/^11 /.test(x[0]) ? planoTexto().map(l => l[1]) : []).concat(/^10 /.test(x[0]) ? cronogramaTexto().map(l => l[1]) : []).concat(/^8 /.test(x[0]) && metTemConteudo() ? metodoTexto().map(l => l[1]) : []).concat(['[Seção a ser desenvolvida] ' + x[1], ''])),
     'REFERÊNCIAS', ...refs, '[A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.]', '',
     '—', ROD_DOC
   ].filter(x => x !== null).join('\n');
@@ -2038,7 +2152,7 @@ $('btApagar').onclick = () => abrirModal('Apagar o rascunho?',
 $('arqRasc').addEventListener('change', abrirRascunho);
 window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if(h && h !== vista) { vista = h; montarMenu(); render(); } });
 const h0 = (location.hash || '').slice(1);
-if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-(1[012]|[1-9])$/.test(h0)) vista = h0;
+if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-(1[0-3]|[1-9])$/.test(h0)) vista = h0;
 mostrarSalvo(); montarMenu(); render();
 </script>
 </body>
