@@ -232,6 +232,13 @@ details.exemplo[open] summary::before{content:"▾ "}
 .met-tab td:first-child{font-weight:700;color:var(--navy);width:38%}
 .met-tab .vaz{color:var(--err)}
 .roteiro li{margin-bottom:6px}
+.plano-est{margin:8px 0;padding-left:22px}
+.plano-est li{margin-bottom:4px}
+.plano-est li.fixo{color:var(--muted);font-weight:600}
+.plano-est ol{margin:4px 0 4px;padding-left:20px}
+.plano-est ol li{color:var(--ink);font-weight:400;margin-bottom:8px}
+.plano-est ol li b{color:var(--navy)}
+.plano-obj{display:block;font-size:13px;color:var(--muted);font-style:italic}
 .caminho{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:var(--radius);padding:16px 20px;margin:12px 0}
 .caminho h3{color:var(--navy);font-size:19px;margin:2px 0 8px}
 .caminho p{margin:6px 0}
@@ -299,7 +306,7 @@ details.exemplo[open] summary::before{content:"▾ "}
   <h1>Laboratório de Projeto de Pesquisa</h1>
   <p>Construindo meu Projeto de Pesquisa Teológico-Ministerial: uma ferramenta interativa para orientar, construir e aperfeiçoar o seu projeto.</p>
   <div class="progresso">
-    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 11 etapas</span></div>
+    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 12 etapas</span></div>
     <div class="barra"><span id="progBar"></span></div>
   </div>
 </header>
@@ -339,7 +346,7 @@ details.exemplo[open] summary::before{content:"▾ "}
    DADOS E PERSISTÊNCIA
    ========================================================= */
 const CHAVE = 'iwe-lab-projeto-v1';
-const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3','fundNotas','textoBiblico','palavrasChave','conceitos','m_abordagem','m_objetivo','m_procedimento','m_natureza','m_tempo','m_metodo','m_coleta','mj_abordagem','mj_objetivo','mj_procedimento','mj_natureza','mj_tempo','mj_metodo','mj_coleta','metPublico','metTexto','metMenores','metInstit','metAnonimo','metDocPub'];
+const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3','fundNotas','textoBiblico','palavrasChave','conceitos','m_abordagem','m_objetivo','m_procedimento','m_natureza','m_tempo','m_metodo','m_coleta','mj_abordagem','mj_objetivo','mj_procedimento','mj_natureza','mj_tempo','mj_metodo','mj_coleta','metPublico','metTexto','metMenores','metInstit','metAnonimo','metDocPub','plano1','plano2','plano3'];
 let D = {}; CAMPOS.forEach(k => D[k] = '');
 let salvoEm = null;
 
@@ -554,7 +561,17 @@ const ETAPAS = [
  campos:[{k:'metTexto', label:'Texto da minha metodologia', sub:'Depois de passar pelos cartões, escreva com as suas palavras como a pesquisa será realizada e por quê. Use o roteiro do resumo como guia.', rows:9, ph:'Esta pesquisa, de natureza…, adota abordagem…, porque…'}],
  orient:['A metodologia responde: como a pesquisa será realizada?','Cada elemento responde a uma pergunta diferente; eles não são sinônimos.','Qualitativa não é sinônimo de pesquisa de campo; bibliográfica não é o mesmo que documental; método dedutivo não é objetivo explicativo.','Seja realista: não prometa entrevistar ou consultar mais pessoas do que consegue alcançar.','Pesquisa com pessoas, inclusive TCC, passa pelo Comitê de Ética, salvo exceções (Res. CNS 510/2016): no TCC, prefira pesquisa bibliográfica, questionário de opinião anônimo e pontual e documentos de acesso público.','Tema, problema, objetivos e metodologia precisam conversar entre si.'],
  perguntas:['Minhas escolhas ajudam a responder à minha pergunta de pesquisa?','Consigo realizar o que estou prometendo no prazo do TCC?','Sei explicar por que escolhi cada caminho?'],
- exemplo:'Tema: O discipulado cristão e a formação espiritual dos novos convertidos.\n\nUma combinação coerente: natureza aplicada; abordagem qualitativa; objetivo exploratório; pesquisa bibliográfica e estudo de caso; transversal; método dedutivo; coleta por análise bibliográfica e entrevistas semiestruturadas com líderes do ministério de novos convertidos.\n\nNão existe uma única combinação obrigatória: o importante é a coerência com o problema e os objetivos.'}
+ exemplo:'Tema: O discipulado cristão e a formação espiritual dos novos convertidos.\n\nUma combinação coerente: natureza aplicada; abordagem qualitativa; objetivo exploratório; pesquisa bibliográfica e estudo de caso; transversal; método dedutivo; coleta por análise bibliográfica e entrevistas semiestruturadas com líderes do ministério de novos convertidos.\n\nNão existe uma única combinação obrigatória: o importante é a coerência com o problema e os objetivos.'},
+
+{n:12, id:'plano', titulo:'Plano preliminar do artigo', curto:'Plano preliminar',
+ oque:'Vislumbrar como o seu artigo será organizado. O artigo tem três seções no desenvolvimento, e cada uma corresponde a um dos seus objetivos específicos. Escolha uma das alternativas e ajuste os títulos das seções.',
+ campos:[
+  {k:'plano1', input:true, label:'Seção 1 do desenvolvimento', sub:'Corresponde ao objetivo específico a).', ph:'Título da seção 1'},
+  {k:'plano2', input:true, label:'Seção 2 do desenvolvimento', sub:'Corresponde ao objetivo específico b).', ph:'Título da seção 2'},
+  {k:'plano3', input:true, label:'Seção 3 do desenvolvimento', sub:'Corresponde ao objetivo específico c).', ph:'Título da seção 3'}],
+ orient:['O artigo segue sempre a estrutura: título, resumo, palavras-chave, introdução, desenvolvimento em três seções, considerações finais e bibliografia.','Cada seção do desenvolvimento cumpre um objetivo específico; juntas, respondem à pergunta de pesquisa.','O título da seção é um nome, e não uma frase com verbo no infinitivo.','O plano é preliminar: ele pode mudar ao longo da pesquisa, com o orientador.'],
+ perguntas:['Cada seção cumpre um dos meus objetivos específicos?','Ao final das três seções, minha pergunta de pesquisa estará respondida?','A ordem das seções é lógica (do fundamento à aplicação)?'],
+ exemplo:'Objetivos: a) apresentar os fundamentos bíblico-teológicos do discipulado; b) identificar as práticas de discipulado no ministério de novos convertidos; c) avaliar as contribuições dessas práticas.\n\nSeção 1: Os fundamentos bíblico-teológicos do discipulado cristão\nSeção 2: As práticas de discipulado no ministério de novos convertidos\nSeção 3: Contribuições do discipulado para a formação espiritual dos novos convertidos'}
 ];
 
 ETAPAS.forEach((e, i) => e.n = i + 1);
@@ -790,6 +807,20 @@ obras(){
   const base = [D.tema, D.titulo, D.subtitulo, D.campoEsp].join(' ');
   if(base.trim() && cheias.every(k => sobreposicao(D[k], base) === 0)) it.push(I('dica','Verifique se as obras tratam diretamente do seu tema: nenhuma delas retoma os termos centrais do tema ou do título.'));
   it.push(I('dica','As obras indicadas entram automaticamente nas <b>Referências</b> do projeto, junto com a obra citada na justificativa.'));
+  return resultado(it);
+},
+plano(){
+  const it = [], ts = [D.plano1, D.plano2, D.plano3].map(x => x.trim()), obs = [D.obj1, D.obj2, D.obj3].map(x => x.trim());
+  if(obs.filter(Boolean).length < 3) it.push(I('warn','Escreva os três objetivos específicos (Etapa 8): cada seção corresponde a um deles.'));
+  if(!ts.some(Boolean)) return resultado(it.concat([I('err','Escolha uma das alternativas (botão “Usar esta alternativa”) ou escreva os títulos das três seções.')]));
+  ts.forEach((t, i) => {
+    if(!t){ it.push(I('err','Escreva o título da seção ' + (i+1) + '.')); return; }
+    if(ehInfinitivo(primeira(t))) it.push(I('warn','Seção ' + (i+1) + ': o título começa com verbo (“' + primeira(t) + '”). Título de seção é um nome; o verbo fica no objetivo.'));
+    if(obs[i] && sobreposicao(t, obs[i]) < 0.25) it.push(I('warn','Seção ' + (i+1) + ': o título parece distante do objetivo específico ' + 'abc'[i] + '). Verifique se a seção cumpre esse objetivo.'));
+    if(nPal(t) > 22) it.push(I('dica','Seção ' + (i+1) + ': título longo (' + nPal(t) + ' palavras). Procure uma formulação mais enxuta.'));
+  });
+  if(ts.every(Boolean) && new Set(ts.map(t => norm(t))).size < 3) it.push(I('warn','Há títulos de seção repetidos. Cada seção deve tratar de um aspecto diferente.'));
+  if(ts.every(Boolean) && !it.some(x => x.t === 'err' || x.t === 'warn')) it.push(I('ok','As três seções estão alinhadas aos objetivos específicos. Ao final delas, sua pergunta de pesquisa deve estar respondida.'));
   return resultado(it);
 },
 metodologia(){
@@ -1391,6 +1422,84 @@ function ligarMetodo(){
   });
 }
 
+/* ---------- Etapa 12: Plano preliminar do artigo (3 alternativas) ---------- */
+const cap1 = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
+const low1 = t => t ? t.charAt(0).toLowerCase() + t.slice(1) : t;
+function nominal(o){
+  let r = semVerbo(o).replace(/\bdessas\b/gi,'das').replace(/\bdesses\b/gi,'dos').replace(/\bdessa\b/gi,'da').replace(/\bdesse\b/gi,'do').replace(/\bdestas\b/gi,'das').replace(/\bdestes\b/gi,'dos');
+  r = r.replace(/^(como|se|quais|qual|de que forma|de que maneira|em que medida)\s+/i, '');
+  return cap1(r.trim());
+}
+function artigo(f){
+  f = f.trim(); if(/^(o|a|os|as|um|uma|uns|umas)\s/i.test(f)) return low1(f);
+  const w = norm(f.split(/\s+/)[0]); const pl = /s$/.test(w);
+  const fem = (/(a|as|ade|ades|cao|coes|gem|gens|ice|ise|ude|udes)$/.test(w) && !/^(dia|dias|mapa|tema|temas|sistema|problema|problemas|programa|clima|dogma|planeta)$/.test(w)) || /^(fe|paz|mulher|mulheres|igreja|comunidade|famil|juventude|lideranca|congregac|escola|sociedade|vida|oracao|missao|educacao|saude)$/.test(w);
+  return (fem ? (pl ? 'as ' : 'a ') : (pl ? 'os ' : 'o ')) + low1(f);
+}
+function contr(prep, f){
+  const a = artigo(f), m = a.match(/^(o|a|os|as)\s(.*)$/i);
+  if(!m) return prep + ' ' + a;
+  const art = m[1].toLowerCase(), rest = m[2];
+  const map = {de:{o:'do',a:'da',os:'dos',as:'das'}, em:{o:'no',a:'na',os:'nos',as:'nas'}, por:{o:'pelo',a:'pela',os:'pelos',as:'pelas'}};
+  return map[prep] ? map[prep][art] + ' ' + rest : prep + ' ' + art + ' ' + rest;
+}
+function gerarPlanos(){
+  const obs = [D.obj1, D.obj2, D.obj3].map(x => x.trim());
+  if(obs.filter(Boolean).length < 3) return [];
+  const nuc = nucleoTema().replace(/\.$/,''), esp = (D.espaco.trim().replace(/\.$/,'')) || 'igreja local';
+  const tb = (D.textoBiblico.trim() || (refsBiblicas()[0] || '')).replace(/\.$/,'');
+  const pc = D.palavrasChave.split(/[;,\n]+/).map(x => x.trim()).filter(Boolean);
+  const conc = D.conceitos.split(/[;,\n]+/).map(x => x.trim()).filter(Boolean);
+  const ouvePessoas = selMet('coleta').some(c => c === 'questionario' || c === 'entrevista');
+  const N = obs.map(nominal), V = obs.map(o => primeira(o));
+  const tipo = v => VERB_TIPO[v] || 'conceitual';
+  const jaTemEsp = i => sobreposicao(N[i], esp) >= 0.5;
+  const sufixo = i => tipo(V[i]) === 'realidade' ? (jaTemEsp(i) ? ': um retrato da realidade' : ': um olhar sobre ' + artigo(esp)) : (tipo(V[i]) === 'analise' ? ': análise e implicações para ' + (jaTemEsp(i) ? 'a igreja' : artigo(esp)) : '');
+  const teo0 = /biblic|teolog|fundament|escritur/.test(norm(obs[0]));
+  const A = {nome:'Alternativa 1 · Fiel aos objetivos', logica:'Cada seção desenvolve diretamente um objetivo específico, na mesma ordem. É o caminho mais seguro para garantir que o artigo cumpra o que o projeto prometeu.',
+    secoes: N.map((n, i) => ({t: n, obj: i}))};
+  const B = {nome:'Alternativa 2 · Do fundamento à prática', logica:'O artigo parte da base bíblico-teológica, passa pela realidade investigada e chega à resposta da pergunta de pesquisa. Destaca a dimensão teológica e a ministerial.',
+    secoes: [
+      {t: (teo0 ? cap1(artigo(nuc)) : N[0]) + ' à luz das Escrituras' + (tb ? ' (' + tb + ')' : '') + (teo0 ? ' e da teologia' : ''), obj: 0},
+      {t: N[1] + sufixo(1), obj: 1},
+      {t: N[2] + (tipo(V[2]) === 'analise' ? ': respostas à pergunta da pesquisa' : sufixo(2)), obj: 2}]};
+  const C = {nome:'Alternativa 3 · Conceitos, contexto e contribuições', logica:'Organiza o artigo em torno dos conceitos centrais, dos desafios atuais e das contribuições da pesquisa. Favorece a relevância do tema para os dias atuais.',
+    secoes: [
+      {t: 'Conceitos centrais: ' + (conc.length ? conc.join(', ') : low1(nuc)) + (teo0 || conc.length ? '' : ' e ' + low1(N[0])), obj: 0},
+      {t: ouvePessoas ? 'Percepções sobre ' + artigo(nuc) + ' ' + contr('em', esp) + ': o que revela a pesquisa' : cap1(artigo(nuc)) + (pc[1] && !norm(nuc).includes(norm(pc[1])) ? ' e ' + low1(pc[1]) : '') + ': desafios atuais ' + contr('em', esp), obj: 1},
+      {t: /contribu/.test(norm(N[2])) ? N[2] + (jaTemEsp(2) ? '' : ' ' + contr('em', esp)) : 'Contribuições para ' + artigo(esp) + ': ' + low1(N[2]), obj: 2}]};
+  return [A, B, C];
+}
+function estruturaHTML(p){
+  return '<ol class="plano-est">' +
+    '<li class="fixo">Título</li><li class="fixo">Resumo</li><li class="fixo">Palavras-chave</li><li class="fixo">Introdução</li>' +
+    '<li class="fixo">Desenvolvimento<ol>' + p.secoes.map((s, i) => '<li><b>Seção ' + (i+1) + ':</b> ' + esc(s.t) + '<span class="plano-obj">Objetivo ' + 'abc'[s.obj] + ') ' + esc([D.obj1, D.obj2, D.obj3][s.obj].trim()) + '</span></li>').join('') + '</ol></li>' +
+    '<li class="fixo">Considerações finais</li><li class="fixo">Bibliografia</li></ol>';
+}
+function planosHTML(){
+  const faltam = [D.obj1, D.obj2, D.obj3].filter(x => !x.trim()).length;
+  let h = '<div class="msg dica"><b>Três possibilidades, e não uma regra.</b>As alternativas são montadas a partir dos seus três objetivos específicos e buscam responder à sua pergunta de pesquisa' + (D.problema.trim() ? ': “' + esc(D.problema.trim()) + '”' : '') + '. Escolha a que mais faz sentido, ajuste os títulos e converse com o seu professor orientador.</div>';
+  if(faltam) return h + '<div class="msg warn">Para gerar o plano preliminar, escreva os <strong>três objetivos específicos</strong> (Etapa 8): cada seção do desenvolvimento corresponde a um deles.</div>';
+  return h + gerarPlanos().map((p, i) => '<div class="caminho"><div class="cam-tipo">' + p.nome + '</div><p class="cam-dim" style="margin-top:4px">' + p.logica + '</p>' + estruturaHTML(p) +
+    '<div class="botoes" style="margin:6px 0 0"><button class="btn btn-sec" data-usar="' + i + '">Usar esta alternativa</button></div></div>').join('');
+}
+function ligarPlanos(){
+  const box = $('planos'); if(!box) return;
+  box.querySelectorAll('[data-usar]').forEach(b => b.onclick = () => {
+    const p = gerarPlanos()[+b.dataset.usar];
+    p.secoes.forEach((s, i) => { D['plano' + (i+1)] = s.t; const el = $('f_plano' + (i+1)); if(el){ el.value = s.t; const c = $('c_plano' + (i+1)); if(c) c.textContent = nPal(s.t) + ' palavra(s)'; } });
+    salvar(false); atualizarProgresso(); toast('Títulos copiados para os campos abaixo. Agora ajuste-os com as suas palavras.');
+    const el = $('f_plano1'); if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+}
+function planoTexto(){
+  if(![D.plano1, D.plano2, D.plano3].some(x => x.trim())) return [];
+  const L = [['item','Estrutura prevista para o artigo:'], ['item','Título'], ['item','Resumo'], ['item','Palavras-chave'], ['item','1 Introdução'], ['item','Desenvolvimento:']];
+  [D.plano1, D.plano2, D.plano3].forEach((t, i) => { if(t.trim()) L.push(['item', (i + 2) + ' ' + t.trim().replace(/\.$/,'')]); });
+  L.push(['item','5 Considerações finais'], ['item','Bibliografia']);
+  return L;
+}
+
 function listaReferencias(){
   const todas = D.justRef.split('\n').concat([D.obra1, D.obra2, D.obra3]).map(x => x.trim().replace(/\s+/g,' ')).filter(Boolean);
   const vistos = new Set(), out = [];
@@ -1418,6 +1527,7 @@ problema(){
 },
 objgeral(){ return ['Modelo: <b>[verbo no infinitivo] + [o que será investigado] + [recorte]</b>.','Compare palavra por palavra com sua pergunta: o objetivo geral é a pergunta transformada em ação. Se a pergunta começa com "Como…", o objetivo pode começar com "Analisar como…" ou "Compreender como…".','Use um único verbo de ação.']; },
 objesp(){ return ['Pense em três degraus: <b>a) fundamentar</b> (apresentar, conceituar), <b>b) conhecer a realidade</b> (identificar, descrever) e <b>c) interpretar</b> (analisar, avaliar).','Cada objetivo específico costuma se tornar um capítulo ou uma seção do trabalho.','Confira: se você cumprir os três, o objetivo geral estará alcançado?']; },
+plano(){ return ['Leia os três títulos em sequência: eles devem contar a “história” do artigo, do fundamento à resposta da pergunta.','Use nomes no título da seção (ex.: “Os fundamentos bíblicos do discipulado”), e não verbos (“Apresentar…”).','Combine as alternativas: você pode usar a seção 1 de uma e as seções 2 e 3 de outra.','Mantenha a ordem dos objetivos específicos, salvo orientação diferente do professor.']; },
 metodologia(){ return ['Comece pela pergunta de pesquisa: qual caminho permite respondê-la?','Use o roteiro do resumo, mas escreva com as suas palavras e acrescente o porquê de cada escolha.','Se for ouvir pessoas, diga quem, quantas e como serão escolhidas, e mencione a autorização dos participantes.','Faça o treino dos cartões se tiver dúvida entre conceitos parecidos (bibliográfica × documental; qualitativa × campo).','Releia a metodologia junto com os objetivos: cada objetivo específico deve ter um caminho para ser alcançado.']; },
 fundamentacao(){ return ['Leia com a sua pergunta de pesquisa à vista: anote só o que ajuda a respondê-la.','Faça fichamentos: para cada obra, registre a referência completa, as ideias principais e as citações com página.','Organize a fundamentação pelos eixos (caminhos), e não por autor: cada eixo reúne vários autores em diálogo.','No texto bíblico, observe o contexto, as palavras-chave e a aplicação; use bíblias de estudo, comentários e dicionários.','Se a sugestão ficou genérica, deixe mais clara a problematização (Etapa 6) e os objetivos específicos (Etapa 8).']; },
 obras(){ return ['Escreva o sobrenome do autor e uma ou duas palavras do título (ex.: “Comiskey, Discipulado relacional”): se a obra estiver na lista, a página oferece a referência completa.','Se a obra não estiver na lista, siga o modelo ABNT: <b>SOBRENOME, Nome. Título: subtítulo. Edição. Cidade: Editora, ano.</b>','Para comentários bíblicos em vários volumes, indique o volume e o livro bíblico comentado.','Prefira obras que você já tem em mãos ou às quais terá acesso com certeza.']; }
@@ -1502,6 +1612,7 @@ function render(){
     '<div class="grade">' +
       '<section>' +
         (e.id === 'metodologia' ? '<div id="metodo">' + metodoHTML() + '</div>' : '') +
+        (e.id === 'plano' ? '<div id="planos">' + planosHTML() + '</div>' : '') +
         (e.id === 'fundamentacao'
           ? '<div class="card"><div class="bloco-tit" style="margin-top:0">Deixe os caminhos mais específicos</div><p class="bloco-desc">Quanto mais precisos estes campos, mais específicas ficam as sugestões. Os caminhos se atualizam enquanto você escreve.</p>' + e.campos.filter(c => c.k !== 'fundNotas').map(campoHTML).join('') + '</div>' +
             '<div id="caminhos">' + caminhosHTML() + '</div>' +
@@ -1541,6 +1652,7 @@ function render(){
     if(c.sug) mostrarSugestoes(c.k);
   });
   if(e.id === 'metodologia') ligarMetodo();
+  if(e.id === 'plano') ligarPlanos();
   $('btAnalisar').onclick = () => { $('retorno').innerHTML = renderRetorno(ANALISE[e.id](), 'Análise da sua resposta'); salvar(false); };
   $('btMelhorar').onclick = () => { $('retorno').innerHTML = '<div class="retorno-tit">Como aperfeiçoar seu texto</div>' + MELHORAR[e.id]().map(x => '<div class="msg dica">' + x + '</div>').join(''); };
   $('btAnt').onclick = () => ir(e.n > 1 ? 'etapa-' + (e.n-1) : 'inicio');
@@ -1619,7 +1731,8 @@ const SECOES_FALTAM = [
   ['7 Fundamentação teórica', 'A fundamentação teórica (ou revisão teórica) será construída com o professor orientador, a partir das leituras indicadas.'],
   ['8 Metodologia', 'A metodologia (tipo de pesquisa, abordagem, procedimentos e instrumentos) será definida com o professor orientador.'],
   ['9 Recursos', 'Os recursos necessários à pesquisa (materiais, humanos e financeiros) serão definidos com o professor orientador.'],
-  ['10 Cronograma', 'O cronograma das atividades da pesquisa será organizado com o professor orientador.']
+  ['10 Cronograma', 'O cronograma das atividades da pesquisa será organizado com o professor orientador.'],
+  ['11 Plano preliminar do artigo', 'O plano preliminar será ajustado com o professor orientador ao longo da pesquisa.']
 ];
 function tituloCompleto(){
   const t = D.titulo.trim().replace(/[.:]\s*$/,''), st = D.subtitulo.trim().replace(/\.$/,'');
@@ -1692,7 +1805,7 @@ function documentoHTML(){
       '<h5>6.1 Objetivo geral</h5><p>' + linha(D.objGeral) + '</p>' +
       '<h5>6.2 Objetivos específicos</h5>' +
       objs.map((o, i) => '<p class="sem">' + 'abc'[i] + ') ' + linha(o.replace(/[.;]\s*$/,'')) + (i < 2 ? ';' : '.') + '</p>').join('') +
-    SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + (/^7 /.test(x[0]) ? eixosHTML() : '') + (/^8 /.test(x[0]) && metTemConteudo() ? metodoDocHTML() + falta('A metodologia será revisada e aprofundada com o professor orientador.') : falta(x[1]))).join('') +
+    SECOES_FALTAM.map(x => '<h4>' + x[0] + '</h4>' + (/^7 /.test(x[0]) ? eixosHTML() : '') + (/^11 /.test(x[0]) ? planoTexto().map(l => '<p class="sem">' + esc(l[1]) + '</p>').join('') : '') + (/^8 /.test(x[0]) && metTemConteudo() ? metodoDocHTML() + falta('A metodologia será revisada e aprofundada com o professor orientador.') : falta(x[1]))).join('') +
     '<h4 class="centro" style="margin-top:24pt">Referências</h4><div class="refs">' + (refs.length ? refs.map(r => '<p>' + esc(r) + '</p>').join('') : '<p class="vazio">[nenhuma referência informada]</p>') + '</div>' +
     falta('A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.') +
     '<div class="doc-rod">' + ROD_DOC + '</div>' +
@@ -1712,7 +1825,7 @@ function renderProjeto(m){
     coerencia().map(i => '<div class="msg ' + i.t + '">' + i.m + '</div>').join('') +
     '<h3 class="sec-tit">O que ainda falta no projeto</h3>' +
     '<div class="faltam"><p>Neste laboratório você constrói o projeto <b>do tema aos objetivos</b>. As seções abaixo completam o projeto de pesquisa e serão desenvolvidas com o seu professor orientador:</p>' +
-    '<ul><li>Sumário</li><li>Fundamentação teórica (ou revisão teórica)</li><li>Metodologia</li><li>Recursos</li><li>Cronograma</li><li>Bibliografia</li></ul>' +
+    '<ul><li>Sumário</li><li>Fundamentação teórica (ou revisão teórica)</li><li>Metodologia</li><li>Recursos</li><li>Cronograma</li><li>Plano preliminar do artigo (ajustes)</li><li>Bibliografia</li></ul>' +
     '<p>Elas já aparecem no documento abaixo, marcadas como <i>“Seção a ser desenvolvida”</i>.</p></div>' +
     '<h3 class="sec-tit">Visualizar projeto</h3>' +
     '<div class="botoes">' +
@@ -1789,7 +1902,7 @@ function blocosProjeto(){
   add('h2', '6.1 Objetivo geral'); add('p', D.objGeral.trim());
   add('h2', '6.2 Objetivos específicos');
   [D.obj1, D.obj2, D.obj3].forEach((o, i) => add('item', 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')));
-  SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); if(/^7 /.test(x[0])) eixosTexto().forEach(l => add(l[0], l[1])); if(/^8 /.test(x[0]) && metTemConteudo()){ metodoTexto().forEach(l => add(l[0], l[1])); add('falta', 'A metodologia será revisada e aprofundada com o professor orientador.'); } else add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
+  SECOES_FALTAM.forEach(x => { add('h1', x[0].toUpperCase()); if(/^7 /.test(x[0])) eixosTexto().forEach(l => add(l[0], l[1])); if(/^11 /.test(x[0])) planoTexto().forEach(l => add(l[0], l[1])); if(/^8 /.test(x[0]) && metTemConteudo()){ metodoTexto().forEach(l => add(l[0], l[1])); add('falta', 'A metodologia será revisada e aprofundada com o professor orientador.'); } else add('falta', 'Seção a ser desenvolvida. ' + x[1]); });
   add('h1c', 'REFERÊNCIAS');
   listaReferencias().forEach(r => add('ref', r));
   add('falta', 'Seção a ser desenvolvida. A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.');
@@ -1855,7 +1968,7 @@ function textoPlano(){
     '5 PROBLEMATIZAÇÃO', D.problema.trim(), '',
     '6 OBJETIVOS', '6.1 Objetivo geral', D.objGeral.trim(), '', '6.2 Objetivos específicos',
     ...objs.map((o, i) => 'abc'[i] + ') ' + o.trim().replace(/[.;]\s*$/,'') + (i < 2 ? ';' : '.')), '',
-    ...SECOES_FALTAM.flatMap(x => [x[0].toUpperCase()].concat(/^7 /.test(x[0]) ? eixosTexto().map(l => l[1]) : []).concat(/^8 /.test(x[0]) && metTemConteudo() ? metodoTexto().map(l => l[1]) : []).concat(['[Seção a ser desenvolvida] ' + x[1], ''])),
+    ...SECOES_FALTAM.flatMap(x => [x[0].toUpperCase()].concat(/^7 /.test(x[0]) ? eixosTexto().map(l => l[1]) : []).concat(/^11 /.test(x[0]) ? planoTexto().map(l => l[1]) : []).concat(/^8 /.test(x[0]) && metTemConteudo() ? metodoTexto().map(l => l[1]) : []).concat(['[Seção a ser desenvolvida] ' + x[1], ''])),
     'REFERÊNCIAS', ...refs, '[A bibliografia será ampliada com as obras da fundamentação teórica e da metodologia.]', '',
     '—', ROD_DOC
   ].filter(x => x !== null).join('\n');
@@ -1925,7 +2038,7 @@ $('btApagar').onclick = () => abrirModal('Apagar o rascunho?',
 $('arqRasc').addEventListener('change', abrirRascunho);
 window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if(h && h !== vista) { vista = h; montarMenu(); render(); } });
 const h0 = (location.hash || '').slice(1);
-if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-(1[01]|[1-9])$/.test(h0)) vista = h0;
+if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-(1[012]|[1-9])$/.test(h0)) vista = h0;
 mostrarSalvo(); montarMenu(); render();
 </script>
 </body>

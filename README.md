@@ -1,6 +1,6 @@
 # Laboratório de Projeto de Pesquisa
 
-Ferramenta interativa para orientar a construção do **Projeto de Pesquisa Teológico-Ministerial**, em onze etapas: tema (com relevância para a atualidade), título, contextualização, delimitação, justificativa, problematização, objetivo geral, objetivos específicos, obras de referência, caminhos para a fundamentação teórica e metodologia.
+Ferramenta interativa para orientar a construção do **Projeto de Pesquisa Teológico-Ministerial**, em doze etapas: tema (com relevância para a atualidade), título, contextualização, delimitação, justificativa, problematização, objetivo geral, objetivos específicos, obras de referência, caminhos para a fundamentação teórica, metodologia e plano preliminar do artigo.
 
 Elaborado pelo **Prof. Alexandre Fonseca do Prado Beloni**.
 
