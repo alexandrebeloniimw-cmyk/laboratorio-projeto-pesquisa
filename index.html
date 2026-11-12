@@ -191,6 +191,15 @@ details.exemplo[open] summary::before{content:"▾ "}
 .livro-lat b{display:block;color:var(--navy);font-family:"Fraunces",serif;font-size:15.5px;margin:2px 0}
 .livro-lat span{color:var(--gold);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
 @media (max-width:960px){.livro{flex-direction:column;align-items:flex-start}.livro-lat{display:none}}
+.etica{border:2px solid #d98b00;background:#fff7e6;border-radius:var(--radius);padding:14px 18px;margin:12px 0}
+.etica-tit{font-weight:800;color:#8a4b00;letter-spacing:.04em;margin-bottom:6px}
+.etica p{margin:6px 0;font-size:15px}
+.etica ul{margin:4px 0 6px;padding-left:20px;font-size:15px}
+.etica li{margin-bottom:5px}
+.etica-curso{background:#fff;border-radius:8px;padding:8px 10px}
+.etica-norma{font-size:14px!important;color:#5a4a2a}
+.chk{display:flex;gap:8px;align-items:flex-start;font-weight:600!important;color:var(--ink)!important;margin-bottom:6px;cursor:pointer}
+.chk input{margin-top:4px;width:18px;height:18px}
 .met-tabs{display:flex;gap:8px;margin:14px 0 4px;flex-wrap:wrap}
 .met-tabs button{flex:1 1 200px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:10px;padding:10px 12px;font-weight:700}
 .met-tabs button.on{background:var(--navy);color:#fff}
@@ -326,7 +335,7 @@ details.exemplo[open] summary::before{content:"▾ "}
    DADOS E PERSISTÊNCIA
    ========================================================= */
 const CHAVE = 'iwe-lab-projeto-v1';
-const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3','fundNotas','textoBiblico','palavrasChave','conceitos','m_abordagem','m_objetivo','m_procedimento','m_natureza','m_tempo','m_metodo','m_coleta','mj_abordagem','mj_objetivo','mj_procedimento','mj_natureza','mj_tempo','mj_metodo','mj_coleta','metPublico','metTexto'];
+const CAMPOS = ['aluno','instituicao','curso','orientador','cidade','tema','relevAtual','titulo','subtitulo','contexto','campoGeral','campoEsp','espaco','tempo','justTeo','justRef','justSoc','problema','objGeral','obj1','obj2','obj3','obra1','obra2','obra3','fundNotas','textoBiblico','palavrasChave','conceitos','m_abordagem','m_objetivo','m_procedimento','m_natureza','m_tempo','m_metodo','m_coleta','mj_abordagem','mj_objetivo','mj_procedimento','mj_natureza','mj_tempo','mj_metodo','mj_coleta','metPublico','metTexto','metMenores','metInstit'];
 let D = {}; CAMPOS.forEach(k => D[k] = '');
 let salvoEm = null;
 
@@ -539,7 +548,7 @@ const ETAPAS = [
 {n:11, id:'metodologia', titulo:'Metodologia', curto:'Metodologia',
  oque:'Definir como a sua pesquisa será realizada: abordagem, objetivo, procedimentos, natureza, tempo, método e coleta de dados. Escolha um cartão por vez e justifique cada escolha.',
  campos:[{k:'metTexto', label:'Texto da minha metodologia', sub:'Depois de passar pelos cartões, escreva com as suas palavras como a pesquisa será realizada e por quê. Use o roteiro do resumo como guia.', rows:9, ph:'Esta pesquisa, de natureza…, adota abordagem…, porque…'}],
- orient:['A metodologia responde: como a pesquisa será realizada?','Cada elemento responde a uma pergunta diferente; eles não são sinônimos.','Qualitativa não é sinônimo de pesquisa de campo; bibliográfica não é o mesmo que documental; método dedutivo não é objetivo explicativo.','Seja realista: não prometa entrevistar ou consultar mais pessoas do que consegue alcançar.','Tema, problema, objetivos e metodologia precisam conversar entre si.'],
+ orient:['A metodologia responde: como a pesquisa será realizada?','Cada elemento responde a uma pergunta diferente; eles não são sinônimos.','Qualitativa não é sinônimo de pesquisa de campo; bibliográfica não é o mesmo que documental; método dedutivo não é objetivo explicativo.','Seja realista: não prometa entrevistar ou consultar mais pessoas do que consegue alcançar.','Pesquisa com pessoas exige termo de consentimento (TCLE); com menores, também a autorização dos pais e o termo de assentimento; em instituições, a carta de anuência.','Tema, problema, objetivos e metodologia precisam conversar entre si.'],
  perguntas:['Minhas escolhas ajudam a responder à minha pergunta de pesquisa?','Consigo realizar o que estou prometendo no prazo do TCC?','Sei explicar por que escolhi cada caminho?'],
  exemplo:'Tema: O discipulado cristão e a formação espiritual dos novos convertidos.\n\nUma combinação coerente: natureza aplicada; abordagem qualitativa; objetivo exploratório; pesquisa bibliográfica e estudo de caso; transversal; método dedutivo; coleta por análise bibliográfica e entrevistas semiestruturadas com líderes do ministério de novos convertidos.\n\nNão existe uma única combinação obrigatória: o importante é a coerência com o problema e os objetivos.'}
 ];
@@ -1135,6 +1144,17 @@ function caminhosHTML(){
 }
 
 /* ---------- Etapa 11: Metodologia (a partir da aula do professor) ---------- */
+const ETICA_HTML =
+  '<div class="etica"><div class="etica-tit">⚠️ ATENÇÃO · Ética na pesquisa com pessoas</div>' +
+  '<p>Se a sua pesquisa vai ouvir pessoas (entrevista, questionário, observação), os participantes precisam <strong>autorizar por escrito</strong> antes da coleta.</p>' +
+  '<ul>' +
+   '<li><strong>Adultos:</strong> Termo de Consentimento Livre e Esclarecido (<strong>TCLE</strong>), em forma de convite e linguagem simples: objetivo da pesquisa, o que a pessoa fará, sigilo da identidade, liberdade para desistir a qualquer momento e contato do pesquisador. Uma via fica com o participante.</li>' +
+   '<li><strong>Menores de 18 anos:</strong> é preciso o <strong>TCLE assinado pelos pais ou responsáveis</strong> e também o <strong>Termo de Assentimento (TALE)</strong> do próprio menor, em linguagem adequada à idade. O assentimento do menor não substitui a autorização dos pais.</li>' +
+   '<li><strong>Instituições e órgãos</strong> (igreja, escola, ONG, órgão público) onde a coleta acontecer, ou cujos documentos serão analisados: <strong>Carta de Anuência</strong> (autorização), assinada pelo responsável, de preferência em papel timbrado.</li>' +
+   '<li>Grave áudio ou imagem somente com autorização expressa no termo, e guarde os dados com sigilo.</li>' +
+  '</ul>' +
+  '<p class="etica-curso"><strong>No nosso curso:</strong> como os trabalhos têm circulação interna na instituição, o termo de consentimento pode ser elaborado pelo próprio pesquisador, seguindo a orientação do professor.</p>' +
+  '<p class="etica-norma"><strong>Importante:</strong> pela Resolução CNS nº 510/2016 (pesquisas em Ciências Humanas e Sociais), pesquisas com seres humanos, inclusive TCCs, em geral passam pelo Comitê de Ética em Pesquisa (Plataforma Brasil), salvo exceções como a pesquisa de opinião com participantes não identificados ou o uso de informações de acesso público. Se o trabalho for publicado fora da instituição, ou em caso de dúvida, consulte o seu orientador.</p></div>';
 const METOD = [
  {id:'abordagem', titulo:'Abordagem', pergunta:'Como vou trabalhar os dados?', multi:false,
   memo:'Qualitativa: compreende experiências. Quantitativa: mede dados. Mista: combina as duas.',
@@ -1246,6 +1266,7 @@ function coerenciaMet(){
   const pessoas = c.includes('entrevista') || c.includes('questionario');
   if((p.includes('campo') || p.includes('levantamento') || p.includes('estudocaso')) && !pessoas && !c.includes('docs')) it.push(I('warn','Você marcou pesquisa de campo, levantamento ou estudo de caso, mas não escolheu como vai obter as informações das pessoas: marque <strong>entrevista</strong> ou <strong>questionário</strong> no cartão 7.'));
   if(pessoas && !(p.includes('campo') || p.includes('levantamento') || p.includes('estudocaso') || p.includes('experimental'))) it.push(I('warn','Entrevista e questionário obtêm informações de pessoas, mas você marcou apenas procedimentos com materiais já existentes. Inclua pesquisa de campo, levantamento ou estudo de caso no cartão 3.'));
+  if(p.includes('documental')) it.push(I('dica','Documentos de uma instituição (atas, relatórios, registros) só podem ser analisados com autorização do responsável: providencie a Carta de Anuência.'));
   if(c.includes('docs') && !p.includes('documental')) it.push(I('warn','Você escolheu análise documental na coleta, mas não marcou a pesquisa <strong>documental</strong> no cartão 3.'));
   if(p.includes('documental') && !c.includes('docs')) it.push(I('dica','Você marcou pesquisa documental: inclua a <strong>análise documental</strong> na coleta de dados.'));
   if(p.includes('bibliografica') && !c.includes('biblio')) it.push(I('dica','Você marcou pesquisa bibliográfica: inclua a <strong>análise bibliográfica</strong> na coleta de dados.'));
@@ -1262,7 +1283,10 @@ function coerenciaMet(){
   if(nat === 'aplicada' && !/propor|propost|desenvolver|elaborar|implant|aplicar|estrateg|plano/.test(t)) it.push(I('dica','Na pesquisa aplicada, algum objetivo deve prever uma proposta ou aplicação prática. Verifique seus objetivos específicos.'));
   if(pessoas){
     if(!D.metPublico.trim()) it.push(I('warn','Você vai ouvir pessoas: informe <strong>quem</strong> e <strong>quantas</strong> no campo “Participantes”. Seja realista: não prometa mais do que consegue alcançar.'));
-    it.push(I('dica','Pesquisa com pessoas exige autorização dos participantes (termo de consentimento livre e esclarecido) e cuidado com o sigilo. Combine os detalhes com o orientador.'));
+    it.push(I('warn','<b>Atenção: ética.</b>Os participantes precisam assinar o Termo de Consentimento Livre e Esclarecido (TCLE) antes da coleta. Veja o quadro de atenção no cartão 7.'));
+    const menores = D.metMenores || /crianc|adolesc|menores|infant|juvenil|teen|alunos da ebd|escola dominical infantil/.test(norm(D.metPublico + ' ' + D.espaco));
+    if(menores) it.push(I('warn','<b>Participantes menores de 18 anos.</b>É obrigatório o TCLE assinado pelos pais ou responsáveis e o Termo de Assentimento (TALE) do próprio menor, em linguagem adequada à idade.'));
+    if(D.metInstit) it.push(I('warn','<b>Coleta em instituição ou órgão.</b>Providencie a Carta de Anuência (autorização) assinada pelo responsável da instituição antes de iniciar a coleta.'));
   }
   return it;
 }
@@ -1300,7 +1324,10 @@ function aplicarHTML(){
   h += '<div class="met-ops grade-ops">' + m.ops.map(o => '<button class="met-op' + (sel.includes(o.id) ? ' sel' : '') + (pista.ops.includes(o.id) ? ' sugerida' : '') + '" data-o="' + o.id + '"><b>' + o.nome + (pista.ops.includes(o.id) ? ' <span class="tag-sug">sugerida</span>' : '') + '</b><span>' + o.def + '</span><em>Ex.: ' + o.ex + '</em></button>').join('') + '</div>';
   h += '<p class="met-memo">💡 <b>Para memorizar:</b> ' + m.memo + '</p>';
   h += '<div class="campo"><label for="mj_' + m.id + '">Por que escolhi (uma frase)</label><input id="mj_' + m.id + '" data-mj="' + m.id + '" value="' + esc(D['mj_' + m.id] || '') + '" placeholder="Ex.: Escolhi esta opção porque minha pergunta busca…"></div>';
-  if(m.id === 'coleta' && (sel.includes('entrevista') || sel.includes('questionario'))) h += '<div class="campo"><label for="metPublico">Participantes</label><span class="sub">Quem será ouvido e quantas pessoas, aproximadamente. Seja realista.</span><input id="metPublico" data-mj="publico" value="' + esc(D.metPublico) + '" placeholder="Ex.: 8 líderes do ministério de novos convertidos"></div>';
+  if(m.id === 'coleta' && (sel.includes('entrevista') || sel.includes('questionario'))) h += ETICA_HTML +
+    '<div class="campo"><label class="chk"><input type="checkbox" data-chk="metMenores"' + (D.metMenores ? ' checked' : '') + '> Haverá participantes menores de 18 anos</label>' +
+    '<label class="chk"><input type="checkbox" data-chk="metInstit"' + (D.metInstit ? ' checked' : '') + '> A coleta acontecerá em uma instituição ou órgão (igreja, escola, ONG, órgão público)</label></div>' +
+    '<div class="campo"><label for="metPublico">Participantes</label><span class="sub">Quem será ouvido e quantas pessoas, aproximadamente. Seja realista.</span><input id="metPublico" data-mj="publico" value="' + esc(D.metPublico) + '" placeholder="Ex.: 8 líderes do ministério de novos convertidos"></div>';
   h += '<div class="botoes">' + (metPasso > 0 ? '<button class="btn btn-leve" data-acao="ant">← Anterior</button>' : '') + '<button class="btn btn-pri" data-acao="prox">' + (metPasso < METOD.length - 1 ? 'Próximo cartão →' : 'Ver resumo →') + '</button></div></div>';
   return h;
 }
@@ -1309,6 +1336,7 @@ function resumoMetHTML(){
   const co = coerenciaMet();
   return '<div class="met-card"><h3>Resumo das suas escolhas</h3><table class="met-tab">' + linhas + (D.metPublico.trim() ? '<tr><td>Participantes</td><td>' + esc(D.metPublico) + '</td></tr>' : '') + '</table>' +
     '<h3 style="margin-top:16px">Verificação de coerência</h3>' + (co.length ? co.map(i => '<div class="msg ' + i.t + '">' + i.m + '</div>').join('') : '<div class="msg ok">As suas escolhas estão coerentes entre si.</div>') +
+    ((selMet('coleta').includes('entrevista') || selMet('coleta').includes('questionario')) ? ETICA_HTML : '') +
     '<h3 style="margin-top:16px">Roteiro para escrever a sua metodologia</h3><p>Use o roteiro como guia e escreva <b>com as suas palavras</b> no campo abaixo, explicando <b>por que</b> cada escolha ajuda a responder à sua pergunta:</p><ol class="roteiro">' + roteiroMet().map(x => '<li>' + x + '</li>').join('') + '</ol></div>';
 }
 function roteiroMet(){
@@ -1331,6 +1359,7 @@ function ligarMetodo(){
     if(m.multi) s = s.includes(o) ? s.filter(x => x !== o) : s.concat(o); else s = [o];
     D['m_' + m.id] = s.join(','); salvarDepois(); re();
   });
+  box.querySelectorAll('[data-chk]').forEach(el => el.addEventListener('change', () => { D[el.dataset.chk] = el.checked ? '1' : ''; salvarDepois(); }));
   box.querySelectorAll('[data-mj]').forEach(el => el.addEventListener('input', () => {
     if(el.dataset.mj === 'publico') D.metPublico = el.value; else D['mj_' + el.dataset.mj] = el.value; salvarDepois();
   }));
@@ -1597,6 +1626,13 @@ function metodoTexto(){
   const esc2 = METOD.filter(m => selMet(m.id).length);
   if(esc2.length){ L.push(['item', 'Quadro-resumo das escolhas metodológicas:']); esc2.forEach(m => L.push(['item', m.titulo + ': ' + selMet(m.id).map(o => nomeOp(m.id, o)).join(', ') + '.'])); }
   if(D.metPublico.trim()) L.push(['item', 'Participantes: ' + D.metPublico.trim().replace(/\.$/,'') + '.']);
+  const cl = selMet('coleta');
+  if(cl.includes('entrevista') || cl.includes('questionario')){
+    const et = ['Termo de Consentimento Livre e Esclarecido (TCLE) assinado pelos participantes'];
+    if(D.metMenores || /crianc|adolesc|menores|infant|juvenil|alunos da ebd|escola dominical infantil/.test(norm(D.metPublico + ' ' + D.espaco))) et.push('TCLE dos pais ou responsáveis e Termo de Assentimento (TALE) dos participantes menores de 18 anos');
+    if(D.metInstit) et.push('Carta de Anuência da instituição onde ocorrerá a coleta');
+    L.push(['item', 'Aspectos éticos: ' + et.join('; ') + '.']);
+  } else if(selMet('procedimento').includes('documental')) L.push(['item', 'Aspectos éticos: Carta de Anuência da instituição responsável pelos documentos analisados.']);
   return L;
 }
 function metodoDocHTML(){ return metodoTexto().map(l => l[0] === 'p' ? '<p>' + esc(l[1]) + '</p>' : '<p class="sem">' + esc(l[1]) + '</p>').join(''); }
