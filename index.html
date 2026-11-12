@@ -197,6 +197,10 @@ details.exemplo[open] summary::before{content:"▾ "}
 .etica ul{margin:4px 0 6px;padding-left:20px;font-size:15px}
 .etica li{margin-bottom:5px}
 .etica-curso{background:#fff;border-radius:8px;padding:8px 10px}
+.etica-fontes{margin-top:8px;font-size:14.5px}
+.etica-fontes summary{cursor:pointer;font-weight:700;color:#8a4b00}
+.etica-fontes ul{margin-top:6px}
+.etica-fontes a{color:var(--navy-2)}
 .etica-norma{font-size:14px!important;color:#5a4a2a}
 .chk{display:flex;gap:8px;align-items:flex-start;font-weight:600!important;color:var(--ink)!important;margin-bottom:6px;cursor:pointer}
 .chk input{margin-top:4px;width:18px;height:18px}
@@ -1155,7 +1159,15 @@ const ETICA_HTML =
   '</ul>' +
   '<p><strong>Não se enquadram nas exceções (exigem o Comitê de Ética):</strong> entrevistas, grupos focais, observação de pessoas, questionários com identificação, documentos internos não públicos (atas, fichas, relatórios de uma igreja) e pesquisas com participantes menores de 18 anos.</p>' +
   '<p>Nesses casos, além da aprovação do Comitê de Ética, são necessários: <strong>TCLE</strong> (termo de consentimento) dos participantes; com <strong>menores</strong>, TCLE dos pais ou responsáveis e <strong>Termo de Assentimento (TALE)</strong> do menor; em <strong>instituições e órgãos</strong>, a <strong>Carta de Anuência</strong> do responsável.</p>' +
-  '<p class="etica-norma">A instituição também pode ter procedimentos próprios de avaliação ética. Em caso de dúvida, consulte o seu professor orientador antes de iniciar a coleta.</p></div>';
+  '<p class="etica-norma">A instituição também pode ter procedimentos próprios de avaliação ética. Em caso de dúvida, consulte o seu professor orientador antes de iniciar a coleta.</p>' +
+  '<details class="etica-fontes"><summary>📚 Fontes para consulta</summary><ul>' +
+   '<li><a href="https://www.furb.br/web/upl/arquivos/201702061757160.CNS_5102016.pdf" target="_blank" rel="noopener">Resolução CNS nº 510, de 7 de abril de 2016</a>: normas para pesquisas em Ciências Humanas e Sociais (art. 1º, parágrafo único: exceções).</li>' +
+   '<li><a href="https://ead.ufpe.br/documents/619819/801156/Orienta%C3%A7%C3%B5es+da+CONEP+Artigo+1%C2%BA+da+Resolu%C3%A7%C3%A3o+510.16.pdf/08117e2e-5254-404d-ba98-11236ca0d99c" target="_blank" rel="noopener">Ofício Circular nº 17/2022/CONEP</a>: orientações sobre as pesquisas dispensadas do Comitê de Ética e sobre os TCCs.</li>' +
+   '<li><a href="https://wp.rededorsaoluiz.com.br/sao-carlos/wp-content/uploads/sites/81/2023/05/resolucao_cns_466_2012.pdf" target="_blank" rel="noopener">Resolução CNS nº 466, de 12 de dezembro de 2012</a>: definições de TCLE (item II.23) e Termo de Assentimento (item II.24).</li>' +
+   '<li><a href="https://www.cep.epsjv.fiocruz.br/sites/default/files/2025-09/Orienta%C3%A7%C3%B5es%20e%20modelo%20TALE.docx" target="_blank" rel="noopener">Fiocruz: orientações e modelo de Termo de Assentimento (TALE)</a> para participantes menores de idade.</li>' +
+   '<li><a href="https://portal.ifrn.edu.br/documents/669/Checklist_de_documentos_a_serem_enviados_ao_CEP_-_ok_1.pdf" target="_blank" rel="noopener">IFRN: lista de documentos para o Comitê de Ética</a>, com explicação da Carta de Anuência.</li>' +
+   '<li><a href="https://plataformabrasil.saude.gov.br" target="_blank" rel="noopener">Plataforma Brasil</a>: sistema de submissão de pesquisas ao Comitê de Ética.</li>' +
+  '</ul></details></div>';
 const METOD = [
  {id:'abordagem', titulo:'Abordagem', pergunta:'Como vou trabalhar os dados?', multi:false,
   memo:'Qualitativa: compreende experiências. Quantitativa: mede dados. Mista: combina as duas.',
