@@ -6,7 +6,7 @@
 <title>Laboratório de Projeto de Pesquisa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#1d2b4a; --navy-2:#2c3e66; --gold:#c49a2c; --gold-soft:#f3e7c4;
@@ -299,6 +299,160 @@ details.exemplo[open] summary::before{content:"▾ "}
   .folha{padding:28px 20px}
 }
 
+/* =========================================================
+   TEMA ACADÊMICO ELEGANTE (camada visual)
+   ========================================================= */
+:root{
+  --navy:#14213d; --navy-2:#263a63; --gold:#b8892b; --gold-soft:#f5ecd6;
+  --bg:#f8f6f1; --card:#ffffff; --ink:#1b1f2a; --muted:#646a78; --line:#e6e0d4;
+  --tip:#2a5596; --tip-bg:#eef3fa; --ok-bg:#ebf5ee; --warn-bg:#fcf3df; --err-bg:#fbeceb;
+  --radius:8px; --sombra:0 1px 2px rgba(20,33,61,.04),0 8px 24px -12px rgba(20,33,61,.12);
+}
+body{background:var(--bg);font-size:16.5px;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-weight:600;letter-spacing:-.01em}
+::selection{background:var(--gold-soft)}
+
+/* Cabeçalho: faixa fina + masthead editorial */
+.topo{background:var(--bg);color:var(--ink);padding:0;overflow:visible;position:sticky;top:0;z-index:30}
+.topo::after{display:none}
+.faixa{background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 28px;height:56px}
+.marca{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;min-width:0}
+.marca-sel{flex:0 0 32px;height:32px;display:grid;place-items:center;border:1.5px solid var(--gold);color:var(--gold);font-family:"Fraunces",serif;font-weight:700;font-size:14px;letter-spacing:.04em;border-radius:2px}
+.marca-txt{font-size:13px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.92}
+.marca-txt b{color:#fff;font-weight:700}
+.faixa-dir{display:flex;align-items:center;gap:18px;flex:0 0 auto}
+.prog-txt{font-size:13px;letter-spacing:.06em;color:rgba(255,255,255,.75);font-variant-numeric:tabular-nums}
+.voltar-acervo{position:static;margin:0;background:transparent;border:1px solid rgba(255,255,255,.35);border-radius:4px;padding:5px 12px;font-size:13px;letter-spacing:.04em;color:#fff}
+.voltar-acervo:hover{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.topo .barra{height:3px;border-radius:0;background:rgba(20,33,61,.08)}
+.topo .barra span{border-radius:0;background:linear-gradient(90deg,var(--gold),#d4a94a)}
+.masthead{max-width:1240px;margin:0 auto;padding:40px 22px 8px;position:relative}
+.masthead .inst{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.masthead .inst b{color:var(--gold);font-weight:700}
+.masthead h1{font-size:clamp(30px,4.4vw,52px);color:var(--navy);margin-top:12px;line-height:1.05;letter-spacing:-.02em}
+.masthead p{margin:14px 0 0;color:var(--muted);max-width:640px;font-size:18px;line-height:1.5}
+.masthead::after{content:"";display:block;width:64px;height:2px;background:var(--gold);margin-top:26px}
+body:not([data-vista="inicio"]) .masthead{display:none}
+body:not([data-vista="inicio"]) .topo{box-shadow:0 1px 0 var(--line)}
+
+/* Layout */
+.app{grid-template-columns:250px 1fr;gap:48px;padding:36px 22px 72px}
+.lateral{top:84px}
+.lateral nav{background:transparent;border:0;padding:0;position:relative}
+.lateral nav::before{content:"";position:absolute;left:21px;top:20px;bottom:64px;width:1px;background:var(--line)}
+.navitem{position:relative;padding:7px 10px;border-radius:4px;font-size:15px;color:var(--muted);transition:color .15s,background .15s}
+.navitem:hover{background:rgba(20,33,61,.04);color:var(--navy)}
+.navitem .num{flex:0 0 24px;height:24px;font-size:11.5px;background:var(--bg);border:1.5px solid #cfc7b6;color:var(--muted);position:relative;z-index:1;font-variant-numeric:tabular-nums}
+.navitem.ativo{background:#fff;color:var(--navy);font-weight:700;box-shadow:var(--sombra)}
+.navitem.ativo::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;background:var(--gold);border-radius:0 2px 2px 0}
+.navitem.ativo .num{background:var(--navy);border-color:var(--navy);color:#fff}
+.navitem.feito .num{background:#fff;border-color:var(--ok);color:var(--ok)}
+.navitem.feito .num::after{content:"";}
+.navitem.atencao .num{background:#fff;border-color:var(--warn);color:var(--warn)}
+.navsep{margin:12px 6px;background:var(--line)}
+.acoes-lat{margin-top:22px;gap:6px}
+.salvo{margin-top:6px;font-size:12.5px}
+
+/* Botões */
+.btn{border-radius:4px;padding:10px 18px;font-size:15px;letter-spacing:.01em;transition:background .15s,border-color .15s,color .15s,box-shadow .15s}
+.btn-pri{background:var(--navy)}
+.btn-pri:hover{background:var(--navy-2);box-shadow:0 4px 14px -6px rgba(20,33,61,.5)}
+.btn-ouro{background:var(--gold);color:#fff}
+.btn-ouro:hover{filter:none;background:#a67a22}
+.btn-sec{border:1px solid var(--navy);background:transparent}
+.btn-sec:hover{background:var(--navy);color:#fff}
+.btn-leve{border:1px solid var(--line);background:transparent;font-weight:600;font-size:14px;padding:8px 14px}
+.btn-leve:hover{background:#fff;border-color:#cfc7b6;color:var(--ink)}
+.btn-apagar{color:var(--err)}
+
+/* Conteúdo das etapas */
+.etiqueta{font-size:11.5px;letter-spacing:.2em;color:var(--gold);margin-bottom:10px}
+.titulo-etapa{font-size:clamp(30px,3.6vw,42px);line-height:1.08;letter-spacing:-.02em}
+.titulo-etapa::after{content:"";display:block;width:56px;height:2px;background:var(--gold);margin-top:18px}
+.card{border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--sombra);padding:24px 26px}
+.oque{background:transparent;border-radius:0;border-left:2px solid var(--gold);padding:4px 0 4px 18px;margin:22px 0 28px;font-size:17px;color:#3b4150}
+.oque .ic{display:none}
+.oque b{font-family:"Fraunces",serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;font-weight:600}
+.grade{gap:28px}
+.campo{margin-bottom:22px}
+.campo label{font-size:16px;letter-spacing:.005em}
+.campo .sub{font-size:14px}
+.campo textarea,.campo input{border:1px solid #d9d2c3;border-radius:6px;background:#fff;padding:12px 14px;line-height:1.55;transition:border-color .15s,box-shadow .15s}
+.campo textarea:hover,.campo input:hover{border-color:#c4bba8}
+.campo textarea:focus,.campo input:focus{border-color:var(--navy-2);box-shadow:0 0 0 4px rgba(38,58,99,.08)}
+.contador{font-size:12px;font-variant-numeric:tabular-nums}
+.bloco{border-left:2px solid var(--gold);padding-left:18px}
+.bloco-tit{font-size:21px}
+.lado h3{font-family:"Fraunces",serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:12px}
+.lado .card{padding:20px 22px}
+.lado .card+.card{margin-top:16px}
+.lado li{font-size:15.5px}
+.lado li::marker{color:var(--gold)}
+details.exemplo summary{font-family:"Fraunces",serif;font-size:17px}
+.exemplo-txt{background:var(--bg);border-left:2px solid var(--gold);border-radius:0 6px 6px 0;font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:15.5px}
+
+/* Mensagens de análise */
+.msg{border-radius:6px;border-left:3px solid transparent;padding:12px 16px 12px 44px;font-size:15.5px}
+.msg.ok{border-left-color:var(--ok)}.msg.warn{border-left-color:var(--warn)}.msg.err{border-left-color:var(--err)}.msg.dica{border-left-color:var(--tip)}
+.retorno-tit{font-size:11.5px;letter-spacing:.2em;color:var(--muted);margin:10px 0 10px}
+.previa{background:var(--navy);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--sombra)}
+.previa p{font-family:"Fraunces",serif;font-size:18px;line-height:1.45}
+.navpe{margin-top:36px;padding-top:22px}
+
+/* Início */
+.pilares{gap:0;margin:30px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pilar{background:transparent;border:0;border-radius:0;padding:24px 24px 24px 0;border-right:1px solid var(--line)}
+.pilar+.pilar{padding-left:24px}
+.pilar:last-child{border-right:0}
+.pilar h3{font-size:22px}
+.normas,.importante{border-radius:var(--radius);box-shadow:var(--sombra);border:1px solid var(--line);border-left:3px solid var(--navy-2)}
+.importante{border-left-color:var(--gold)}
+.normas .ic,.importante .ic{font-size:22px}
+.livro{border-radius:var(--radius);background:var(--navy);padding:28px 30px;position:relative;overflow:hidden}
+.livro::after{content:"";position:absolute;right:-40px;bottom:-40px;width:180px;height:180px;border:1px solid rgba(184,137,43,.35);border-radius:50%}
+.livro-lat{border-radius:var(--radius);border:1px solid var(--line);border-left:2px solid var(--gold);box-shadow:var(--sombra)}
+.lojas a{border-radius:4px;border-width:1px}
+.aviso{border-left-width:2px}
+
+/* Aperfeiçoar */
+.resumo button{border-radius:6px;transition:border-color .15s,box-shadow .15s}
+.resumo button:hover{box-shadow:var(--sombra)}
+.sec-tit{font-size:26px}
+.faltam{border-radius:var(--radius);border-left:3px solid var(--navy-2);box-shadow:var(--sombra)}
+.folha{box-shadow:0 2px 4px rgba(20,33,61,.05),0 24px 48px -20px rgba(20,33,61,.25);border:0}
+
+/* Componentes das etapas */
+.met-tabs button{border-radius:4px;border-width:1px}
+.met-card,.caminho{border-radius:var(--radius);box-shadow:var(--sombra)}
+.caminho{border-left-width:2px}
+.met-op{border-radius:6px;border-width:1px;background:#fff}
+.met-dot{width:30px;height:30px;font-size:13px;border-width:1.5px}
+.rec-chip{border-radius:4px;border-style:solid;border-color:#cdd7e8}
+.cron-wrap,.sugref{border-radius:6px}
+.etica{border-width:1px;border-left-width:3px;border-radius:var(--radius)}
+.modal .card{border-radius:var(--radius)}
+.toast{border-radius:6px}
+.rodape{font-size:13.5px;line-height:1.7;padding:28px 16px 36px}
+.rodape b{font-family:"Fraunces",serif;color:var(--navy)}
+
+@media (max-width:960px){
+  .faixa{padding:0 16px;height:52px}
+  .marca-txt{font-size:11.5px;letter-spacing:.1em}
+  .masthead{padding:28px 18px 4px}
+  .masthead p{font-size:16.5px}
+  .app{grid-template-columns:1fr;padding-top:20px;gap:20px}
+  .lateral{position:static}
+  .navitem.ativo{box-shadow:none}
+  .lateral nav::before{display:none}
+  .navitem.ativo::before{display:none}
+  .pilares{border:0}
+  .pilar,.pilar+.pilar{padding:18px 0;border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (max-width:560px){
+  .prog-txt{display:none}
+  .marca-txt b{display:inline}
+}
+
 @media print{
   @page{size:A4;margin:3cm 2cm 2cm 3cm;
     @top-center{content:"LABORATÓRIO PROJETO DE PESQUISA – DO TEMA AOS OBJETIVOS";font-family:"Times New Roman",Times,serif;font-size:9pt;color:#555;letter-spacing:.04em;vertical-align:middle}
@@ -320,13 +474,18 @@ details.exemplo[open] summary::before{content:"▾ "}
 <body>
 
 <header class="topo no-print">
-  <a class="voltar-acervo" href="https://alexandrebeloniimw-cmyk.github.io/revistateologicoministerialiwecascadura2026/acervo.html">← Voltar ao acervo</a>
-  <div class="inst">Material de apoio didático · <b>Prof. Alexandre Fonseca do Prado Beloni</b></div>
-  <h1>Laboratório de Projeto de Pesquisa</h1>
-  <p>Construindo meu Projeto de Pesquisa Teológico-Ministerial: uma ferramenta interativa para orientar, construir e aperfeiçoar o seu projeto.</p>
-  <div class="progresso">
-    <div class="rot"><span>Seu progresso</span><span id="progTxt">0 de 14 etapas</span></div>
-    <div class="barra"><span id="progBar"></span></div>
+  <div class="faixa">
+    <a class="marca" href="#inicio" onclick="ir('inicio');return false"><span class="marca-sel">LP</span><span class="marca-txt"><b>Laboratório</b> de Projeto de Pesquisa</span></a>
+    <div class="faixa-dir">
+      <span class="prog-txt" id="progTxt">0 de 14 etapas</span>
+      <a class="voltar-acervo" href="https://alexandrebeloniimw-cmyk.github.io/revistateologicoministerialiwecascadura2026/acervo.html">← Acervo</a>
+    </div>
+  </div>
+  <div class="barra"><span id="progBar"></span></div>
+  <div class="masthead">
+    <div class="inst">Material de apoio didático · <b>Prof. Alexandre Fonseca do Prado Beloni</b></div>
+    <h1>Laboratório de Projeto de Pesquisa</h1>
+    <p>Construindo meu Projeto de Pesquisa Teológico-Ministerial: uma ferramenta interativa para orientar, construir e aperfeiçoar o seu projeto.</p>
   </div>
 </header>
 
@@ -1715,7 +1874,7 @@ function atualizarProgresso(){
     const b = document.querySelector('.navitem[data-v="etapa-' + e.n + '"]');
     if(b){ b.classList.toggle('feito', s === 'feito'); b.classList.toggle('atencao', s === 'atencao'); }
   });
-  $('progTxt').textContent = feitas + ' de ' + NE + ' etapas concluídas';
+  $('progTxt').textContent = feitas + ' de ' + NE + ' etapas';
   $('progBar').style.width = (feitas / NE * 100) + '%';
 }
 
@@ -1761,7 +1920,7 @@ function renderRetorno(r, titulo){
 }
 
 function render(){
-  const m = $('principal');
+  const m = $('principal'); document.body.dataset.vista = vista === 'inicio' ? 'inicio' : (vista === 'projeto' ? 'projeto' : 'etapa');
   if(vista === 'inicio') return renderInicio(m);
   if(vista === 'projeto') return renderProjeto(m);
   const e = ETAPAS.find(x => 'etapa-' + x.n === vista);
