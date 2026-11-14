@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Laboratório de Projeto de Pesquisa</title>
+<meta name="description" content="Ferramenta interativa que orienta a construção do Projeto de Pesquisa Teológico-Ministerial, do tema à metodologia, segundo a ABNT. Prof. Alexandre Fonseca do Prado Beloni.">
+<meta name="theme-color" content="#14213d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' aria-hidden='true'%3E%3Crect width='40' height='40' rx='7' fill='%2314213d'/%3E%3Cpath d='M8 11.5h7.5a4.5 4.5 0 0 1 4.5 4.5v13.5a3.2 3.2 0 0 0-3.2-3.2H8z' fill='none' stroke='%23b8892b' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M32 11.5h-7.5a4.5 4.5 0 0 0-4.5 4.5v13.5a3.2 3.2 0 0 1 3.2-3.2H32z' fill='none' stroke='%23efe6d2' stroke-width='2.2' stroke-linejoin='round'/%3E%3Ccircle cx='20' cy='7' r='1.6' fill='%23b8892b'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="img/icone-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Laboratório de Projeto de Pesquisa">
+<meta property="og:description" content="Construa o seu Projeto de Pesquisa Teológico-Ministerial etapa por etapa, com orientações, exemplos e análise das respostas.">
+<meta property="og:image" content="https://alexandrebeloniimw-cmyk.github.io/laboratorio-projeto-pesquisa/img/og.png">
+<meta property="og:url" content="https://alexandrebeloniimw-cmyk.github.io/laboratorio-projeto-pesquisa/">
+<meta name="twitter:card" content="summary_large_image">
+<script>try{document.documentElement.dataset.tema=localStorage.getItem('lab-tema')||'claro'}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
@@ -453,6 +465,181 @@ details.exemplo summary{font-family:"Fraunces",serif;font-size:17px}
   .marca-txt b{display:inline}
 }
 
+/* =========================================================
+   IDENTIDADE, ÍCONES, FASES, PEDAGOGIA E ACABAMENTO
+   ========================================================= */
+.i{width:1.1em;height:1.1em;flex:0 0 auto;vertical-align:-.15em}
+.btn .i{width:18px;height:18px}
+.logo{width:34px;height:34px;flex:0 0 34px;display:block}
+.marca-sel{display:none}
+.lado h3{display:flex;align-items:center;gap:8px}
+.lado h3 .i{width:16px;height:16px}
+.normas .ic,.importante .ic{color:var(--navy-2)}
+.importante .ic{color:var(--gold)}
+.normas .ic .i,.importante .ic .i{width:26px;height:26px}
+.etica-tit .i{color:#b06a00}
+
+/* Faixa: salvamento e tema */
+.salvo-faixa{font-size:12.5px;color:rgba(255,255,255,.7);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.salvo-faixa .i{width:14px;height:14px;color:#8fd1a6}
+.salvo-faixa.pulso{animation:pulso .9s ease}
+@keyframes pulso{0%{color:#fff}100%{color:rgba(255,255,255,.7)}}
+.tema-bt{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;width:34px;height:32px;border-radius:4px;display:grid;place-items:center;padding:0}
+.tema-bt:hover{border-color:var(--gold);color:var(--gold)}
+.tema-bt .i{width:16px;height:16px}
+
+/* Lateral: ações enxutas */
+.acoes-lat .btn-pri{width:100%}
+.mais{position:relative}
+.mais>summary{list-style:none;width:100%;cursor:pointer}
+.mais>summary::-webkit-details-marker{display:none}
+.mais[open]>summary{background:#fff;border-color:#cfc7b6;color:var(--ink)}
+.mais-menu{margin-top:6px;display:grid;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:6px;box-shadow:var(--sombra)}
+.mais-menu .btn{justify-content:flex-start;text-align:left;border:0;width:100%;font-weight:600}
+.mais-menu .btn:hover{background:var(--bg)}
+.mais-menu .dica-inst{font-size:12.5px;color:var(--muted);padding:4px 10px 6px;line-height:1.4}
+.btn-instalar[hidden]{display:none}
+
+/* Menu por fases */
+.nav-fase{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:700;letter-spacing:.1em;white-space:nowrap;text-transform:uppercase;color:var(--fc);padding:14px 10px 4px 10px;position:relative;z-index:1}
+.nav-fase::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--fc);margin-left:8px;margin-right:6px;box-shadow:0 0 0 4px var(--bg)}
+.navitem[style*="--fc"] .num{border-color:color-mix(in srgb,var(--fc) 45%,#d8d0c0)}
+.navitem.ativo[style*="--fc"]::before{background:var(--fc)}
+.navitem.ativo[style*="--fc"] .num{background:var(--fc);border-color:var(--fc)}
+.navitem.feito .num{border-color:var(--ok)!important;color:var(--ok)}
+.etiqueta .fase-tag{display:inline-flex;align-items:center;gap:6px;color:var(--fc);margin-right:10px}
+.etiqueta .fase-tag::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--fc)}
+
+/* Medidor de qualidade */
+.cab-etapa{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.medidor{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);padding-bottom:22px}
+.med-rot{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase}
+.med-barra{display:flex;gap:3px}
+.med-barra i{width:22px;height:6px;border-radius:2px;background:var(--line);transition:background .3s}
+.med-barra.n1 i:nth-child(1){background:#d18a3a}
+.med-barra.n2 i:nth-child(-n+2){background:var(--gold)}
+.med-barra.n3 i{background:var(--ok)}
+.med-txt{font-weight:700;color:var(--ink);min-width:150px}
+
+/* O fio do projeto */
+.fio{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));gap:0;align-items:stretch;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin:0 0 26px;box-shadow:var(--sombra);overflow:hidden}
+.fio-rot{display:flex;align-items:center;gap:8px;padding:12px 16px;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);background:color-mix(in srgb,var(--gold) 8%,var(--card));border-right:1px solid var(--line);white-space:nowrap}
+.fio-it{border:0;border-right:1px solid var(--line);background:transparent;text-align:left;padding:10px 14px;display:flex;flex-direction:column;gap:2px;min-width:0;color:var(--ink);transition:background .15s}
+.fio-it:last-child{border-right:0}
+.fio-it:hover{background:var(--bg)}
+.fio-it.atual{box-shadow:inset 0 -2px 0 var(--gold)}
+.fio-it b{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.fio-it span{font-size:13.5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fio-it i{color:var(--muted)}
+
+/* Cuidado com… e exemplo comentado */
+.cuidado{border-left:2px solid #c0613d!important}
+.cuidado h3{color:#b0532f!important}
+.cuidado li::marker{color:#c0613d}
+.exemplo-txt mark{background:color-mix(in srgb,var(--gold) 22%,transparent);color:inherit;border-radius:2px;padding:0 2px;font-style:normal}
+.exemplo-txt sup{font-family:"Source Sans 3",sans-serif;font-size:10px;font-weight:700;color:var(--gold);margin-left:2px}
+.notas-ex{margin-top:12px;font-size:14px}
+.notas-ex b{display:flex;align-items:center;gap:6px;color:var(--navy);margin-bottom:4px}
+.notas-ex ol{margin:0;padding-left:20px}
+.notas-ex li{margin-bottom:3px}
+.notas-ex li::marker{color:var(--gold);font-weight:700}
+
+/* Início: retomar e mapa */
+.retomar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:var(--radius);padding:18px 22px;margin:0 0 26px;box-shadow:var(--sombra)}
+.retomar p{margin:0;font-size:17px}
+.retomar .etiqueta{margin-bottom:4px}
+.mapa{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:6px 0 30px}
+.mapa-fase{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--fc);border-radius:var(--radius);padding:14px 12px 10px;box-shadow:var(--sombra)}
+.mapa-tit{font-family:"Fraunces",serif;font-size:17px;color:var(--navy);margin-bottom:10px;line-height:1.2}
+.mapa-tit span{display:block;font-family:"Source Sans 3",sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fc);margin-bottom:3px}
+.mapa-et{display:flex;align-items:center;gap:8px;width:100%;border:0;background:transparent;text-align:left;padding:6px 4px;border-radius:4px;font-size:14.5px;color:var(--ink)}
+.mapa-et:hover{background:var(--bg)}
+.mapa-n{flex:0 0 22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;border:1.5px solid #d8d0c0;color:var(--muted)}
+.mapa-n .i{width:12px;height:12px}
+.mapa-et.feito .mapa-n{background:var(--ok);border-color:var(--ok);color:#fff}
+.mapa-et.atencao .mapa-n{border-color:var(--gold);color:var(--gold)}
+.mapa-et.pendente .mapa-n{border-color:#d18a3a;color:#d18a3a}
+
+/* Selo de conclusão */
+.selo-fim{display:flex;gap:22px;align-items:flex-start;background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;border-radius:var(--radius);padding:26px 28px;margin:4px 0 26px;box-shadow:var(--sombra);position:relative;overflow:hidden}
+.selo-fim::after{content:"";position:absolute;right:-50px;top:-50px;width:200px;height:200px;border:1px solid rgba(184,137,43,.4);border-radius:50%}
+.selo-medalha{flex:0 0 64px;height:64px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:var(--navy);animation:selo 1s cubic-bezier(.2,1.6,.4,1) both}
+.selo-medalha .i{width:32px;height:32px}
+@keyframes selo{from{transform:scale(.3) rotate(-30deg);opacity:0}to{transform:none;opacity:1}}
+.selo-fim h3{font-size:24px;margin:2px 0 8px;color:#fff}
+.selo-fim p{margin:0 0 10px;opacity:.92}
+.fio-resumo{background:rgba(255,255,255,.08);border-radius:6px;padding:10px 14px;margin-top:8px}
+.fio-resumo p{margin:3px 0;font-size:14.5px}
+.fio-resumo b{color:var(--gold)}
+
+/* Animações */
+@keyframes sobe{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#principal>*{animation:sobe .4s ease both}
+#principal>*:nth-child(2){animation-delay:.04s}
+#principal>*:nth-child(3){animation-delay:.08s}
+#principal>*:nth-child(n+4){animation-delay:.12s}
+.retorno .msg{animation:sobe .35s ease both}
+.retorno .msg:nth-child(2){animation-delay:.07s}.retorno .msg:nth-child(3){animation-delay:.14s}.retorno .msg:nth-child(4){animation-delay:.21s}.retorno .msg:nth-child(5){animation-delay:.28s}.retorno .msg:nth-child(n+6){animation-delay:.35s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+@media (max-width:960px){
+  .nav-fase{display:none}
+  .fio{grid-template-columns:1fr}
+  .fio-rot{border-right:0;border-bottom:1px solid var(--line)}
+  .fio-it{border-right:0;border-bottom:1px solid var(--line)}
+  .mapa{grid-template-columns:1fr 1fr}
+  .medidor{padding-bottom:16px}
+  .acoes-lat{align-items:start}
+  .mais-menu{position:absolute;right:0;top:100%;width:250px;z-index:20}
+}
+@media (max-width:560px){
+  .salvo-faixa{display:none}
+  .mapa{grid-template-columns:1fr}
+  .selo-fim{flex-direction:column}
+  .med-rot{display:none}
+}
+
+/* =========================================================
+   MODO ESCURO
+   ========================================================= */
+[data-tema="escuro"]{
+  --bg:#0f1420; --card:#171e2d; --ink:#e7e3da; --muted:#9aa2b2; --line:#283247;
+  --navy:#e9e2d0; --navy-2:#b9c6e4; --gold:#d3a54a; --gold-soft:#3a3020;
+  --tip:#8fb2ec; --tip-bg:#1a2740; --ok:#5cbf84; --ok-bg:#16291f; --warn:#e0a94a; --warn-bg:#2d2414; --err:#ec7d7d; --err-bg:#2e1a1c;
+  --sombra:0 1px 2px rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+[data-tema="escuro"] body{background:var(--bg)}
+[data-tema="escuro"] .faixa{background:#0a0e17;border-bottom:1px solid var(--line)}
+[data-tema="escuro"] .btn-pri{background:#2f4a7d;color:#fff}
+[data-tema="escuro"] .btn-pri:hover{background:#3a5a94}
+[data-tema="escuro"] .btn-sec{color:var(--ink);border-color:var(--line)}
+[data-tema="escuro"] .btn-sec:hover{background:var(--card);color:var(--ink)}
+[data-tema="escuro"] .btn-ouro{color:#16120a}
+[data-tema="escuro"] :is(.met-card,.caminho,.normas,.importante,.faltam,.resumo button,.met-op,.rec-chip,.cron-wrap,.cron td:first-child,.cron-c,.sugref .sr-item,.met-tabs button,.met-dot,.lojas a,.etica-curso,.livro-lat,.navitem.ativo,.campo textarea,.campo input,.cron-cfg input,.cron-cfg select,.btn-amazon,.mais[open]>summary,.btn-leve:hover){background:var(--card);color:var(--ink)}
+[data-tema="escuro"] .navitem.ativo .num{color:#0f1420}
+[data-tema="escuro"] .navitem .num,[data-tema="escuro"] .mapa-n{background:var(--bg);border-color:#3a4560}
+[data-tema="escuro"] .met-tabs button.on{background:#2f4a7d;color:#fff;border-color:#2f4a7d}
+[data-tema="escuro"] .cron th,[data-tema="escuro"] .cron th:first-child{background:#22304d}
+[data-tema="escuro"] .cron-c.on{background:var(--gold);color:#16120a}
+[data-tema="escuro"] .oque{color:var(--ink)}
+[data-tema="escuro"] .msg.ok{color:#bfe6cc}[data-tema="escuro"] .msg.warn{color:#f1d39c}[data-tema="escuro"] .msg.err{color:#f4c0c0}[data-tema="escuro"] .msg.dica{color:#c7d8f6}
+[data-tema="escuro"] .etica{background:#2a2112;border-color:#8a5a12}
+[data-tema="escuro"] .etica-tit,[data-tema="escuro"] .etica-fontes summary{color:#f0b75e}
+[data-tema="escuro"] .etica-norma{color:#d9c79f}
+[data-tema="escuro"] .previa,[data-tema="escuro"] .livro,[data-tema="escuro"] .selo-fim{background:linear-gradient(135deg,#1c2a48,#22355c)}
+[data-tema="escuro"] .previa p,[data-tema="escuro"] .livro h3,[data-tema="escuro"] .selo-fim h3{color:#fff}
+[data-tema="escuro"] .selo-medalha{color:#16120a}
+[data-tema="escuro"] .toast{background:#2f4a7d}
+[data-tema="escuro"] .exemplo-txt{background:var(--bg)}
+[data-tema="escuro"] .met-op.sel{background:var(--tip-bg);box-shadow:0 0 0 2px var(--tip) inset}
+[data-tema="escuro"] .cuidado h3{color:#ec9a7a!important}
+[data-tema="escuro"] .sugref{background:var(--tip-bg)}
+[data-tema="escuro"] .folha{color:#000}
+[data-tema="escuro"] .tag-sug{color:#f0d08a}
+[data-tema="escuro"] a{color:var(--tip)}
+[data-tema="escuro"] .voltar-acervo{color:#fff}
+
 @media print{
   @page{size:A4;margin:3cm 2cm 2cm 3cm;
     @top-center{content:"LABORATÓRIO PROJETO DE PESQUISA – DO TEMA AOS OBJETIVOS";font-family:"Times New Roman",Times,serif;font-size:9pt;color:#555;letter-spacing:.04em;vertical-align:middle}
@@ -466,6 +653,7 @@ details.exemplo summary{font-family:"Fraunces",serif;font-size:17px}
   .folha .falta{break-inside:avoid}
   body{background:#fff}
   .topo,.lateral,.no-print,.toast,.modal{display:none!important}
+  #principal>*{animation:none!important}
   .app{display:block;padding:0;max-width:none}
   .folha{box-shadow:none;border:0;margin:0;padding:0;max-width:none}
 }
@@ -475,9 +663,11 @@ details.exemplo summary{font-family:"Fraunces",serif;font-size:17px}
 
 <header class="topo no-print">
   <div class="faixa">
-    <a class="marca" href="#inicio" onclick="ir('inicio');return false"><span class="marca-sel">LP</span><span class="marca-txt"><b>Laboratório</b> de Projeto de Pesquisa</span></a>
+    <a class="marca" href="#inicio" onclick="ir('inicio');return false"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="7" fill="#14213d"/><path d="M8 11.5h7.5a4.5 4.5 0 0 1 4.5 4.5v13.5a3.2 3.2 0 0 0-3.2-3.2H8z" fill="none" stroke="#b8892b" stroke-width="2.2" stroke-linejoin="round"/><path d="M32 11.5h-7.5a4.5 4.5 0 0 0-4.5 4.5v13.5a3.2 3.2 0 0 1 3.2-3.2H32z" fill="none" stroke="#efe6d2" stroke-width="2.2" stroke-linejoin="round"/><circle cx="20" cy="7" r="1.6" fill="#b8892b"/></svg><span class="marca-txt"><b>Laboratório</b> de Projeto de Pesquisa</span></a>
     <div class="faixa-dir">
+      <span class="salvo-faixa" id="salvoFaixa"></span>
       <span class="prog-txt" id="progTxt">0 de 14 etapas</span>
+      <button class="tema-bt" id="btTema" aria-label="Alternar modo escuro"><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
       <a class="voltar-acervo" href="https://alexandrebeloniimw-cmyk.github.io/revistateologicoministerialiwecascadura2026/acervo.html">← Acervo</a>
     </div>
   </div>
@@ -493,15 +683,21 @@ details.exemplo summary{font-family:"Fraunces",serif;font-size:17px}
   <aside class="lateral no-print">
     <nav id="menu"></nav>
     <div class="acoes-lat">
-      <button class="btn btn-ouro" id="btSalvar">💾 Salvar rascunho</button>
-      <button class="btn btn-sec" id="btVer">📄 Visualizar projeto</button>
-      <button class="btn btn-leve" id="btBaixarRasc" title="Guarda um arquivo do rascunho para continuar em outro aparelho">⬇ Baixar rascunho</button>
-      <button class="btn btn-leve" id="btAbrirRasc">⬆ Abrir rascunho</button>
-      <button class="btn btn-leve btn-apagar" id="btApagar">🗑 Apagar rascunho</button>
+      <button class="btn btn-pri" id="btVer"><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg> Visualizar e exportar</button>
+      <details class="mais"><summary class="btn btn-leve"><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg> Rascunho</summary>
+        <div class="mais-menu">
+          <button class="btn btn-leve" id="btSalvar"><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg> Salvar agora</button>
+          <button class="btn btn-leve" id="btBaixarRasc" title="Guarda um arquivo do rascunho para continuar em outro aparelho"><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> Baixar rascunho</button>
+          <button class="btn btn-leve" id="btAbrirRasc"><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg> Abrir rascunho</button>
+          <button class="btn btn-leve btn-instalar" id="btInstalar" hidden><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg> Instalar como aplicativo</button>
+          <button class="btn btn-leve btn-apagar" id="btApagar"><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg> Apagar rascunho</button>
+          <div class="dica-inst">O texto é salvo automaticamente neste aparelho. No celular, você pode adicionar o laboratório à tela inicial pelo menu do navegador.</div>
+        </div>
+      </details>
       <input type="file" id="arqRasc" class="oculto-arq" accept=".json,application/json">
     </div>
     <div class="salvo" id="salvoTxt"></div>
-    <div class="livro-lat"><a href="https://loja.uiclap.com/titulo/ua207553" target="_blank" rel="noopener"><img src="img/capa-livro.jpg" alt="Capa do livro" width="120" height="171"></a><span>📚 Leitura recomendada</span><b>Sobrevivendo ao Projeto de Pesquisa</b>Alexandre Prado<div class="lojas"><a href="https://loja.uiclap.com/titulo/ua207553" target="_blank" rel="noopener">UICLAP ↗</a><a href="https://www.amazon.com.br/dp/B0HLD75W74" target="_blank" rel="noopener">Amazon ↗</a></div></div>
+    <div class="livro-lat"><a href="https://loja.uiclap.com/titulo/ua207553" target="_blank" rel="noopener"><img src="img/capa-livro.jpg" alt="Capa do livro" width="120" height="171"></a><span><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg> Leitura recomendada</span><b>Sobrevivendo ao Projeto de Pesquisa</b>Alexandre Prado<div class="lojas"><a href="https://loja.uiclap.com/titulo/ua207553" target="_blank" rel="noopener">UICLAP ↗</a><a href="https://www.amazon.com.br/dp/B0HLD75W74" target="_blank" rel="noopener">Amazon ↗</a></div></div>
   </aside>
 
   <main id="principal"></main>
@@ -546,12 +742,121 @@ function salvar(manual){
 }
 function mostrarSalvo(){
   const el = document.getElementById('salvoTxt');
-  if(!salvoEm){ el.textContent = ''; return; }
+  if(!salvoEm){ el.textContent = ''; const f = document.getElementById('salvoFaixa'); if(f) f.innerHTML = ''; return; }
   const d = new Date(salvoEm);
   el.textContent = 'Rascunho salvo em ' + d.toLocaleDateString('pt-BR') + ' às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  const f = document.getElementById('salvoFaixa');
+  if(f){ f.innerHTML = ic('check') + ' Salvo às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); f.classList.remove('pulso'); void f.offsetWidth; f.classList.add('pulso'); }
 }
 let tSalvar;
 function salvarDepois(){ clearTimeout(tSalvar); tSalvar = setTimeout(() => salvar(false), 700); }
+
+const ICO = {"save": "<path d=\"M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z\"/><path d=\"M17 21v-8H7v8M7 3v5h8\"/>", "file": "<path d=\"M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\"/><path d=\"M14 2v6h6M16 13H8M16 17H8M10 9H8\"/>", "download": "<path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3\"/>", "upload": "<path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12\"/>", "trash": "<path d=\"M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6\"/>", "search": "<circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"M21 21l-4.3-4.3\"/>", "pen": "<path d=\"M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z\"/>", "send": "<path d=\"M22 2L11 13M22 2l-7 20-4-9-9-4z\"/>", "printer": "<path d=\"M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\"/><path d=\"M6 14h12v8H6z\"/>", "copy": "<rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\"/><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"/>", "book": "<path d=\"M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z\"/>", "compass": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M16.2 7.8l-2.1 6.3-6.3 2.1 2.1-6.3z\"/>", "help": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01\"/>", "alert": "<path d=\"M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01\"/>", "target": "<circle cx=\"12\" cy=\"12\" r=\"10\"/><circle cx=\"12\" cy=\"12\" r=\"6\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/>", "check": "<path d=\"M20 6L9 17l-5-5\"/>", "more": "<circle cx=\"5\" cy=\"12\" r=\"1.2\"/><circle cx=\"12\" cy=\"12\" r=\"1.2\"/><circle cx=\"19\" cy=\"12\" r=\"1.2\"/>", "moon": "<path d=\"M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z\"/>", "sun": "<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4\"/>", "ruler": "<path d=\"M21.3 15.3l-6 6a1 1 0 0 1-1.4 0L2.7 10.1a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.4 0l11.2 11.2a1 1 0 0 1 0 1.4zM7.5 10.5l2-2M10.5 13.5l2-2M13.5 16.5l2-2\"/>", "scale": "<path d=\"M12 3v18M7 21h10M3 7h18M6 7l-3 7a3 3 0 0 0 6 0zM18 7l-3 7a3 3 0 0 0 6 0z\"/>", "list": "<path d=\"M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01\"/>", "arrow": "<path d=\"M5 12h14M12 5l7 7-7 7\"/>", "phone": "<rect x=\"5\" y=\"2\" width=\"14\" height=\"20\" rx=\"2\"/><path d=\"M12 18h.01\"/>", "map": "<path d=\"M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4zM8 2v16M16 6v16\"/>", "award": "<circle cx=\"12\" cy=\"8\" r=\"6\"/><path d=\"M15.5 13L17 22l-5-3-5 3 1.5-9\"/>", "bulb": "<path d=\"M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z\"/>", "thread": "<path d=\"M4 6h16M4 12h10M4 18h6\"/><circle cx=\"18\" cy=\"16\" r=\"3\"/>"};
+/* =========================================================
+   IDENTIDADE, FASES E RECURSOS PEDAGÓGICOS
+   ========================================================= */
+const ic = (n, c) => '<svg class="i ' + (c||'') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICO[n] + '</svg>';
+
+const FASES = [
+  {n:'I',   nome:'O assunto',            cor:'#3f6e94', etapas:[1,2,3,4]},
+  {n:'II',  nome:'O porquê e a pergunta', cor:'#a5603f', etapas:[5,6]},
+  {n:'III', nome:'Aonde quero chegar',   cor:'#5b8a68', etapas:[7,8,9]},
+  {n:'IV',  nome:'Como farei',           cor:'#7a5c8f', etapas:[10,11,12,13,14]}
+];
+const faseDe = n => FASES.find(f => f.etapas.includes(n));
+
+const CUIDADO = {
+  tema:['Tema amplo demais, como “A igreja” ou “A oração”: falta um recorte.','Tema sem relevância para a atualidade: por que pesquisar isso agora?','Repetir um tema já pesquisado no acervo sem trazer um novo olhar.'],
+  titulo:['Título idêntico ao tema, sem nenhum acréscimo.','Título em forma de pergunta ou longo demais.','Título que promete mais do que a pesquisa vai entregar.'],
+  contexto:['Começar “desde a criação do mundo”: generalidades que não levam ao assunto.','Opinião pessoal sem base bíblica, histórica ou bibliográfica.','Terminar sem conduzir o leitor até a questão da pesquisa.'],
+  delimitacao:['Esquecer o espaço (onde) ou o tempo (quando).','Recorte grande demais, como “as igrejas do Brasil”.','Campo geral e campo específico iguais.'],
+  justificativa:['Justificar apenas com motivos pessoais (“porque gosto do tema”).','Não apoiar a relevância teológica em nenhuma fonte.','Repetir a contextualização em vez de dizer por que a pesquisa importa.'],
+  problema:['Pergunta de sim ou não (“O discipulado é importante?”).','Pergunta óbvia ou já respondida.','Fazer várias perguntas em vez de uma pergunta central.'],
+  objgeral:['Verbos vagos, como “conhecer” ou “entender”.','Usar mais de um verbo no objetivo geral.','Objetivo que não responde à pergunta da pesquisa.'],
+  objesp:['Objetivos específicos maiores que o objetivo geral.','Listar tarefas (“ler livros”, “aplicar questionário”) em vez de objetivos.','Objetivos fora de uma ordem lógica de construção.'],
+  obras:['Indicar apenas sites ou blogs.','Referência incompleta (sem editora, cidade ou ano).','Obras sem relação direta com o tema.'],
+  fundamentacao:['Copiar os caminhos sugeridos sem adaptá-los ao seu tema.','Citar autores sem a referência correspondente.','Apoiar-se em um único autor ou em uma única visão.'],
+  metodologia:['Escolher a metodologia antes de ter o problema e os objetivos.','Prometer entrevistas ou questionários que não conseguirá aplicar.','Esquecer a ética quando a pesquisa envolve pessoas.'],
+  plano:['Seções que não correspondem aos objetivos específicos.','Títulos genéricos, como “Desenvolvimento 1”.','Acrescentar seções fora do modelo do artigo.'],
+  cronograma:['Deixar tudo para os últimos meses.','Esquecer o tempo de revisão e formatação.','Prazos irreais para leitura e redação.'],
+  recursos:['Listar recursos que não serão usados.','Esquecer os participantes quando há coleta de dados.','Não indicar quem vai custear os gastos.']
+};
+
+const COMENT = {
+  tema:[['O discipulado cristão','assunto central, específico o bastante'],['formação espiritual dos novos convertidos','recorte: um aspecto e um público definidos'],['o que torna urgente repensar o discipulado na igreja local','relevância atual: por que pesquisar isso agora']],
+  titulo:[['Fazer discípulos, formar vidas','título: expressão de impacto que desperta interesse'],['o discipulado cristão na formação espiritual dos novos convertidos de uma igreja local','subtítulo: retoma o tema e indica o recorte']],
+  contexto:[['(Mt 28.19-20)','a base bíblica situa o assunto'],['não recebem acompanhamento sistemático','apresenta a realidade observada'],['Essa realidade desperta a necessidade de compreender','conduz o leitor até a questão']],
+  delimitacao:[['Teologia Pastoral','área ampla do conhecimento'],['Discipulado cristão','parte da área que será estudada'],['Ministério de novos convertidos de uma igreja local','onde: o espaço da pesquisa'],['(2020–2026)','quando: o recorte de tempo']],
+  justificativa:[['A)','relevância teológica'],['Bonhoeffer (2004)','citação autor-data (NBR 10520:2023)'],['B)','relevância ministerial e social'],['BONHOEFFER, Dietrich.','referência com o sobrenome em maiúsculas (NBR 6023)']],
+  problema:[['Como','pergunta aberta: não se responde com sim ou não'],['contribui para a formação espiritual','a relação que será investigada'],['no contexto da igreja local','retoma a delimitação']],
+  objgeral:[['Analisar','um único verbo no infinitivo'],['como o discipulado cristão contribui','responde diretamente ao problema'],['no contexto da igreja local','o mesmo recorte da delimitação']],
+  objesp:[['Apresentar','1º passo: fundamentar (seção 1 do artigo)'],['Identificar','2º passo: conhecer a realidade (seção 2)'],['Analisar as contribuições','3º passo: chega ao objetivo geral (seção 3)']],
+  obras:[['Comiskey, Discipulado relacional','basta o sobrenome e parte do título'],['COMISKEY, Joel.','a referência completa sai no padrão ABNT']],
+  fundamentacao:[['(1) fundamentos bíblico-teológicos','começa pela base bíblica'],['(3) a realidade do ministério','aproxima a teoria da prática'],['(4) implicações ministeriais','fecha com a aplicação']],
+  metodologia:[['abordagem qualitativa','combina com a pergunta “como contribui”'],['objetivo exploratório','assunto pouco estudado no contexto local'],['entrevistas semiestruturadas','envolve pessoas: atenção à ética']],
+  plano:[['Seção 1: Os fundamentos','corresponde ao objetivo a)'],['Seção 2: As práticas','corresponde ao objetivo b)'],['Seção 3: Contribuições','corresponde ao objetivo c)']],
+  cronograma:[['Levantamento bibliográfico: mar. a mai.','atividades podem se sobrepor'],['Revisão e formatação: dez. e jan.','reserve tempo para revisar'],['Entrega: fev.','o marco final definido pela instituição']],
+  recursos:[['Recursos materiais:','o que será usado'],['participantes da pesquisa','há coleta de dados com pessoas'],['recursos próprios do pesquisador','indica quem vai custear']]
+};
+
+function exemploComentadoHTML(e){
+  let t = esc(e.exemplo); const notas = COMENT[e.id] || []; const usadas = [];
+  notas.forEach(([tr, nota]) => {
+    const x = esc(tr), i = t.indexOf(x);
+    if(i < 0) return;
+    usadas.push(nota);
+    t = t.slice(0, i) + '<mark>' + x + '<sup>' + usadas.length + '</sup></mark>' + t.slice(i + x.length);
+  });
+  return '<div class="exemplo-txt">' + t + '</div>' +
+    (usadas.length ? '<div class="notas-ex"><b>' + ic('bulb') + ' Por que este exemplo funciona</b><ol>' + usadas.map(n => '<li>' + n + '</li>').join('') + '</ol></div>' : '');
+}
+
+const NIVEIS = {vazio:[0,'Não iniciada'], pendente:[1,'Rascunho'], atencao:[2,'Bom: vale revisar'], feito:[3,'Pronto para o orientador']};
+function medidorHTML(e){
+  const [n, t] = NIVEIS[statusEtapa(e)];
+  return '<span class="med-rot">Situação da etapa</span><span class="med-barra n' + n + '"><i></i><i></i><i></i></span><span class="med-txt">' + t + '</span>';
+}
+
+function fioHTML(n){
+  const it = [['Tema', D.tema, 1], ['Pergunta', D.problema, 6], ['Objetivo geral', D.objGeral, 7]];
+  return '<span class="fio-rot">' + ic('thread') + ' O fio do projeto</span>' + it.map(([r, v, k]) =>
+    '<button class="fio-it' + (k === n ? ' atual' : '') + '" data-v="etapa-' + k + '"><b>' + r + '</b><span>' + (v.trim() ? esc(v.trim().length > 150 ? v.trim().slice(0,150) + '…' : v.trim()) : '<i>a definir na Etapa ' + k + '</i>') + '</span></button>').join('');
+}
+function ligarFio(){ document.querySelectorAll('.fio-it').forEach(b => b.onclick = () => ir(b.dataset.v)); }
+function atualizarVivos(){
+  const e = ETAPAS.find(x => 'etapa-' + x.n === vista); if(!e) return;
+  const md = $('medidor'); if(md) md.innerHTML = medidorHTML(e);
+  const f = $('fio'); if(f && !f.contains(document.activeElement)){ f.innerHTML = fioHTML(e.n); ligarFio(); }
+}
+
+function mapaHTML(){
+  return '<div class="mapa">' + FASES.map(f => '<div class="mapa-fase" style="--fc:' + f.cor + '"><div class="mapa-tit"><span>Fase ' + f.n + '</span>' + f.nome + '</div>' +
+    f.etapas.map(n => { const e = ETAPAS[n-1], s = statusEtapa(e); return '<button class="mapa-et ' + s + '" data-v="etapa-' + n + '"><span class="mapa-n">' + (s === 'feito' ? ic('check') : n) + '</span>' + e.curto + '</button>'; }).join('') +
+  '</div>').join('') + '</div>';
+}
+
+const CHAVE_ULT = CHAVE + '-ultima';
+function retomarHTML(){
+  let u = ''; try{ u = localStorage.getItem(CHAVE_ULT) || ''; }catch(e){}
+  const e = ETAPAS.find(x => 'etapa-' + x.n === u);
+  if(!e || !CAMPOS.some(k => D[k].trim())) return '';
+  const nome = D.aluno.trim().split(/\s+/)[0];
+  return '<div class="retomar"><div><span class="etiqueta">Bem-vindo(a) de volta' + (nome ? ', ' + esc(nome) : '') + '</span><p>Você parou na <b>Etapa ' + e.n + ' · ' + e.titulo + '</b>.</p></div><button class="btn btn-pri" id="btRetomar" data-v="' + u + '">Continuar de onde parei ' + ic('arrow') + '</button></div>';
+}
+
+function concluido(){ return ETAPAS.every(e => ['feito','atencao'].includes(statusEtapa(e)) || (e.id === 'recursos' && statusEtapa(e) === 'vazio')); }
+function seloHTML(){
+  const nome = D.aluno.trim().split(/\s+/)[0];
+  return '<div class="selo-fim"><div class="selo-medalha">' + ic('award') + '</div><div><span class="etiqueta">Projeto completo</span><h3>Parabéns' + (nome ? ', ' + esc(nome) : '') + '! Todas as 14 etapas foram construídas.</h3><p>Revise a coerência abaixo, exporte o PDF e envie ao seu professor orientador. A orientação dele é a que vale: ajuste o que for pedido.</p>' +
+    '<div class="fio-resumo"><p><b>Tema:</b> ' + esc(D.tema) + '</p><p><b>Pergunta:</b> ' + esc(D.problema) + '</p><p><b>Objetivo geral:</b> ' + esc(D.objGeral) + '</p></div></div></div>';
+}
+
+/* Modo escuro */
+function aplicarTema(t){
+  document.documentElement.dataset.tema = t;
+  const b = $('btTema'); if(b){ b.innerHTML = ic(t === 'escuro' ? 'sun' : 'moon'); b.title = t === 'escuro' ? 'Modo claro' : 'Modo escuro'; }
+}
+
 
 /* =========================================================
    UTILITÁRIOS DE TEXTO
@@ -627,7 +932,7 @@ const SUGESTOES_AMPLAS = [
 const URL_LIVRO = 'https://loja.uiclap.com/titulo/ua207553';
 const URL_AMAZON = 'https://www.amazon.com.br/dp/B0HLD75W74';
 const NORMAS_HTML =
-  '<div class="normas"><div class="ic">📐</div><div>' +
+  '<div class="normas"><div class="ic">' + ic('ruler') + '</div><div>' +
   '<h3>Normas utilizadas neste laboratório</h3>' +
   '<p>As orientações, as análises e o documento gerado seguem as normas da Associação Brasileira de Normas Técnicas (ABNT):</p>' +
   '<ul>' +
@@ -637,7 +942,7 @@ const NORMAS_HTML =
     '<li><b>ABNT NBR 6024</b> (numeração progressiva das seções) e <b>ABNT NBR 6027</b> (sumário), indicadas pela NBR 15287.</li>' +
   '</ul></div></div>';
 const AVISO_HTML =
-  '<div class="importante"><div class="ic">⚖️</div><div>' +
+  '<div class="importante"><div class="ic">' + ic('scale') + '</div><div>' +
   '<h3>Um apoio ao seu estudo, não um substituto</h3>' +
   '<p>Este laboratório é um recurso complementar. Ele <b>não substitui a sala de aula</b>, seja ela física ou virtual, nem as explicações, os debates e as atividades conduzidos pelo professor.</p>' +
   '<p>As análises apresentadas aqui são indicações automáticas, baseadas em critérios pedagógicos gerais, e podem não perceber as particularidades da sua pesquisa. Use-as como ponto de partida para revisar o texto, não como avaliação final.</p>' +
@@ -1227,7 +1532,7 @@ function mostrarSugestoes(k){
   if(ex){ box.innerHTML = '<span class="sr-ok">✓ Referência completa, conferida na lista de referências.</span>' + usosNoAcervo(ex); return; }
   const ms = buscarRefs(q);
   if(!ms.length){ box.innerHTML = nPal(q) >= 2 ? '<div class="sr-tit">Não encontramos esta obra na lista de referências.</div>Escreva a referência completa no padrão ABNT: SOBRENOME, Nome. Título: subtítulo. Cidade: Editora, ano.' : ''; return; }
-  box.innerHTML = '<div class="sr-tit">📚 Encontramos na lista de referências. É esta a obra?</div>' + ms.map((m, i) =>
+  box.innerHTML = '<div class="sr-tit">' + ic('book') + ' Encontramos na lista de referências. É esta a obra?</div>' + ms.map((m, i) =>
     '<div class="sr-item"><span>' + esc(m.r) + usosNoAcervo(m.r) + '</span><button class="btn btn-pri" data-i="' + i + '">Usar esta referência</button></div>').join('');
   box.querySelectorAll('button').forEach(b => b.onclick = () => {
     D[k] = ms[+b.dataset.i].r; const el = $('f_' + k); if(el) el.value = D[k];
@@ -1403,7 +1708,7 @@ function caminhosHTML(){
 
 /* ---------- Etapa 11: Metodologia (a partir da aula do professor) ---------- */
 const ETICA_HTML =
-  '<div class="etica"><div class="etica-tit">⚠️ ATENÇÃO · Ética na pesquisa com pessoas</div>' +
+  '<div class="etica"><div class="etica-tit">' + ic('alert') + ' ATENÇÃO · Ética na pesquisa com pessoas</div>' +
   '<p>Pela Resolução CNS nº 510/2016, pesquisas que coletam dados diretamente com pessoas, <strong>inclusive TCCs</strong>, devem ser submetidas ao Comitê de Ética em Pesquisa (Sistema CEP/Conep, pela Plataforma Brasil). Há exceções, mas a dispensa só vale quando <strong>todos</strong> os procedimentos da pesquisa se enquadram nelas.</p>' +
   '<p><strong>Caminho recomendado para o TCC (enquadrado nas exceções):</strong></p>' +
   '<ul>' +
@@ -1567,7 +1872,7 @@ function metodoHTML(){
   if(![D.obj1, D.obj2, D.obj3].some(x => x.trim())) pr.push('os <strong>objetivos específicos</strong> (Etapa 8)');
   let h = '<div class="msg dica"><b>Não escolha a metodologia primeiro.</b>Ela precisa ajudar a responder à sua pergunta de pesquisa. Tema, problema, objetivos e metodologia devem conversar entre si. Não existe uma única combinação obrigatória: o importante é a coerência.</div>';
   if(pr.length) h += '<div class="msg warn">Antes de definir a metodologia, complete ' + pr.join(', ') + '. As pistas do orientador dependem dessas etapas.</div>';
-  h += '<div class="met-tabs"><button class="' + (metModo === 'treino' ? 'on' : '') + '" data-m="treino">🎯 Treinar (opcional)</button><button class="' + (metModo === 'aplicar' ? 'on' : '') + '" data-m="aplicar">🧭 Aplicar no meu projeto</button></div>';
+  h += '<div class="met-tabs"><button class="' + (metModo === 'treino' ? 'on' : '') + '" data-m="treino">' + ic('target') + ' Treinar (opcional)</button><button class="' + (metModo === 'aplicar' ? 'on' : '') + '" data-m="aplicar">' + ic('compass') + ' Aplicar no meu projeto</button></div>';
   return h + (metModo === 'treino' ? treinoHTML() : aplicarHTML());
 }
 function treinoHTML(){
@@ -1861,13 +2166,14 @@ let vista = 'inicio';
 const $ = id => document.getElementById(id);
 
 function statusEtapa(e){
+  if(e.campos.every(c => c.opcional) && !e.campos.some(c => D[c.k].trim())) return 'vazio';
   const r = ANALISE[e.id]();
   const preenchido = e.campos.filter(c => !c.opcional).every(c => D[c.k].trim());
   if(!preenchido || r.st === 'err') return preenchido ? 'pendente' : (e.campos.some(c => D[c.k].trim()) ? 'pendente' : 'vazio');
   return r.st === 'warn' ? 'atencao' : 'feito';
 }
 function atualizarProgresso(){
-  let feitas = 0;
+  let feitas = 0; clearTimeout(window._tViv); window._tViv = setTimeout(atualizarVivos, 250);
   ETAPAS.forEach(e => {
     const s = statusEtapa(e);
     if(s === 'feito' || s === 'atencao') feitas++;
@@ -1879,17 +2185,17 @@ function atualizarProgresso(){
 }
 
 function montarMenu(){
-  const itens = [{v:'inicio', num:'★', txt:'Início'}]
-    .concat(ETAPAS.map(e => ({v:'etapa-' + e.n, num:e.n, txt:e.curto})))
-    .concat([{sep:true},{v:'projeto', num:'✓', txt:'Aperfeiçoar e exportar'}]);
-  $('menu').innerHTML = itens.map(i => i.sep ? '<div class="navsep"></div>' :
-    '<button class="navitem' + (vista === i.v ? ' ativo' : '') + '" data-v="' + i.v + '"><span class="num">' + i.num + '</span><span class="txt">' + i.txt + '</span></button>').join('');
+  const itens = [{v:'inicio', num:'★', txt:'Início'}];
+  FASES.forEach(f => { itens.push({fase:f}); f.etapas.forEach(n => itens.push({v:'etapa-' + n, num:n, txt:ETAPAS[n-1].curto, cor:f.cor})); });
+  itens.push({sep:true},{v:'projeto', num:'✓', txt:'Aperfeiçoar e exportar'});
+  $('menu').innerHTML = itens.map(i => i.sep ? '<div class="navsep"></div>' : i.fase ? '<div class="nav-fase" style="--fc:' + i.fase.cor + '">' + i.fase.n + ' · ' + i.fase.nome + '</div>' :
+    '<button class="navitem' + (vista === i.v ? ' ativo' : '') + '" data-v="' + i.v + '"' + (i.cor ? ' style="--fc:' + i.cor + '"' : '') + '><span class="num">' + i.num + '</span><span class="txt">' + i.txt + '</span></button>').join('');
   $('menu').querySelectorAll('.navitem').forEach(b => b.onclick = () => ir(b.dataset.v));
   atualizarProgresso();
 }
 
 function ir(v){
-  vista = v;
+  vista = v; if(/^etapa-/.test(v)){ try{ localStorage.setItem(CHAVE_ULT, v); }catch(e){} }
   try{ if(location.hash !== '#' + v) history.replaceState(null, '', '#' + v); }catch(e){}
   montarMenu(); render();
   window.scrollTo({top: 0, behavior: 'smooth'});
@@ -1927,9 +2233,10 @@ function render(){
   if(!e){ vista = 'inicio'; return renderInicio(m); }
 
   m.innerHTML =
-    '<span class="etiqueta">Etapa ' + e.n + ' de ' + NE + '</span>' +
-    '<h2 class="titulo-etapa">' + e.titulo + '</h2>' +
-    '<div class="oque"><span class="ic">🎯</span><div><b>O que você precisa fazer?</b>' + e.oque + '</div></div>' +
+    '<div class="cab-etapa" style="--fc:' + faseDe(e.n).cor + '"><div><span class="etiqueta"><span class="fase-tag">Fase ' + faseDe(e.n).n + ' · ' + faseDe(e.n).nome + '</span>Etapa ' + e.n + ' de ' + NE + '</span>' +
+    '<h2 class="titulo-etapa">' + e.titulo + '</h2></div><div class="medidor" id="medidor">' + medidorHTML(e) + '</div></div>' +
+    '<div class="oque"><div><b>O que você precisa fazer?</b>' + e.oque + '</div></div>' +
+    (e.n > 1 ? '<div class="fio no-print" id="fio">' + fioHTML(e.n) + '</div>' : '') +
     '<div class="grade">' +
       '<section>' +
         (e.id === 'metodologia' ? '<div id="metodo">' + metodoHTML() + '</div>' : '') +
@@ -1943,17 +2250,18 @@ function render(){
           (e.id === 'delimitacao' ? '<div class="previa"><span class="etiqueta">Prévia da sua delimitação</span><p id="previaDel">' + previaDelimitacao() + '</p></div>' : '') +
         '</div>' +
         '<div class="botoes" style="margin-top:16px">' +
-          '<button class="btn btn-pri" id="btAnalisar">🔍 Analisar minha resposta</button>' +
-          '<button class="btn btn-sec" id="btMelhorar">✏️ Melhorar meu texto</button>' +
+          '<button class="btn btn-pri" id="btAnalisar">' + ic('search') + ' Analisar minha resposta</button>' +
+          '<button class="btn btn-sec" id="btMelhorar">' + ic('pen') + ' Melhorar meu texto</button>' +
         '</div>' +
         '<div class="retorno" id="retorno" aria-live="polite"></div>' +
       '</section>' +
       '<aside class="lado">' +
-        '<div class="card"><h3>📘 Orientações</h3><ul>' + e.orient.map(o => '<li>' + o + '</li>').join('') + '</ul></div>' +
-        (e.perguntas ? '<div class="card"><h3>❓ Perguntas orientadoras</h3><ol>' + e.perguntas.map(o => '<li>' + o + '</li>').join('') + '</ol></div>' : '') +
-        '<div class="card" style="margin-top:14px;border-left:4px solid var(--gold)"><h3>📚 Para aprofundar</h3><p style="margin:0 0 10px;font-size:15px">Esta etapa é explicada passo a passo, com exemplos, normas da ABNT e bom humor, no livro <b><i>Sobrevivendo ao Projeto de Pesquisa</i></b>, de Alexandre Prado.</p><div class="lojas"><a href="' + URL_LIVRO + '" target="_blank" rel="noopener">UICLAP ↗</a><a href="' + URL_AMAZON + '" target="_blank" rel="noopener">Amazon ↗</a></div></div>' +
-        (e.id === 'metodologia' ? '<div class="card" style="margin-top:14px;border-left:4px solid var(--navy-2)"><h3>📖 Base teórica</h3><p style="margin:0;font-size:14.5px">PRODANOV, Cleber Cristiano; FREITAS, Ernani Cesar de. Metodologia do trabalho científico: métodos e técnicas da pesquisa e do trabalho acadêmico. 2. ed. Novo Hamburgo: Feevale, 2013.</p><p style="margin:8px 0 0;font-size:13.5px;color:var(--muted)">Obra de acesso livre (e-book da Universidade Feevale).</p></div>' : '') +
-        '<div class="card"><details class="exemplo"><summary>Ver exemplo didático</summary><div class="exemplo-txt">' + esc(e.exemplo) + '</div><p style="font-size:14px;color:var(--muted);margin:10px 0 0">O exemplo serve de modelo. Construa o seu texto com suas próprias palavras.</p></details></div>' +
+        '<div class="card"><h3>' + ic('list') + ' Orientações</h3><ul>' + e.orient.map(o => '<li>' + o + '</li>').join('') + '</ul></div>' +
+        (e.perguntas ? '<div class="card"><h3>' + ic('help') + ' Perguntas orientadoras</h3><ol>' + e.perguntas.map(o => '<li>' + o + '</li>').join('') + '</ol></div>' : '') +
+        '<div class="card" style="margin-top:14px;border-left:4px solid var(--gold)"><h3>' + ic('book') + ' Para aprofundar</h3><p style="margin:0 0 10px;font-size:15px">Esta etapa é explicada passo a passo, com exemplos, normas da ABNT e bom humor, no livro <b><i>Sobrevivendo ao Projeto de Pesquisa</i></b>, de Alexandre Prado.</p><div class="lojas"><a href="' + URL_LIVRO + '" target="_blank" rel="noopener">UICLAP ↗</a><a href="' + URL_AMAZON + '" target="_blank" rel="noopener">Amazon ↗</a></div></div>' +
+        (e.id === 'metodologia' ? '<div class="card" style="margin-top:14px;border-left:4px solid var(--navy-2)"><h3>' + ic('book') + ' Base teórica</h3><p style="margin:0;font-size:14.5px">PRODANOV, Cleber Cristiano; FREITAS, Ernani Cesar de. Metodologia do trabalho científico: métodos e técnicas da pesquisa e do trabalho acadêmico. 2. ed. Novo Hamburgo: Feevale, 2013.</p><p style="margin:8px 0 0;font-size:13.5px;color:var(--muted)">Obra de acesso livre (e-book da Universidade Feevale).</p></div>' : '') +
+        (CUIDADO[e.id] ? '<div class="card cuidado"><h3>' + ic('alert') + ' Cuidado com…</h3><ul>' + CUIDADO[e.id].map(o => '<li>' + o + '</li>').join('') + '</ul></div>' : '') +
+        '<div class="card"><details class="exemplo"><summary>Ver exemplo comentado</summary>' + exemploComentadoHTML(e) + '<p style="font-size:14px;color:var(--muted);margin:10px 0 0">O exemplo serve de modelo. Construa o seu texto com suas próprias palavras.</p></details></div>' +
       '</aside>' +
     '</div>' +
     '<div class="navpe no-print">' +
@@ -1977,6 +2285,7 @@ function render(){
   if(e.id === 'plano') ligarPlanos();
   if(e.id === 'cronograma') ligarCronograma();
   if(e.id === 'recursos') ligarRecursos();
+  ligarFio();
   $('btAnalisar').onclick = () => { $('retorno').innerHTML = renderRetorno(ANALISE[e.id](), 'Análise da sua resposta'); salvar(false); };
   $('btMelhorar').onclick = () => { $('retorno').innerHTML = '<div class="retorno-tit">Como aperfeiçoar seu texto</div>' + MELHORAR[e.id]().map(x => '<div class="msg dica">' + x + '</div>').join(''); };
   $('btAnt').onclick = () => ir(e.n > 1 ? 'etapa-' + (e.n-1) : 'inicio');
@@ -1985,6 +2294,7 @@ function render(){
 
 function renderInicio(m){
   m.innerHTML =
+    retomarHTML() +
     '<span class="etiqueta">Bem-vindo(a) ao laboratório</span>' +
     '<h2 class="titulo-etapa">Aprendendo a construir um projeto de pesquisa teológico-ministerial</h2>' +
     '<p class="autoria">Elaborado pelo <b>Prof. Alexandre Fonseca do Prado Beloni</b></p>' +
@@ -1994,6 +2304,8 @@ function renderInicio(m){
       '<div class="pilar"><h3>2. Construir</h3><p>Campos interativos para você desenvolver o seu projeto, etapa por etapa.</p></div>' +
       '<div class="pilar"><h3>3. Aperfeiçoar</h3><p>Análise das respostas, identificação de fragilidades e sugestões de melhoria.</p></div>' +
     '</div>' +
+    '<h3 class="sec-tit" style="margin-top:0">Mapa do seu projeto</h3><p style="margin:-4px 0 14px;color:var(--muted);font-size:15.5px">O projeto é construído em quatro fases. Clique em qualquer etapa para ir até ela; as etapas concluídas ficam marcadas.</p>' +
+    mapaHTML() +
     '<div class="card"><h3 style="color:var(--navy);font-size:20px;margin-bottom:12px">Identificação</h3><div class="ident">' +
       campoHTML({k:'aluno', label:'Nome do(a) aluno(a)', input:true, ph:'Seu nome completo'}) +
       campoHTML({k:'orientador', label:'Professor(a) orientador(a)', input:true, ph:'Nome do(a) professor(a)'}) +
@@ -2006,7 +2318,7 @@ function renderInicio(m){
     NORMAS_HTML +
     AVISO_HTML +
     '<div class="livro"><a class="capa" href="' + URL_LIVRO + '" target="_blank" rel="noopener"><img src="img/capa-livro.jpg" alt="Capa do livro Sobrevivendo ao Projeto de Pesquisa, de Alexandre Prado" width="150" height="214"></a><div>' +
-      '<span class="etiqueta">📚 Leitura recomendada</span>' +
+      '<span class="etiqueta">Leitura recomendada</span>' +
       '<h3>Sobrevivendo ao Projeto de Pesquisa</h3>' +
       '<p style="font-style:italic;margin-bottom:8px">Um guia para não se perder entre temas, problemas, objetivos, citações e normas</p>' +
       '<p>Para quem está construindo o primeiro projeto de pesquisa. De forma didática, objetiva e bem-humorada, o livro percorre cada etapa trabalhada neste laboratório, do tema aos objetivos, com exemplos práticos e as normas da ABNT.</p>' +
@@ -2019,6 +2331,8 @@ function renderInicio(m){
     el.addEventListener('input', () => { D[k] = el.value; salvarDepois(); });
   });
   $('btComecar').onclick = () => ir('etapa-1');
+  m.querySelectorAll('.mapa-et').forEach(b => b.onclick = () => ir(b.dataset.v));
+  if($('btRetomar')) $('btRetomar').onclick = () => ir($('btRetomar').dataset.v);
 }
 
 /* ---------- Coerência entre as etapas ---------- */
@@ -2143,6 +2457,7 @@ function renderProjeto(m){
     '<div class="no-print">' +
     '<span class="etiqueta">Aperfeiçoar</span>' +
     '<h2 class="titulo-etapa">Revisão geral do projeto</h2>' +
+    (concluido() ? seloHTML() : '') +
     '<p>Antes de exportar, confira a situação de cada etapa e a coerência entre as partes do projeto. Clique em uma etapa para revisá-la.</p>' +
     '<div class="resumo">' + res.map(x => '<button data-v="etapa-' + x.e.n + '"><span class="selo ' + x.r.st + '">' + rot[x.r.st] + '</span><span>' + x.e.n + '. ' + x.e.curto + '</span></button>').join('') + '</div>' +
     '<h3 class="sec-tit">Coerência entre as etapas</h3>' +
@@ -2153,9 +2468,9 @@ function renderProjeto(m){
     '<p>Elas já aparecem no documento abaixo, marcadas como <i>“Seção a ser desenvolvida”</i>.</p></div>' +
     '<h3 class="sec-tit">Visualizar projeto</h3>' +
     '<div class="botoes">' +
-      '<button class="btn btn-pri" id="btEnviar">📨 Enviar ao professor</button>' +
-      '<button class="btn btn-ouro" id="btPDF">📄 Exportar em PDF</button>' +
-      '<button class="btn btn-sec" id="btCopiar">📋 Copiar texto do projeto</button>' +
+      '<button class="btn btn-pri" id="btEnviar">' + ic('send') + ' Enviar ao professor</button>' +
+      '<button class="btn btn-ouro" id="btPDF">' + ic('printer') + ' Exportar em PDF</button>' +
+      '<button class="btn btn-sec" id="btCopiar">' + ic('copy') + ' Copiar texto do projeto</button>' +
     '</div>' +
     '<p style="font-size:14.5px;color:var(--muted);margin:0 0 6px" id="ultimoEnvio">' + textoUltimoEnvio() + '</p>' +
     '<p style="font-size:14.5px;color:var(--muted);margin-top:0">Ao exportar, escolha <b>“Salvar como PDF”</b> na janela de impressão. O documento segue a ABNT NBR 15287:2025: A4, Times New Roman 12, espaçamento 1,5, margens 3 e 2 cm, folha de rosto, sumário e numeração a partir do texto.</p>' +
@@ -2364,6 +2679,13 @@ window.addEventListener('hashchange', () => { const h = location.hash.slice(1); 
 const h0 = (location.hash || '').slice(1);
 if(h0 === 'projeto' || h0 === 'inicio' || /^etapa-(1[0-4]|[1-9])$/.test(h0)) vista = h0;
 mostrarSalvo(); montarMenu(); render();
+aplicarTema(document.documentElement.dataset.tema || 'claro');
+$('btTema').onclick = () => { const t = document.documentElement.dataset.tema === 'escuro' ? 'claro' : 'escuro'; aplicarTema(t); try{ localStorage.setItem('lab-tema', t); }catch(e){} };
+let pedidoInstalar = null;
+window.addEventListener('beforeinstallprompt', ev => { ev.preventDefault(); pedidoInstalar = ev; $('btInstalar').hidden = false; });
+$('btInstalar').onclick = async () => { if(!pedidoInstalar) return; pedidoInstalar.prompt(); await pedidoInstalar.userChoice; pedidoInstalar = null; $('btInstalar').hidden = true; };
+document.addEventListener('click', ev => { const d = document.querySelector('.mais[open]'); if(d && !d.contains(ev.target)) d.open = false; });
+if('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
 </body>
 </html>

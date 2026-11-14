@@ -15,3 +15,6 @@ Elaborado pelo **Prof. Alexandre Fonseca do Prado Beloni**.
 - Visualização do projeto completo e exportação em PDF (padrão ABNT)
 
 > Este laboratório não substitui a sala de aula, seja ela física ou virtual. A orientação do professor orientador é a que prevalece.
+
+
+Recursos: etapas organizadas em quatro fases, mapa do projeto, "o fio do projeto", exemplos comentados, alertas de erros comuns, medidor de situação, modo escuro e instalação como aplicativo no celular.

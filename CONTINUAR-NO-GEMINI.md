@@ -71,3 +71,10 @@ O `index.html` é grande. Peça **mudanças pontuais**, por exemplo:
 "No arquivo index.html do meu laboratório, dentro de `const ETAPAS`, na etapa `id:'tema'`, troque a orientação X por Y. Mostre apenas o trecho antigo e o trecho novo."
 
 Depois, aplique a mudança no GitHub (veja o passo a passo enviado junto com este resumo).
+
+
+## Identidade visual e recursos de navegação (nov. 2026)
+- Visual "acadêmico elegante": faixa fixa azul-marinho com logo (livro aberto), masthead editorial só no início, ícones SVG de traço (objeto `ICO`, função `ic()`), modo escuro (`data-tema="escuro"` no <html>, botão `#btTema`).
+- Etapas agrupadas em 4 fases (`FASES`): I O assunto (1–4), II O porquê e a pergunta (5–6), III Aonde quero chegar (7–9), IV Como farei (10–14).
+- Pedagogia: "O fio do projeto" (`fioHTML`), medidor de situação (`medidorHTML`), "Cuidado com…" (`CUIDADO`), exemplo comentado (`COMENT`, `exemploComentadoHTML`), mapa do projeto e "continuar de onde parei" no início, selo de conclusão em Aperfeiçoar.
+- Aplicativo instalável: manifest.webmanifest, sw.js (rede primeiro, cópia offline), ícones em img/icone-*.png e prévia de compartilhamento img/og.png.
